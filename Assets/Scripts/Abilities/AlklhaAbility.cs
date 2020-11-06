@@ -18,6 +18,6 @@ public abstract class AlklhaAbility : Ability
         alklhaAnimator.runtimeAnimatorController = animatorOverrideCtrl;
         alklhaAnimator.SetTrigger("Attack");
 
-        alklha.AbilityTimer = cooldown + animatorOverrideCtrl["Attack"].length;
+        alklha.AbilityCooldown = cooldown + animatorOverrideCtrl["Attack"].length;
     }
 }
