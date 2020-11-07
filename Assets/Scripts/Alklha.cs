@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,15 +17,14 @@ public class Alklha : MonoBehaviour
     private AlklhaState alklhaStateOld = AlklhaState.Idle;
     private Player player = null;
     private float distanceFromPlayer = 0.0f;
-    
+
     //TODO: probability to stun Alhkla for a moment
     //TODO: damage player
     //TODO: attack colliders   
 
     private void Start()
     {
-        //TODO: take gameobject from GameManager
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        player = GameManager.Instance.Player;
 
         abilityCooldown = initialCooldown;
         animator = GetComponent<Animator>();
@@ -62,6 +60,16 @@ public class Alklha : MonoBehaviour
                 alklhaState = AlklhaState.Idle;
                 break;
         }
+    }
+
+    private void OnEnable()
+    {
+        GameManager.Instance.moonshotEvent.AddListener(OnMoonshot);
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.moonshotEvent.RemoveListener(OnMoonshot);
     }
 
     private void ChasePlayer()
@@ -100,7 +108,7 @@ public class Alklha : MonoBehaviour
         }
     }
 
-    private void OnMoonShot()
+    private void OnMoonshot()
     {
         bossPhase++;
         //TODO
@@ -109,6 +117,7 @@ public class Alklha : MonoBehaviour
     private void RaiseBossPhaseEnd()
     {
         //TODO
+        GameManager.Instance.bossPhaseEndEvent.Invoke();
     }
 
     private void RaiseGameOver()
@@ -116,6 +125,7 @@ public class Alklha : MonoBehaviour
         if(bossPhase > 3)
         {
             //TODO
+            GameManager.Instance.gameOverEvent.Invoke(true);
         }
     }
 
@@ -144,7 +154,7 @@ public class Alklha : MonoBehaviour
                 break;
             case AlklhaState.Attack:
                 //Choose an ability and cast
-                int i = UnityEngine.Random.Range(0, abilities.Length);
+                int i = Random.Range(0, abilities.Length);
                 abilities[i].Cast(this);
                 abilityCooldown = abilities[i].Cooldown;
                 break;

@@ -15,6 +15,6 @@ public class PlayerMoonshotAbility : PlayerAbility
 
     private void RaiseMoonshot()
     {
-        //TODO raise event from GameManager
+        GameManager.Instance.moonshotEvent.Invoke();
     }
 }
