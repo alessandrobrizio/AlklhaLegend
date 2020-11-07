@@ -10,6 +10,7 @@ public abstract class AlklhaAbility : Ability
 
     public float Range { get { return range; } }
     public float Cooldown { get { return cooldown + animatorOverrideCtrl["Attack"].length; } }
+    public float AttackDuration { get { return animatorOverrideCtrl["Attack"].length + 0.5f; } }
 
     public virtual void Cast(Alklha alklha)
     {
