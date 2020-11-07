@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "AlklhaStunAbility", menuName = "Ability/Alklha/Stun")]
 public class AlklhaStunAbility : AlklhaAbility
 {
     public override void Cast(Alklha alklha)
