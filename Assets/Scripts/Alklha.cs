@@ -21,12 +21,7 @@ public class Alklha : MonoBehaviour
     
     //TODO: probability to stun Alhkla for a moment
     //TODO: damage player
-    //TODO: attack colliders
-
-    /// <summary>
-    /// Time necessary to allow the player to attack again
-    /// </summary>
-    public float AbilityCooldown { set { abilityCooldown = value; } }
+    //TODO: attack colliders   
 
     private void Start()
     {
@@ -151,6 +146,7 @@ public class Alklha : MonoBehaviour
                 //Choose an ability and cast
                 int i = UnityEngine.Random.Range(0, abilities.Length);
                 abilities[i].Cast(this);
+                abilityCooldown = abilities[i].Cooldown;
                 break;
         }
     }

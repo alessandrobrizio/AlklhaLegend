@@ -8,6 +8,9 @@ public abstract class AlklhaAbility : Ability
     [SerializeField] protected float cooldown = 3.0f;
     [SerializeField] protected AnimatorOverrideController animatorOverrideCtrl = null;
 
+    public float Range { get { return range; } }
+    public float Cooldown { get { return cooldown + animatorOverrideCtrl["Attack"].length; } }
+
     public virtual void Cast(Alklha alklha)
     {
         Animator alklhaAnimator = alklha.GetComponent<Animator>();
@@ -17,7 +20,5 @@ public abstract class AlklhaAbility : Ability
         Debug.Log("Cast ");
         alklhaAnimator.runtimeAnimatorController = animatorOverrideCtrl;
         alklhaAnimator.SetTrigger("Attack");
-
-        alklha.AbilityCooldown = cooldown + animatorOverrideCtrl["Attack"].length;
     }
 }
