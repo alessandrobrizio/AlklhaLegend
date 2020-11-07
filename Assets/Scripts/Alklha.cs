@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Alklha : MonoBehaviour
 {
-    private enum AlhlkaState { Idle, Chase, Attack /*//TODO: Stunned*/}
+    private enum AlklhaState { Idle, Chase, Attack /*//TODO: Stunned*/}
 
     [SerializeField] AlklhaAbility[] abilities = null;
     [SerializeField] float initialCooldown = 1.0f;
@@ -14,8 +14,8 @@ public class Alklha : MonoBehaviour
     private int bossPhase = 0;
     private float abilityCooldown = 0.0f;
     private Animator animator = null;
-    private AlhlkaState alhklaState = AlhlkaState.Idle;
-    private AlhlkaState alhklaStateOld = AlhlkaState.Idle;
+    private AlklhaState alklhaState = AlklhaState.Idle;
+    private AlklhaState alklhaStateOld = AlklhaState.Idle;
     private Player player = null;
     private float distanceFromPlayer = 0.0f;
     
@@ -41,25 +41,25 @@ public class Alklha : MonoBehaviour
         distanceFromPlayer = Vector3.Distance(transform.position, player.transform.position);
 
         //change state
-        if (alhklaState != alhklaStateOld)
+        if (alklhaState != alklhaStateOld)
         {
-            OnExitState(alhklaStateOld);
-            OnEnterState(alhklaState);
-            alhklaStateOld = alhklaState;
+            OnExitState(alklhaStateOld);
+            OnEnterState(alklhaState);
+            alklhaStateOld = alklhaState;
         }
         //update state
-        switch (alhklaState)
+        switch (alklhaState)
         {
-            case AlhlkaState.Idle:
+            case AlklhaState.Idle:
                 CheckTriggerAttackState();
                 CheckTriggerChasePlayer();
                 break;
-            case AlhlkaState.Chase:
+            case AlklhaState.Chase:
                 TriggerIdleState();
                 CheckTriggerAttackState();
                 break;
-            case AlhlkaState.Attack:
-                alhklaState = AlhlkaState.Idle;
+            case AlklhaState.Attack:
+                alklhaState = AlklhaState.Idle;
                 break;
         }
     }
@@ -78,7 +78,7 @@ public class Alklha : MonoBehaviour
         //Attack if player is close enough and cooldown allows it
         if (distanceFromPlayer <= playerThreshold && abilityCooldown <= 0)
         {
-            alhklaState = AlhlkaState.Attack;
+            alklhaState = AlklhaState.Attack;
         }
     }
 
@@ -87,7 +87,7 @@ public class Alklha : MonoBehaviour
         //Get closer to player if too distant
         if (distanceFromPlayer > playerThreshold)
         {
-            alhklaState = AlhlkaState.Chase;
+            alklhaState = AlklhaState.Chase;
         }
     }
 
@@ -96,7 +96,7 @@ public class Alklha : MonoBehaviour
         //Player is close but alhkla can't attack, so he'll wait in Idle
         if (distanceFromPlayer <= playerThreshold && abilityCooldown > 0)
         {
-            alhklaState = AlhlkaState.Idle;
+            alklhaState = AlklhaState.Idle;
         }
     }
 
@@ -119,30 +119,30 @@ public class Alklha : MonoBehaviour
         }
     }
 
-    private void OnExitState(AlhlkaState state)
+    private void OnExitState(AlklhaState state)
     {
-        switch (alhklaState)
+        switch (alklhaState)
         {
-            case AlhlkaState.Idle:
+            case AlklhaState.Idle:
                 break;
-            case AlhlkaState.Chase:
+            case AlklhaState.Chase:
                 animator.SetBool("Walking", false);
                 break;
-            case AlhlkaState.Attack:
+            case AlklhaState.Attack:
                 break;
         }
     }
 
-    private void OnEnterState(AlhlkaState state)
+    private void OnEnterState(AlklhaState state)
     {
-        switch (alhklaState)
+        switch (alklhaState)
         {
-            case AlhlkaState.Idle:
+            case AlklhaState.Idle:
                 break;
-            case AlhlkaState.Chase:
+            case AlklhaState.Chase:
                 animator.SetBool("Walking", true);
                 break;
-            case AlhlkaState.Attack:
+            case AlklhaState.Attack:
                 //Choose an ability and cast
                 int i = UnityEngine.Random.Range(0, abilities.Length);
                 abilities[i].Cast(this);
