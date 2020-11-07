@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Punch
   m_EditorClassIdentifier: 
   range: 2
-  cooldown: 3
+  cooldown: 0.5
   animatorOverrideCtrl: {fileID: 22100000, guid: bbca9f62cd9539945b5d1d749bc31af9, type: 2}
