@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "AlklhaBasicAbility", menuName = "Ability/AlhklaAbility")]
+[CreateAssetMenu(fileName = "AlklhaBasicAbility", menuName = "Ability/AlklhaAbility")]
 public class AlklhaBasicAbility : AlklhaAbility
 {
     public override void Cast(Alklha alklha)
