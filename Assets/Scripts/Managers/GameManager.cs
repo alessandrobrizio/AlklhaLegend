@@ -7,29 +7,47 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    #region Inspector variables
+    [Header("Main characters")]
     [SerializeField] private Moon moon = null;
     [SerializeField] private Player player = null;
     [SerializeField] private Alklha alklha = null;
+    [Space]
+    [Header("Enemy spawning")]
     [SerializeField] private GameObject enemyPrefab = null;
     [SerializeField] private Transform enemySpawnPoint = null;
     [SerializeField] private int wave = 0;
     [SerializeField] private float waveDelay = 5f;
     [SerializeField] private int enemiesInWave = 3;
     [SerializeField] private float enemySpawnDelay = 2f;
+    #endregion
 
+    #region Private variables
     private bool isWaveEnded = true;
     private int enemiesInWaveCount = 0;
     private float enemyWaveTimer = 0f;
     private float enemySpawnTimer = 0f;
+    #endregion
 
+    #region Properties
     public Moon Moon => moon;
     public Player Player => player;
     public Alklha Alklha => alklha;
+    #endregion
 
+    #region Events
+    [Space]
+    [Header("Events")]
     public UnityEvent moonshotEvent = new UnityEvent();
     public UnityEvent bossPhaseEndEvent = new UnityEvent();
+    /// <summary>
+    /// Event called on gameover conditions
+    /// <para>Pass true for player win, false for lose</para>
+    /// </summary>
     public UnityEvent<bool> gameOverEvent = new UnityEvent<bool>();
+    #endregion
 
+    #region MonoBehaviour methods
     private void Awake()
     {
         if (Instance == null)
@@ -84,7 +102,9 @@ public class GameManager : MonoBehaviour
         bossPhaseEndEvent.RemoveListener(OnBossPhaseEnd);
         gameOverEvent.RemoveListener(OnGameOver);
     }
+    #endregion
 
+    #region Event handlers
     private void OnMoonshot()
     {
         Debug.Log("Moonshot called!");
@@ -106,4 +126,5 @@ public class GameManager : MonoBehaviour
             Debug.Log("You lose!");
         }
     }
+    #endregion
 }
