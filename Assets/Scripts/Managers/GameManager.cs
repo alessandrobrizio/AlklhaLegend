@@ -88,34 +88,22 @@ public class GameManager : MonoBehaviour
             }
         }
     }
-
-    private void OnEnable()
-    {
-        moonshotEvent.AddListener(OnMoonshot);
-        bossPhaseEndEvent.AddListener(OnBossPhaseEnd);
-        gameOverEvent.AddListener(OnGameOver);
-    }
-
-    private void OnDisable()
-    {
-        moonshotEvent.RemoveListener(OnMoonshot);
-        bossPhaseEndEvent.RemoveListener(OnBossPhaseEnd);
-        gameOverEvent.RemoveListener(OnGameOver);
-    }
     #endregion
 
     #region Event handlers
-    private void OnMoonshot()
+    public void OnMoonshot()
     {
         Debug.Log("Moonshot called!");
+        //TODO interrompere wave
     }
 
-    private void OnBossPhaseEnd()
+    public void OnBossPhaseEnd()
     {
-        Debug.Log("Let's get into next boss phase!");
+        Debug.Log("Let's get into next wave!");
+        //TODO far partire una nuova wave
     }
 
-    private void OnGameOver(bool hasWon)
+    public void OnGameOver(bool hasWon)
     {
         if (hasWon)
         {

@@ -35,6 +35,6 @@ public class PlayerEnergy : MonoBehaviour
 
     private void RaiseGameOver()
     {
-        //gameover
+        GameManager.Instance.gameOverEvent.Invoke(false);
     }
 }

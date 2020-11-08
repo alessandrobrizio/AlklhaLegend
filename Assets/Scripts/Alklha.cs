@@ -108,16 +108,6 @@ public class Alklha : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        GameManager.Instance.moonshotEvent.AddListener(OnMoonshot);
-    }
-
-    private void OnDisable()
-    {
-        GameManager.Instance.moonshotEvent.RemoveListener(OnMoonshot);
-    }
-
     private void ChasePlayer()
     {
         Vector3 direction = player.transform.position - transform.position;
@@ -171,7 +161,7 @@ public class Alklha : MonoBehaviour
         }
     }
 
-    private void OnMoonshot()
+    public void OnMoonshot()
     {
         bossPhase++;
         //TODO

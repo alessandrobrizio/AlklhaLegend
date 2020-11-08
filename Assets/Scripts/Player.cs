@@ -69,6 +69,11 @@ public class Player : MonoBehaviour
             if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Orc_wolfrider_08_attack_B"))
                 anim.SetTrigger("Attack");
         }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            //TODO sostituire con l'ability
+            GameManager.Instance.moonshotEvent.Invoke();
+        }    
     }
 
     /// <summary>

@@ -22,6 +22,6 @@ public class Moon : MonoBehaviour
 
     private void RaiseGameOver()
     {
-        //TODO GameManager.Instance.gameOverEvent.Invoke();
+        GameManager.Instance.gameOverEvent.Invoke(false);
     }
 }
