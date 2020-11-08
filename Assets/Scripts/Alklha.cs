@@ -6,17 +6,23 @@ using UnityEngine;
 public class Alklha : MonoBehaviour
 {
     private enum AlklhaState { Idle, Chase, Attack /*//TODO: Stunned*/}
-
+    [Header("Abilities")]
     [SerializeField] private AlklhaAbility[] abilities = null;
     [SerializeField] private float initialCooldown = 1.0f;
+    [Space]
+    [Header("Colliders")]
     [SerializeField] private Collider handDxCollider = null;
     [SerializeField] private Collider handSxCollider = null;
     [SerializeField] private Collider feetCollider = null;
+    [Space]
+    [Header("Debug")]
+    //TODO: move to Alklha ability
+    [SerializeField] private float damage = 5.0f;
 
-    private int bossPhase = 0;
+    [SerializeField] [ShowOnly] private int bossPhase = 0;
     private float attackAnimationDuration = 0.0f;
     private Animator animator = null;
-    private AlklhaState alklhaState = AlklhaState.Idle;
+    [SerializeField] [ShowOnly] private AlklhaState alklhaState = AlklhaState.Idle;
     private AlklhaState alklhaStateOld = AlklhaState.Idle;
     private Player player = null;
     private float distanceFromPlayer = 0.0f;
@@ -29,8 +35,6 @@ public class Alklha : MonoBehaviour
     private int nextAttack = 0;    
 
     //TODO: probability to stun Alhkla for a moment
-    //TODO: damage player
-    //TODO: attack colliders   
 
     private void Start()
     {
@@ -57,7 +61,7 @@ public class Alklha : MonoBehaviour
 
     private void Update()
     {
-        //Update timer
+        //Update cooldowns
         attackAnimationDuration -= Time.deltaTime;
         for (int i = 0; i < abilityCooldowns.Length; i++)
         {
@@ -81,32 +85,33 @@ public class Alklha : MonoBehaviour
             case AlklhaState.Idle:
                 CheckTriggerAttackState();
                 CheckTriggerChasePlayer();
+                Debug.Log("Is IDLE");
                 break;
             case AlklhaState.Chase:
                 TriggerIdleState();
                 CheckTriggerAttackState();
                 break;
             case AlklhaState.Attack:
-                alklhaState = AlklhaState.Idle;
+                //Attack Animation Ended
+                if (attackAnimationDuration < 0.0f)
+                {
+                    playerHit = false;
+                    alklhaState = AlklhaState.Idle;
+                }
+                //Activate/deactivate attack colliders
+                float attackTriggerHandDx = animator.GetFloat("AttackTriggerHandDx");
+                float attackTriggerHandSx = animator.GetFloat("AttackTriggerHandSx");
+                float attackFeetTrigger = animator.GetFloat("AttackTriggerFeet");
+
+                handDxCollider.enabled = attackTriggerHandDx > 0.5f;
+                handSxCollider.enabled = attackTriggerHandSx > 0.5f;
+                feetCollider.enabled = attackFeetTrigger > 0.5f;
                 break;
         }
 
-        //Activate/deactivate attack colliders
-        float attackTriggerHandDx = animator.GetFloat("AttackTriggerHandDx");
-        float attackTriggerHandSx = animator.GetFloat("AttackTriggerHandSx");
-        float attackFeetTrigger = animator.GetFloat("AttackTriggerFeet");
+       
 
-        handDxCollider.enabled = attackTriggerHandDx > 0.5f;
-        handSxCollider.enabled = attackTriggerHandSx > 0.5f;
-        feetCollider.enabled = attackFeetTrigger > 0.5f;
-
-        //Attack Animation Ended
-        if (attackAnimationDuration < 0.0f)
-        {
-            playerHit = false;
-        }
-
-
+        
     }
 
     private void ChasePlayer()
@@ -191,6 +196,9 @@ public class Alklha : MonoBehaviour
                 animator.SetBool("Walking", false);
                 break;
             case AlklhaState.Attack:
+                handDxCollider.enabled = false;
+                handSxCollider.enabled = false;
+                feetCollider.enabled = false;
                 break;
         }
     }
@@ -229,8 +237,7 @@ public class Alklha : MonoBehaviour
         {
             //hit player just once
             playerHit = true;
-            Debug.Log("Trigger");
-            //TODO player damage
+            other.GetComponent<PlayerEnergy>().GetDamage(damage, true);
         }
     }
 }

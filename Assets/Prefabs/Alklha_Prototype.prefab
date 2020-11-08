@@ -137,7 +137,7 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 1.5
-  m_Center: {x: 0, y: -1, z: 0}
+  m_Center: {x: 0, y: -1, z: 0.41}
 --- !u!1 &127143357324760884
 GameObject:
   m_ObjectHideFlags: 0
@@ -1382,7 +1382,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.6
+  m_Radius: 0.3
   m_Center: {x: 0.14, y: 0, z: 0.09}
 --- !u!1 &5619757142019730414
 GameObject:
@@ -1609,6 +1609,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 37a932d400bae7342824ecb4dc71f179, type: 2}
   - {fileID: 11400000, guid: 16be955ac5f591f459809a5ecf272666, type: 2}
   initialCooldown: 2
+  handDxCollider: {fileID: 1754884788}
+  handSxCollider: {fileID: 839302553}
+  feetCollider: {fileID: 2065276263}
+  damage: 5
+  bossPhase: 0
+  alklhaState: 0
 --- !u!1 &6003657794187134171
 GameObject:
   m_ObjectHideFlags: 0
@@ -1811,7 +1817,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.6
+  m_Radius: 0.3
   m_Center: {x: -0.14, y: 0, z: 0.09}
 --- !u!1 &6656876816894107886
 GameObject:
