@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -17,13 +17,22 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-        //TODO get player from GameManager
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        player = GameManager.Instance.Player;
     }
 
     private void Update()
     {
         agent.SetDestination(player.transform.position);
+    }
+
+    private void OnEnable()
+    {
+        GameManager.Instance.moonshotEvent.AddListener(OnMoonshot);
+    }
+
+    private void OnDisable()
+    {
+        GameManager.Instance.moonshotEvent.RemoveListener(OnMoonshot);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -33,5 +42,11 @@ public class Enemy : MonoBehaviour
             //TODO: Damage player
             Destroy(gameObject);
         }
+    }
+
+    //Moonshot ability terminates enemy wave
+    private void OnMoonshot()
+    {
+        Destroy(gameObject);
     }
 }

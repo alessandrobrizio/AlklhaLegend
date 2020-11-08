@@ -1,4 +1,3 @@
-﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,8 +37,7 @@ public class Alklha : MonoBehaviour
 
     private void Start()
     {
-        //TODO: take gameobject from GameManager
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        player = GameManager.Instance.Player;
 
         //attackAnimationDuration = initialCooldown;
         animator = GetComponent<Animator>();
@@ -108,10 +106,16 @@ public class Alklha : MonoBehaviour
                 feetCollider.enabled = attackFeetTrigger > 0.5f;
                 break;
         }
+    }
 
-       
+    private void OnEnable()
+    {
+        GameManager.Instance.moonshotEvent.AddListener(OnMoonshot);
+    }
 
-        
+    private void OnDisable()
+    {
+        GameManager.Instance.moonshotEvent.RemoveListener(OnMoonshot);
     }
 
     private void ChasePlayer()
@@ -167,7 +171,7 @@ public class Alklha : MonoBehaviour
         }
     }
 
-    private void OnMoonShot()
+    private void OnMoonshot()
     {
         bossPhase++;
         //TODO
@@ -176,6 +180,7 @@ public class Alklha : MonoBehaviour
     private void RaiseBossPhaseEnd()
     {
         //TODO
+        GameManager.Instance.bossPhaseEndEvent.Invoke();
     }
 
     private void RaiseGameOver()
@@ -183,6 +188,7 @@ public class Alklha : MonoBehaviour
         if(bossPhase > 3)
         {
             //TODO
+            GameManager.Instance.gameOverEvent.Invoke(true);
         }
     }
 
