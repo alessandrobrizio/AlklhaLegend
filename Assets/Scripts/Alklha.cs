@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Alklha : MonoBehaviour
 {
-    private enum AlklhaState { Idle, Chase, Attack /*//TODO: Stunned*/}
+    private enum AlklhaState { Idle, Chase, Attack, OnMoon}
     [Header("Abilities")]
     [SerializeField] private AlklhaAbility[] abilities = null;
     [SerializeField] private float initialCooldown = 1.0f;
@@ -22,22 +22,22 @@ public class Alklha : MonoBehaviour
     private float attackAnimationDuration = 0.0f;
     private Animator animator = null;
     [SerializeField] [ShowOnly] private AlklhaState alklhaState = AlklhaState.Idle;
-    private AlklhaState alklhaStateOld = AlklhaState.Idle;
+    private AlklhaState alklhaStateOld = AlklhaState.OnMoon;
     private Player player = null;
     private float distanceFromPlayer = 0.0f;
     private float playerThreshold = 2.0f;
     private bool playerHit = false;
+    private Moon moon = null;
 
     //Cooldown for each ability in list
     private float[] abilityCooldowns = null;
 
     private int nextAttack = 0;    
 
-    //TODO: probability to stun Alhkla for a moment
-
     private void Start()
     {
         player = GameManager.Instance.Player;
+        moon = GameManager.Instance.Moon;
 
         //attackAnimationDuration = initialCooldown;
         animator = GetComponent<Animator>();
@@ -105,6 +105,10 @@ public class Alklha : MonoBehaviour
                 handSxCollider.enabled = attackTriggerHandSx > 0.5f;
                 feetCollider.enabled = attackFeetTrigger > 0.5f;
                 break;
+            case AlklhaState.OnMoon:
+                //damage moon over time
+                alklhaState = AlklhaState.Idle;
+                break;
         }
     }
 
@@ -171,6 +175,7 @@ public class Alklha : MonoBehaviour
     {
         //TODO
         GameManager.Instance.bossPhaseEndEvent.Invoke();
+        alklhaState = AlklhaState.OnMoon;
     }
 
     private void RaiseGameOver()
@@ -196,6 +201,8 @@ public class Alklha : MonoBehaviour
                 handSxCollider.enabled = false;
                 feetCollider.enabled = false;
                 break;
+            case AlklhaState.OnMoon:
+                break;
         }
     }
 
@@ -213,6 +220,8 @@ public class Alklha : MonoBehaviour
                 abilities[nextAttack].Cast(this);
                 abilityCooldowns[nextAttack] = abilities[nextAttack].Cooldown;
                 attackAnimationDuration = abilities[nextAttack].AttackDuration;
+                break;
+            case AlklhaState.OnMoon:
                 break;
         }
     }
@@ -235,5 +244,10 @@ public class Alklha : MonoBehaviour
             playerHit = true;
             other.GetComponent<PlayerEnergy>().GetDamage(damage, true);
         }
+    }
+
+    public void GetDamage(float damage)
+    {
+        moon.GetHeal(damage);
     }
 }

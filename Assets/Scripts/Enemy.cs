@@ -6,6 +6,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class Enemy : MonoBehaviour
 {
+    [SerializeField] float damage = 0.5f;
 
     private Player player = null;
     private NavMeshAgent agent = null;
@@ -39,7 +40,7 @@ public class Enemy : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            //TODO: Damage player
+            other.GetComponent<PlayerEnergy>().GetDamage(damage, false);
             Destroy(gameObject);
         }
     }
