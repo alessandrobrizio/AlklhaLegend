@@ -1,36 +1,57 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class Alklha : MonoBehaviour
 {
-    private enum AlklhaState { Idle, Chase, Attack, OnMoon}
+    private enum AlklhaState { Idle, Chase, Attack, OnMoon, MoonShot, EndPhase}
     [Header("Abilities")]
     [SerializeField] private AlklhaAbility[] abilities = null;
     [SerializeField] private float initialCooldown = 1.0f;
+    [SerializeField] private float damage = 5.0f;
     [Space]
     [Header("Colliders")]
     [SerializeField] private Collider handDxCollider = null;
     [SerializeField] private Collider handSxCollider = null;
     [SerializeField] private Collider feetCollider = null;
     [Space]
+    [Header("Characteristics")]
+    [SerializeField] private float eatingVelocity = 0.2f;
+    [SerializeField] private float bossPhaseDuration = 15.0f;
+    [Header("MoonShot")]
+    [SerializeField] private Transform moonPosition = null;
+    [SerializeField] private Transform earthPosition = null;
+    [SerializeField] [Range(0.0f, 1.0f)]
+    [Tooltip("Time % that indicates when the apex of the jump should be")] private float jumpApex = 0.35f;
+    [SerializeField] [Tooltip("Time required to wolf to cast the moonshot")] private float moonshotDuration = 2.0f;
+    [SerializeField] [Tooltip("Time required to Alklha to accomplish the jump")] private float animationDuration = 2.0f;
+    [SerializeField] private float jumpHeight = 5.0f;
     [Header("Debug")]
     //TODO: move to Alklha ability
-    [SerializeField] private float damage = 5.0f;
+    
 
     [SerializeField] [ShowOnly] private int bossPhase = 0;
     private float attackAnimationDuration = 0.0f;
     private Animator animator = null;
-    [SerializeField] [ShowOnly] private AlklhaState alklhaState = AlklhaState.Idle;
+    [SerializeField] [ShowOnly] private AlklhaState alklhaState = AlklhaState.OnMoon;
     private AlklhaState alklhaStateOld = AlklhaState.OnMoon;
     private Player player = null;
     private float distanceFromPlayer = 0.0f;
     private float playerThreshold = 2.0f;
     private bool playerHit = false;
-    private Moon moon = null;
+    private Moon moon = null;    
 
+    private AnimationCurve animationMoonToEarth = null;
+    private Vector3 startJumpPosition = Vector3.zero;
+
+    #region Timers
+    private float moonshotTimer = 0.0f;
     //Cooldown for each ability in list
     private float[] abilityCooldowns = null;
+    private float bossPhaseTimer = 0.0f;
+    private float animationTimer = 0.0f;
+    #endregion
 
     private int nextAttack = 0;    
 
@@ -42,7 +63,7 @@ public class Alklha : MonoBehaviour
         //attackAnimationDuration = initialCooldown;
         animator = GetComponent<Animator>();
 
-        //Initialize cooldown
+        //Initialize cooldowns
         abilityCooldowns = new float[abilities.Length];
         float closestAbilityRange = float.MaxValue;
         for (int i = 0; i < abilityCooldowns.Length; i++)
@@ -55,6 +76,14 @@ public class Alklha : MonoBehaviour
         }
 
         playerThreshold = closestAbilityRange;
+
+        animationMoonToEarth = new AnimationCurve();
+        animationMoonToEarth.AddKey(new Keyframe(0.0f, moonPosition.position.y));
+        animationMoonToEarth.AddKey(new Keyframe(jumpApex, moonPosition.position.y + jumpHeight));
+        animationMoonToEarth.AddKey(new Keyframe(1.0f, earthPosition.position.y));
+        AnimationUtility.SetKeyRightTangentMode(animationMoonToEarth, 0, AnimationUtility.TangentMode.Linear);
+        AnimationUtility.SetKeyLeftTangentMode(animationMoonToEarth, 2, AnimationUtility.TangentMode.Linear);
+
     }
 
     private void Update()
@@ -81,15 +110,17 @@ public class Alklha : MonoBehaviour
         switch (alklhaState)
         {
             case AlklhaState.Idle:
+                UpdateBossPhaseTimer();
                 CheckTriggerAttackState();
                 CheckTriggerChasePlayer();
-                Debug.Log("Is IDLE");
                 break;
             case AlklhaState.Chase:
+                UpdateBossPhaseTimer();
                 TriggerIdleState();
                 CheckTriggerAttackState();
                 break;
             case AlklhaState.Attack:
+                UpdateBossPhaseTimer();
                 //Attack Animation Ended
                 if (attackAnimationDuration < 0.0f)
                 {
@@ -106,10 +137,47 @@ public class Alklha : MonoBehaviour
                 feetCollider.enabled = attackFeetTrigger > 0.5f;
                 break;
             case AlklhaState.OnMoon:
-                //damage moon over time
-                alklhaState = AlklhaState.Idle;
+                moon.GetDamage(eatingVelocity * Time.deltaTime);
+                break;
+            case AlklhaState.MoonShot:
+                moonshotTimer += Time.deltaTime;
+                if(moonshotTimer >= moonshotDuration)
+                {
+                    animationTimer += Time.deltaTime;
+                    MoonEarthTransition(AlklhaState.Idle, moonPosition.position, earthPosition.position, animationTimer, false);
+                }
+                break;
+            case AlklhaState.EndPhase:
+                animationTimer -= Time.deltaTime;
+                if (moonshotTimer >= 0.0f)
+                {
+                    MoonEarthTransition(AlklhaState.OnMoon, startJumpPosition, moonPosition.position, animationTimer, true);
+                }
                 break;
         }
+    }
+
+    private void UpdateBossPhaseTimer()
+    {
+        bossPhaseTimer -= Time.deltaTime;
+        if(bossPhaseTimer <= 0)
+        {
+            alklhaState = AlklhaState.EndPhase;
+            RaiseBossPhaseEnd();
+        }
+    }
+
+    private void MoonEarthTransition(AlklhaState stateAtTheEnd, Vector3 startPos, Vector3 endPos, float timePassed, bool reverse)
+    {        
+        float animationKey = timePassed / animationDuration;
+        if ((!reverse && animationKey >= 1.0f) || (reverse && animationKey <= 0.0f))
+        {
+            alklhaState = stateAtTheEnd;
+            return;
+        }
+        float height = animationMoonToEarth.Evaluate(animationKey);
+        Vector3 translation = (reverse) ? Vector3.Lerp(endPos, startPos, animationKey) : Vector3.Lerp(startPos, endPos, animationKey);
+        transform.position = new Vector3(translation.x, height, translation.z);
     }
 
     private void ChasePlayer()
@@ -140,11 +208,6 @@ public class Alklha : MonoBehaviour
             alklhaState = AlklhaState.Attack;
             nextAttack = possibleAttacks[UnityEngine.Random.Range(0, possibleAttacks.Count)];
         }
-       
-        /*if (distanceFromPlayer <= playerThreshold && abilityCooldown <= 0)
-        {
-            alklhaState = AlklhaState.Attack;
-        }*/
     }
 
     private void CheckTriggerChasePlayer()
@@ -165,26 +228,29 @@ public class Alklha : MonoBehaviour
         }
     }
 
+    #region EventsHandler
     public void OnMoonshot()
     {
         bossPhase++;
-        //TODO
+        if (bossPhase > 3)
+        {
+            GameManager.Instance.gameOverEvent.Invoke(true);
+        } 
+        else
+        {
+            alklhaState = AlklhaState.MoonShot;          
+        }
     }
+    #endregion
 
     private void RaiseBossPhaseEnd()
-    {
-        //TODO
+    {        
         GameManager.Instance.bossPhaseEndEvent.Invoke();
-        alklhaState = AlklhaState.OnMoon;
     }
 
     private void RaiseGameOver()
     {
-        if(bossPhase > 3)
-        {
-            //TODO
-            GameManager.Instance.gameOverEvent.Invoke(true);
-        }
+        GameManager.Instance.gameOverEvent.Invoke(true);
     }
 
     private void OnExitState(AlklhaState state)
@@ -202,6 +268,11 @@ public class Alklha : MonoBehaviour
                 feetCollider.enabled = false;
                 break;
             case AlklhaState.OnMoon:
+                break;
+            case AlklhaState.MoonShot:
+                bossPhaseTimer = bossPhaseDuration;
+                break;
+            case AlklhaState.EndPhase:
                 break;
         }
     }
@@ -223,6 +294,14 @@ public class Alklha : MonoBehaviour
                 break;
             case AlklhaState.OnMoon:
                 break;
+            case AlklhaState.MoonShot:
+                animationTimer = 0.0f;
+                moonshotTimer = 0.0f;
+                break;
+            case AlklhaState.EndPhase:
+                startJumpPosition = transform.position;
+                animationTimer = animationDuration;
+                break;
         }
     }
 
@@ -230,6 +309,9 @@ public class Alklha : MonoBehaviour
     // Movement via root motion 
     private void OnAnimatorMove()
     {
+        if (alklhaState == AlklhaState.MoonShot || alklhaState == AlklhaState.EndPhase)
+            return;
+
         //Always orient to player
         ChasePlayer();
         //Apply root motion
