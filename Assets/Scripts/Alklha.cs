@@ -44,6 +44,7 @@ public class Alklha : MonoBehaviour
 
     private AnimationCurve animationMoonToEarth = null;
     private Vector3 startJumpPosition = Vector3.zero;
+    private bool canStartMoonjumpMovement = false;
 
     #region Timers
     private float moonshotTimer = 0.0f;
@@ -141,16 +142,17 @@ public class Alklha : MonoBehaviour
                 break;
             case AlklhaState.MoonShot:
                 moonshotTimer += Time.deltaTime;
-                if(moonshotTimer >= moonshotDuration)
+                if(moonshotTimer >= moonshotDuration && canStartMoonjumpMovement)
                 {
                     animationTimer += Time.deltaTime;
                     MoonEarthTransition(AlklhaState.Idle, moonPosition.position, earthPosition.position, animationTimer, false);
                 }
                 break;
             case AlklhaState.EndPhase:
-                animationTimer -= Time.deltaTime;
-                if (moonshotTimer >= 0.0f)
+                
+                if (/*moonshotTimer >= 0.0f && */canStartMoonjumpMovement)
                 {
+                    animationTimer -= Time.deltaTime;
                     MoonEarthTransition(AlklhaState.OnMoon, startJumpPosition, moonPosition.position, animationTimer, true);
                 }
                 break;
@@ -297,12 +299,22 @@ public class Alklha : MonoBehaviour
             case AlklhaState.MoonShot:
                 animationTimer = 0.0f;
                 moonshotTimer = 0.0f;
+                canStartMoonjumpMovement = false;
+                StartCoroutine(TriggerJumpAnimation());
                 break;
             case AlklhaState.EndPhase:
                 startJumpPosition = transform.position;
                 animationTimer = animationDuration;
+                canStartMoonjumpMovement = false;
+                animator.SetTrigger("Moonjump");
                 break;
         }
+    }
+
+    private IEnumerator TriggerJumpAnimation()
+    {
+        yield return new WaitForSeconds(moonshotDuration);
+        animator.SetTrigger("Moonjump");
     }
 
     // Orientation via script
@@ -324,12 +336,25 @@ public class Alklha : MonoBehaviour
         {
             //hit player just once
             playerHit = true;
-            other.GetComponent<PlayerEnergy>().GetDamage(damage, true);
+            if(abilities[nextAttack].GetType() == typeof(AlklhaStunAbility))
+            {
+                //TODO stun player
+            }
+            else
+            {
+                other.GetComponent<PlayerEnergy>().GetDamage(damage, true);
+            }
         }
     }
 
     public void GetDamage(float damage)
     {
         moon.GetHeal(damage);
+    }
+
+    //Caled By Animator
+    public void CanStartMoonJumpMovement()
+    {
+        canStartMoonjumpMovement = true;
     }
 }
