@@ -39,7 +39,7 @@ public class Enemy : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            //TODO: Damage player
+            //TODO : Damage player
             Destroy(gameObject);
         }
     }

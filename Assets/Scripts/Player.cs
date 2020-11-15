@@ -4,19 +4,40 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    [Header("Player Settings")]
     [SerializeField]
-    float speed = 4f, turnSpeed = 0.2f, deltaX = 10f, deltaZ = 10f;
+    float speed = 4f, turnSpeed = 0.2f, deltaX = 10f, deltaZ = 10f, playerDamage;
 
-    GameObject moonTransform;
+    [Header("Abilities")]
+    [SerializeField]
+    PlayerAbility[] playerAbilityList;
+
+    [Header("Colliders")]
+    [SerializeField]
+    Collider rightHandCollider, areaAttackCollider;
+
+    //GameObject moonTransform;
     Animator anim;
 
     Vector3 startPosition;
+    
 
     void Start()
     {
         //moonTransform = GameObject.FindGameObjectWithTag("Moon");
         anim = GetComponent<Animator>();
         startPosition = Vector3.zero;
+
+        rightHandCollider.enabled = false;
+        areaAttackCollider.enabled = false;
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.tag == "Minion" || other.gameObject.tag == "Boss")
+        {
+            other.gameObject.GetComponent<Damageable>().GetDamage(playerDamage);
+        }
     }
 
     void Update()

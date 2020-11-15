@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 932a735220cd1a442a6abb7172b1438e
+guid: 39a5a3ea53fcd684aad13aeaa7c69f03
 ModelImporter:
   serializedVersion: 20101
   internalIDToNameTable:
@@ -275,7 +275,7 @@ ModelImporter:
     second: //RootNode
   - first:
       74: 7400000
-    second: Orc_wolfrider_08_attack_B
+    second: Orc_wolfrider_IceAttack_Proto
   - first:
       95: 9500000
     second: //RootNode
@@ -308,7 +308,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Orc_wolfrider_08_attack_B
+      name: Orc_wolfrider_IceAttack_Proto
       takeName: Take 001
       internalID: 0
       firstFrame: 0
@@ -331,7 +331,7 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves:
-      - name: Base Attack Trigger
+      - name: Area Attack Trigger
         curve:
           serializedVersion: 2
           curve:
@@ -345,7 +345,7 @@ ModelImporter:
             inWeight: 0
             outWeight: 0
           - serializedVersion: 3
-            time: 0.096545994
+            time: 0.0899531
             value: 1
             inSlope: Infinity
             outSlope: Infinity
@@ -354,7 +354,7 @@ ModelImporter:
             inWeight: 0.33333334
             outWeight: 0.33333334
           - serializedVersion: 3
-            time: 0.37076488
+            time: 0.34968764
             value: 0
             inSlope: Infinity
             outSlope: Infinity
