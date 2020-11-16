@@ -8,6 +8,13 @@ public class Moon : MonoBehaviour
 
     [SerializeField] [ShowOnly] private float integrity = 0.0f;
 
+    private Renderer renderer = null;
+
+    private void Awake()
+    {
+        renderer = GetComponent<Renderer>();
+    }
+
     private void Start()
     {
         integrity = maxIntegrity;
@@ -27,6 +34,7 @@ public class Moon : MonoBehaviour
     public void GetDamage(float damage)
     {
         integrity -= damage;
+        UpdateMoonShader();
         if (integrity <= 0f)
         {
             RaiseGameOver();
@@ -36,5 +44,11 @@ public class Moon : MonoBehaviour
     public void GetHeal(float heal)
     {
         integrity = Mathf.Max(maxIntegrity, integrity + heal);
+        UpdateMoonShader();
+    }
+
+    private void UpdateMoonShader()
+    {
+        renderer.material.SetFloat("Vector1_4B67CBDE", (maxIntegrity - integrity)/maxIntegrity);
     }
 }
