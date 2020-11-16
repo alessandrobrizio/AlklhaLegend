@@ -10,7 +10,7 @@ public abstract class AlklhaAbility : Ability
         if (alklhaAnimator == null)
             return;
         
-        Debug.Log($"Alklha is casting {name}");
+        //Debug.Log($"Alklha is casting {name}");
         alklhaAnimator.runtimeAnimatorController = animatorOverrideCtrl;
         alklhaAnimator.SetTrigger("Attack");
     }

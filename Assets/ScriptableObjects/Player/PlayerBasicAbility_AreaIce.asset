@@ -15,4 +15,4 @@ MonoBehaviour:
   range: 5
   cooldown: 3
   rest: 0.5
-  animatorOverrideCtrl: {fileID: 22100000, guid: 58bbc390309a619488ac76fd1272e3ea, type: 2}
+  animatorOverrideCtrl: {fileID: 22100000, guid: 809a0c17f4e74e64ab57a0e5a0610cf5, type: 2}

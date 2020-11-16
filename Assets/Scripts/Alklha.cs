@@ -83,7 +83,7 @@ public class Alklha : MonoBehaviour
             case AlklhaState.Idle:
                 CheckTriggerAttackState();
                 CheckTriggerChasePlayer();
-                Debug.Log("Is IDLE");
+                //Debug.Log("Is IDLE");
                 break;
             case AlklhaState.Chase:
                 TriggerIdleState();

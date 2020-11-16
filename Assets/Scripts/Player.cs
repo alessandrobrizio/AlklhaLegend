@@ -1,20 +1,23 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [Header("Player Settings")]
+    //[Header("Player Settings")]
     [SerializeField]
     float speed = 4f, turnSpeed = 0.2f, deltaX = 10f, deltaZ = 10f, playerDamage;
 
     [Header("Abilities")]
     [SerializeField]
     PlayerAbility[] playerAbilityList;
+    int currentAbilityIndex;
+    float abilityCooldown;
 
     [Header("Colliders")]
     [SerializeField]
-    Collider rightHandCollider, areaAttackCollider;
+    SphereCollider rightHandCollider, areaAttackCollider;
 
     //GameObject moonTransform;
     Animator anim;
@@ -30,20 +33,60 @@ public class Player : MonoBehaviour
 
         rightHandCollider.enabled = false;
         areaAttackCollider.enabled = false;
+
+        //Debug, should be -1 normally
+        currentAbilityIndex = 0;
+        areaAttackCollider.radius = playerAbilityList[currentAbilityIndex].Range;
+        abilityCooldown = .0f;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.tag == "Minion" || other.gameObject.tag == "Boss")
+        string tag = other.gameObject.tag;
+
+        switch(tag){
+
+            case "Minion":
+                Debug.Log("Player has damaged " + other.tag);
+                other.gameObject.GetComponent<Damageable>().GetDamage(playerDamage);
+                break;
+            case "Boss":
+                Debug.Log("Player has damaged " + other.tag);
+                other.gameObject.GetComponent<Damageable>().GetDamage(playerDamage);
+                break;
+            case "Fire":
+                currentAbilityIndex = 0;
+                areaAttackCollider.radius = playerAbilityList[currentAbilityIndex].Range;
+                break;
+            case "Ice":
+                currentAbilityIndex = 1;
+                areaAttackCollider.radius = playerAbilityList[currentAbilityIndex].Range;
+                break;
+        }
+
+        /*
+        if (other.gameObject.tag == "Minion" || other.gameObject.tag == "Boss")
         {
+            Debug.Log("Player has damaged " + other.tag);
             other.gameObject.GetComponent<Damageable>().GetDamage(playerDamage);
         }
+        else if(other.gameObject.tag == "FirePowerUp")
+        {
+            currentAbilityIndex = 0;
+        }
+        */
     }
 
     void Update()
     {
+        if(currentAbilityIndex >= 0 && abilityCooldown > 0)
+            abilityCooldown -= Time.deltaTime;
+
         CheckInput();
+
+        UpdateColliders();
     }
+    
 
     private void CheckInput()
     {
@@ -70,11 +113,9 @@ public class Player : MonoBehaviour
                 Camera.main.transform.GetComponentInParent<CameraManager>().SetApplyOffset(false, targetPos.x);
             }
             
-            //targetPos.x = ValueInRange(targetPos.x, 0) ? targetPos.x: transform.position.x;
+
             targetPos.z = ValueInRange(targetPos.z, 1) ? targetPos.z: transform.position.z;
-
             transform.position = targetPos;
-
             anim.SetBool("Move", true);
         }
         else
@@ -82,15 +123,23 @@ public class Player : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))    //proto attacco base
         {
-            if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Orc_wolfrider_08_attack_B"))
-                anim.SetTrigger("Attack");
+            if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Basic Attack"))
+                anim.SetTrigger("Basic Attack");
         }
-        else if (Input.GetMouseButtonDown(1))   //prototipo attacco speciale, da implementare
+        else if (Input.GetKeyDown(KeyCode.E))   //prototipo attacco speciale, TODO: abilitare solo tramite pwrUP
         {
-            if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Orc_wolfrider_08_attack_B"))
-                anim.SetTrigger("Attack");
+            // Se preso un ipotetico powerup
+            if(currentAbilityIndex >= 0)
+            {
+                if (abilityCooldown <= 0.0f)
+                {
+                    playerAbilityList[currentAbilityIndex].Cast(this);
+                    abilityCooldown = playerAbilityList[currentAbilityIndex].Cooldown;
+                }
+            }
+            
         }
-        else if (Input.GetKeyDown(KeyCode.E))
+        else if (Input.GetKeyDown(KeyCode.Q))
         {
             //TODO sostituire con l'ability
             GameManager.Instance.moonshotEvent.Invoke();
@@ -120,4 +169,12 @@ public class Player : MonoBehaviour
         return true;
     }
 
+    private void UpdateColliders()
+    {
+        float handCol = anim.GetFloat("Base Attack Trigger");
+        rightHandCollider.enabled = handCol > 0.0f;
+
+        float areaCol = anim.GetFloat("Area Attack Trigger");
+        areaAttackCollider.enabled = areaCol > 0.0f;
+    }
 }

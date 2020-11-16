@@ -2843,9 +2843,12 @@ MonoBehaviour:
   turnSpeed: 0.2
   deltaX: 10
   deltaZ: 10
-  playerAbilityList: []
-  rightHandCollider: {fileID: 0}
-  areaAttackCollider: {fileID: 0}
+  playerDamage: 0
+  playerAbilityList:
+  - {fileID: 11400000, guid: f9b4e1ef69b672349bbcc24dd7e9dac7, type: 2}
+  - {fileID: 11400000, guid: bb94bc593a896ef439274177d5dfc4cc, type: 2}
+  rightHandCollider: {fileID: 1455261624}
+  areaAttackCollider: {fileID: 1819884566}
 --- !u!1 &714717948
 GameObject:
   m_ObjectHideFlags: 0
