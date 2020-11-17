@@ -49,6 +49,6 @@ public class Moon : MonoBehaviour
 
     private void UpdateMoonShader()
     {
-        renderer.material.SetFloat("Vector1_4B67CBDE", (maxIntegrity - integrity)/maxIntegrity);
+        renderer.material.SetFloat("Vector1_1BD8129C", (maxIntegrity - integrity)/maxIntegrity);
     }
 }
