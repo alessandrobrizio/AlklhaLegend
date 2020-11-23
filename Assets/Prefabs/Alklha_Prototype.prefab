@@ -117,7 +117,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 98659765980673014}
-  m_LocalRotation: {x: -4.8934686e-18, y: 0.0000000017053268, z: -0.000000021182915, w: 1}
+  m_LocalRotation: {x: -4.8934686e-18, y: 0.0000000017053268, z: -0.000000021182915,
+    w: 1}
   m_LocalPosition: {x: -1.2518327e-17, y: 0.13784844, z: 0.00064360764}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -471,7 +472,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2029073699755126829}
-  m_LocalRotation: {x: 0.000000028750948, y: -0.000000007283048, z: 5.501876e-10, w: 1}
+  m_LocalRotation: {x: 0.000000028750948, y: -0.000000007283048, z: 5.501876e-10,
+    w: 1}
   m_LocalPosition: {x: -0.011818755, y: -0.18539895, z: 0.15226115}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -594,7 +596,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2728013230336648021}
-  m_LocalRotation: {x: 4.8919122e-18, y: -0.0000000017053268, z: 0.000000021182004, w: 1}
+  m_LocalRotation: {x: 4.8919122e-18, y: -0.0000000017053268, z: 0.000000021182004,
+    w: 1}
   m_LocalPosition: {x: -0.000000021905063, y: 0.96852756, z: 0.030739628}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1468,7 +1471,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5869415747238184743}
-  m_LocalRotation: {x: 0.00000003085006, y: 8.202153e-11, z: -0.0000000012829983, w: 1}
+  m_LocalRotation: {x: 0.00000003085006, y: 8.202153e-11, z: -0.0000000012829983,
+    w: 1}
   m_LocalPosition: {x: 0.011818755, y: -0.18539895, z: 0.15226115}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1610,12 +1614,20 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 37a932d400bae7342824ecb4dc71f179, type: 2}
   - {fileID: 11400000, guid: 16be955ac5f591f459809a5ecf272666, type: 2}
   initialCooldown: 2
+  damage: 5
   handDxCollider: {fileID: 1754884788}
   handSxCollider: {fileID: 839302553}
   feetCollider: {fileID: 2065276263}
-  damage: 5
+  eatingVelocity: 0.5
+  bossPhaseDuration: 15
+  moonPosition: {fileID: 0}
+  earthPosition: {fileID: 0}
+  jumpApex: 0.35
+  moonshotDuration: 2
+  animationDuration: 2
+  jumpHeight: 5
   bossPhase: 0
-  alklhaState: 0
+  alklhaState: 3
 --- !u!114 &5458387877248135532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1633,7 +1645,11 @@ MonoBehaviour:
   isInvincible: 1
   damageEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls: [{m_Target: {fileID: 5458387877248135532}, m_TargetAssemblyTypeName: 'Damageable,
+            Assembly-CSharp', m_MethodName: GetDamage, m_Mode: 0, m_Arguments: {m_ObjectArgument: {
+              fileID: 0}, m_ObjectArgumentAssemblyTypeName: 'UnityEngine.Object, UnityEngine',
+            m_IntArgument: 0, m_FloatArgument: 0, m_StringArgument: '', m_BoolArgument: 0},
+          m_CallState: 2}]
   dieEvent:
     m_PersistentCalls:
       m_Calls: []

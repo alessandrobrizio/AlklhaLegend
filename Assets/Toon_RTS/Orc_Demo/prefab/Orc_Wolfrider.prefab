@@ -1003,9 +1003,12 @@ GameObject:
   m_Component:
   - component: {fileID: 413006}
   - component: {fileID: 9575048}
+  - component: {fileID: 695226274}
+  - component: {fileID: 695226273}
+  - component: {fileID: 695226277}
   m_Layer: 0
   m_Name: Orc_Wolfrider
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1036,7 +1039,7 @@ Animator:
   m_GameObject: {fileID: 153010}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: d021512d6de402148a36d287d6cde611, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 04c5df41afd2e2f4c98f4cc247d6cf47, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1045,6 +1048,51 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!136 &695226274
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153010}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.95, z: 0}
+--- !u!114 &695226273
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13bf185275449e842b05ec88319d3de1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 4
+  turnSpeed: 0.2
+  deltaX: 10
+  deltaZ: 10
+--- !u!114 &695226277
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 153010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5f9ef51e4a6d3b49a46fcd2e6485eda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialEnergy: 100
+  minimumEnergyLevel: 20
+  currentEnergyLevel: 0
 --- !u!1 &153408
 GameObject:
   m_ObjectHideFlags: 0
