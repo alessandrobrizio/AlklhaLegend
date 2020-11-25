@@ -146,6 +146,7 @@ public class Alklha : MonoBehaviour
                 {
                     animationTimer += Time.deltaTime;
                     MoonEarthTransition(AlklhaState.Idle, moonPosition.position, earthPosition.position, animationTimer, false);
+                    moon.StopVFX();
                 }
                 break;
             case AlklhaState.EndPhase:
@@ -154,6 +155,7 @@ public class Alklha : MonoBehaviour
                 {
                     animationTimer -= Time.deltaTime;
                     MoonEarthTransition(AlklhaState.OnMoon, startJumpPosition, moonPosition.position, animationTimer, true);
+                    moon.ResumeVFX();
                 }
                 break;
         }

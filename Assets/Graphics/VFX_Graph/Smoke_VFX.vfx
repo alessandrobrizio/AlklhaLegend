@@ -19,8 +19,8 @@ MonoBehaviour:
     serializedVersion: 2
     x: 271
     y: -190
-    width: 1100
-    height: 2086
+    width: 1108
+    height: 2084
 --- !u!114 &114350483966674976
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1148,7 +1148,7 @@ MonoBehaviour:
   - {fileID: 8926484042661614677}
   - {fileID: 8926484042661614656}
   - {fileID: 8926484042661614652}
-  m_UIPosition: {x: 947, y: 1357}
+  m_UIPosition: {x: 955, y: 1355}
   m_UICollapsed: 0
   m_UISuperCollapsed: 0
   m_InputSlots:

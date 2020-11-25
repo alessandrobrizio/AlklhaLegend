@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 public class Moon : MonoBehaviour
 {
     [SerializeField] private float maxIntegrity = 100.0f;
 
     [SerializeField] [ShowOnly] private float integrity = 0.0f;
+    [SerializeField] VisualEffect[] smokeEffect = null;
 
     private Renderer renderer = null;
 
@@ -49,6 +51,22 @@ public class Moon : MonoBehaviour
 
     private void UpdateMoonShader()
     {
-        renderer.material.SetFloat("Vector1_1BD8129C", (maxIntegrity - integrity)/maxIntegrity);
+        renderer.material.SetFloat("Moon_Phase", (maxIntegrity - integrity)/maxIntegrity);
+    }
+
+    public void StopVFX()
+    {
+        foreach(VisualEffect vs in smokeEffect)
+        {
+            vs.Stop();
+        }
+    }
+
+    public void ResumeVFX()
+    {
+        foreach (VisualEffect vs in smokeEffect)
+        {
+            vs.Play();
+        }
     }
 }
