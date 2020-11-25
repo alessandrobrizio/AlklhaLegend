@@ -10,20 +10,25 @@ public class Player : MonoBehaviour
     float speed = 4f, turnSpeed = 0.2f, deltaX = 10f, deltaZ = 10f, playerDamage;
 
     [Header("Abilities")]
-    [SerializeField]
-    PlayerAbility[] playerAbilityList;
+    public //[SerializeField] TODO temporary
+    PlayerAbility[] playerAbilityList = new PlayerAbility[3];
     int currentAbilityIndex;
+    const int NO_ABILITY_INDEX = -1;
+    const int BASIC_ABILITY_INDEX = 0;
+    const int ELEMENTAL_ABILITY_INDEX = 1;
+    const int MOONSHOT_ABILITY_INDEX = 2;
     float abilityCooldown;
+    public float moonshotCharge;
 
     [Header("Colliders")]
     [SerializeField]
-    SphereCollider rightHandCollider, areaAttackCollider;
+    SphereCollider rightHandCollider = null, areaAttackCollider = null;
 
     //GameObject moonTransform;
     Animator anim;
 
     Vector3 startPosition;
-    
+
 
     void Start()
     {
@@ -34,68 +39,40 @@ public class Player : MonoBehaviour
         rightHandCollider.enabled = false;
         areaAttackCollider.enabled = false;
 
-        //Debug, should be -1 normally
-        currentAbilityIndex = 0;
-        areaAttackCollider.radius = playerAbilityList[currentAbilityIndex].Range;
+        currentAbilityIndex = NO_ABILITY_INDEX;
+        areaAttackCollider.radius = playerAbilityList[BASIC_ABILITY_INDEX].Range;
         abilityCooldown = .0f;
+        moonshotCharge = 0f;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        string tag = other.gameObject.tag;
-
-        switch(tag){
-
-            case "Minion":
-                Debug.Log("Player has damaged " + other.tag);
-                other.gameObject.GetComponent<Damageable>().GetDamage(playerDamage);
-                break;
-            case "Boss":
-                Debug.Log("Player has damaged " + other.tag);
-                other.gameObject.GetComponent<Damageable>().GetDamage(playerDamage);
-                break;
-            case "Fire":
-                currentAbilityIndex = 0;
-                areaAttackCollider.radius = playerAbilityList[currentAbilityIndex].Range;
-                break;
-            case "Ice":
-                currentAbilityIndex = 1;
-                areaAttackCollider.radius = playerAbilityList[currentAbilityIndex].Range;
-                break;
-        }
-
-        /*
-        if (other.gameObject.tag == "Minion" || other.gameObject.tag == "Boss")
+        if (currentAbilityIndex != NO_ABILITY_INDEX)
         {
-            Debug.Log("Player has damaged " + other.tag);
-            other.gameObject.GetComponent<Damageable>().GetDamage(playerDamage);
+            if (playerAbilityList[currentAbilityIndex].Apply(this, other))
+                currentAbilityIndex = NO_ABILITY_INDEX;
         }
-        else if(other.gameObject.tag == "FirePowerUp")
-        {
-            currentAbilityIndex = 0;
-        }
-        */
     }
 
     void Update()
     {
-        if(currentAbilityIndex >= 0 && abilityCooldown > 0)
+        if (abilityCooldown > 0)
             abilityCooldown -= Time.deltaTime;
 
         CheckInput();
 
         UpdateColliders();
     }
-    
+
 
     private void CheckInput()
     {
         //Move and Rotate
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
-        
+
         Vector3 dir = new Vector3(h, 0f, v).normalized;
-        
+
         if (h != 0 || v != 0)
         {
             Quaternion targetRot = Quaternion.LookRotation(dir, Vector3.up);
@@ -103,7 +80,7 @@ public class Player : MonoBehaviour
 
             Vector3 targetPos = transform.position + (dir * speed * Time.deltaTime);
 
-            if(!ValueInRange(targetPos.x, 0))   //player has reached a horizontal edges
+            if (!ValueInRange(targetPos.x, 0))   //player has reached a horizontal edges
             {
                 targetPos.x = transform.position.x;
                 Camera.main.transform.GetComponentInParent<CameraManager>().SetApplyOffset(true, targetPos.x);
@@ -112,38 +89,45 @@ public class Player : MonoBehaviour
             {
                 Camera.main.transform.GetComponentInParent<CameraManager>().SetApplyOffset(false, targetPos.x);
             }
-            
 
-            targetPos.z = ValueInRange(targetPos.z, 1) ? targetPos.z: transform.position.z;
+
+            targetPos.z = ValueInRange(targetPos.z, 1) ? targetPos.z : transform.position.z;
             transform.position = targetPos;
             anim.SetBool("Move", true);
         }
         else
             anim.SetBool("Move", false);
 
-        if (Input.GetMouseButtonDown(0))    //proto attacco base
+        if (abilityCooldown <= 0f)
         {
-            if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Basic Attack"))
-                anim.SetTrigger("Basic Attack");
-        }
-        else if (Input.GetKeyDown(KeyCode.E))   //prototipo attacco speciale, TODO: abilitare solo tramite pwrUP
-        {
-            // Se preso un ipotetico powerup
-            if(currentAbilityIndex >= 0)
+            currentAbilityIndex = NO_ABILITY_INDEX;
+            if (Input.GetMouseButtonDown(0))
             {
-                if (abilityCooldown <= 0.0f)
+                currentAbilityIndex = BASIC_ABILITY_INDEX;
+            }
+            else if (Input.GetKeyDown(KeyCode.E))
+            {
+                // Se preso un ipotetico powerup
+                if (playerAbilityList[ELEMENTAL_ABILITY_INDEX] != null)
                 {
-                    playerAbilityList[currentAbilityIndex].Cast(this);
-                    abilityCooldown = playerAbilityList[currentAbilityIndex].Cooldown;
+                    currentAbilityIndex = ELEMENTAL_ABILITY_INDEX;
                 }
             }
-            
+            else if (Input.GetKeyDown(KeyCode.Q))
+            {
+                if (moonshotCharge >= 3f)
+                {
+                    playerAbilityList[MOONSHOT_ABILITY_INDEX].Cast(this);
+                    moonshotCharge = 0f;
+                    abilityCooldown = 2f;
+                }
+            }
+            if (currentAbilityIndex != NO_ABILITY_INDEX)
+            {
+                playerAbilityList[currentAbilityIndex].Cast(this);
+                abilityCooldown = 1f;// playerAbilityList[currentAbilityIndex].Cooldown;
+            }
         }
-        else if (Input.GetKeyDown(KeyCode.Q))
-        {
-            //TODO sostituire con l'ability
-            GameManager.Instance.moonshotEvent.Invoke();
-        }    
     }
 
     /// <summary>

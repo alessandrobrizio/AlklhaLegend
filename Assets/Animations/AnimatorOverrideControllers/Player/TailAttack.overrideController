@@ -6,7 +6,7 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Player_AOC_Ice
+  m_Name: TailAttack
   m_Controller: {fileID: 9100000, guid: 04c5df41afd2e2f4c98f4cc247d6cf47, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: 8edc2b0e7664cf44bbdf91f612b72896, type: 2}

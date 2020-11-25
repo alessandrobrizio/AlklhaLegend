@@ -5,11 +5,15 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "AlklhaBasicAbility", menuName = "Ability/Alklha/Basic")]
 public class AlklhaBasicAbility : AlklhaAbility
 {
-    public override void Cast(Alklha alklha)
+    [SerializeField] private float damage = 5.0f;
+
+    public override bool Apply(Alklha caster, Collider target)
     {
-        base.Cast(alklha);
-        
-        //TODO: damage Player
-        // Area or front
+        if (target.CompareTag("Player"))
+        {
+            target.GetComponent<PlayerEnergy>().GetDamage(damage, true);
+            return true;
+        }
+        return false;
     }
 }

@@ -9,7 +9,6 @@ public class Alklha : MonoBehaviour
     [Header("Abilities")]
     [SerializeField] private AlklhaAbility[] abilities = null;
     [SerializeField] private float initialCooldown = 1.0f;
-    [SerializeField] private float damage = 5.0f;
     [Space]
     [Header("Colliders")]
     [SerializeField] private Collider handDxCollider = null;
@@ -208,7 +207,7 @@ public class Alklha : MonoBehaviour
         if(possibleAttacks.Count > 0)
         {
             alklhaState = AlklhaState.Attack;
-            nextAttack = possibleAttacks[UnityEngine.Random.Range(0, possibleAttacks.Count)];
+            nextAttack = possibleAttacks[Random.Range(0, possibleAttacks.Count)];
         }
     }
 
@@ -236,8 +235,8 @@ public class Alklha : MonoBehaviour
         bossPhase++;
         if (bossPhase > 3)
         {
-            GameManager.Instance.gameOverEvent.Invoke(true);
-        } 
+            RaiseGameOver();
+        }
         else
         {
             alklhaState = AlklhaState.MoonShot;          
@@ -332,18 +331,10 @@ public class Alklha : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player") && !playerHit)
+        if (!playerHit)
         {
-            //hit player just once
-            playerHit = true;
-            if(abilities[nextAttack].GetType() == typeof(AlklhaStunAbility))
-            {
-                //TODO stun player
-            }
-            else
-            {
-                other.GetComponent<PlayerEnergy>().GetDamage(damage, true);
-            }
+            //Hit player just once
+            playerHit = abilities[nextAttack].Apply(this, other);
         }
     }
 
@@ -352,7 +343,7 @@ public class Alklha : MonoBehaviour
         moon.GetHeal(damage);
     }
 
-    //Caled By Animator
+    //Called By Animator
     public void CanStartMoonJumpMovement()
     {
         canStartMoonjumpMovement = true;
