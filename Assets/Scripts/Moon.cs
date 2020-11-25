@@ -43,7 +43,7 @@ public class Moon : MonoBehaviour
 
     public void GetHeal(float heal)
     {
-        integrity = Mathf.Max(maxIntegrity, integrity + heal);
+        integrity = Mathf.Min(maxIntegrity, integrity + heal);
         UpdateMoonShader();
     }
 

@@ -5,11 +5,15 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlayerBasicAbility", menuName = "Ability/Player/Basic")]
 public class PlayerBasicAbility : PlayerAbility
 {
-    public override void Cast(Player player)
-    {
-        base.Cast(player);
+    [SerializeField] private float damage = 2.0f;
 
-        //TODO: damage Enemy/Alklha
-        // Area or front
+    public override bool Apply(Player caster, Collider target)
+    {
+        if (target.TryGetComponent(out Damageable targetDamageable))
+        {
+            targetDamageable.GetDamage(damage);
+            return true;
+        }
+        return false;
     }
 }

@@ -45,6 +45,12 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void OnDie()
+    {
+        GameManager.Instance.Player.moonshotCharge++;
+        Destroy(gameObject);
+    }
+
     //Moonshot ability terminates enemy wave
     private void OnMoonshot()
     {

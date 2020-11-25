@@ -5,12 +5,16 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlayerMoonshotAbility", menuName = "Ability/Player/Moonshot")]
 public class PlayerMoonshotAbility : PlayerAbility
 {
-    public override void Cast(Player player)
+    public override void Cast(Player caster)
     {
-        base.Cast(player);
-        //TODO consume player moonshot charge
-        //TODO attack Alklha
+        base.Cast(caster);
+        Apply(caster, null);
+    }
+
+    public override bool Apply(Player caster, Collider target)
+    {
         RaiseMoonshot();
+        return true;
     }
 
     private void RaiseMoonshot()
