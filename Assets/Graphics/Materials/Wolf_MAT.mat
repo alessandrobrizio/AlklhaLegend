@@ -68,6 +68,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - EmissionIntensity: 1
     - Vector1_2DF0189A: 0.44
     - Vector1_48580978: 0
     - Vector1_8504B6B3: 0.47
