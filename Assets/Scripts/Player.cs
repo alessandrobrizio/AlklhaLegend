@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,22 +6,25 @@ public class Player : MonoBehaviour
 {
     //[Header("Player Settings")]
     [SerializeField]
-    float speed = 4f, turnSpeed = 0.2f, deltaX = 10f, deltaZ = 10f, playerDamage;
+    float speed = 4f, turnSpeed = 0.2f, deltaX = 10f, deltaZ = 10f;
 
     [Header("Abilities")]
-    public //[SerializeField] TODO temporary
-    PlayerAbility[] playerAbilityList = new PlayerAbility[3];
+    [SerializeField] PlayerAbility[] abilities;
+    [SerializeField] float moonshotChargeRequirement = 3f;
     int currentAbilityIndex;
     const int NO_ABILITY_INDEX = -1;
     const int BASIC_ABILITY_INDEX = 0;
     const int ELEMENTAL_ABILITY_INDEX = 1;
     const int MOONSHOT_ABILITY_INDEX = 2;
-    float abilityCooldown;
+    private float attackAnimationDuration = 0f;
+    //Cooldown for each ability in list
+    private float[] abilityCooldowns = null;
+    private bool enemyHit = false;
     public float moonshotCharge;
 
     [Header("Colliders")]
-    [SerializeField]
-    SphereCollider rightHandCollider = null, areaAttackCollider = null;
+    [SerializeField] SphereCollider headCollider = null;
+    [SerializeField] SphereCollider tailCollider = null;
 
     //GameObject moonTransform;
     Animator anim;
@@ -36,12 +38,12 @@ public class Player : MonoBehaviour
         anim = GetComponent<Animator>();
         startPosition = Vector3.zero;
 
-        rightHandCollider.enabled = false;
-        areaAttackCollider.enabled = false;
+        headCollider.enabled = false;
+        tailCollider.enabled = false;
 
         currentAbilityIndex = NO_ABILITY_INDEX;
-        areaAttackCollider.radius = playerAbilityList[BASIC_ABILITY_INDEX].Range;
-        abilityCooldown = .0f;
+        headCollider.radius = abilities[BASIC_ABILITY_INDEX].Range;
+        abilityCooldowns = new float[abilities.Length];
         moonshotCharge = 0f;
     }
 
@@ -49,15 +51,19 @@ public class Player : MonoBehaviour
     {
         if (currentAbilityIndex != NO_ABILITY_INDEX)
         {
-            if (playerAbilityList[currentAbilityIndex].Apply(this, other))
-                currentAbilityIndex = NO_ABILITY_INDEX;
+            if (abilities[currentAbilityIndex].Apply(this, other))
+                enemyHit = true;
         }
     }
 
     void Update()
     {
-        if (abilityCooldown > 0)
-            abilityCooldown -= Time.deltaTime;
+        //Update cooldowns
+        attackAnimationDuration -= Time.deltaTime;
+        for (int i = 0; i < abilityCooldowns.Length; i++)
+        {
+            abilityCooldowns[i] -= Time.deltaTime;
+        }
 
         CheckInput();
 
@@ -76,56 +82,42 @@ public class Player : MonoBehaviour
         if (h != 0 || v != 0)
         {
             Quaternion targetRot = Quaternion.LookRotation(dir, Vector3.up);
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRot, turnSpeed);
-
-            Vector3 targetPos = transform.position + (dir * speed * Time.deltaTime);
-
-            if (!ValueInRange(targetPos.x, 0))   //player has reached a horizontal edges
-            {
-                targetPos.x = transform.position.x;
-                Camera.main.transform.GetComponentInParent<CameraManager>().SetApplyOffset(true, targetPos.x);
-            }
-            else
-            {
-                Camera.main.transform.GetComponentInParent<CameraManager>().SetApplyOffset(false, targetPos.x);
-            }
-
-
-            targetPos.z = ValueInRange(targetPos.z, 1) ? targetPos.z : transform.position.z;
-            transform.position = targetPos;
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, turnSpeed * Time.deltaTime);
+            anim.SetFloat("Speed", speed);
             anim.SetBool("Move", true);
         }
         else
             anim.SetBool("Move", false);
 
-        if (abilityCooldown <= 0f)
+        if (attackAnimationDuration <= 0f)
         {
             currentAbilityIndex = NO_ABILITY_INDEX;
-            if (Input.GetMouseButtonDown(0))
+            enemyHit = false;
+            if (Input.GetMouseButtonDown(0) && abilityCooldowns[BASIC_ABILITY_INDEX] <= 0f)
             {
                 currentAbilityIndex = BASIC_ABILITY_INDEX;
             }
-            else if (Input.GetKeyDown(KeyCode.E))
+            else if (Input.GetKeyDown(KeyCode.E) && abilityCooldowns[ELEMENTAL_ABILITY_INDEX] <= 0f)
             {
                 // Se preso un ipotetico powerup
-                if (playerAbilityList[ELEMENTAL_ABILITY_INDEX] != null)
+                if (abilities[ELEMENTAL_ABILITY_INDEX] != null)
                 {
                     currentAbilityIndex = ELEMENTAL_ABILITY_INDEX;
                 }
             }
-            else if (Input.GetKeyDown(KeyCode.Q))
+            else if (Input.GetKeyDown(KeyCode.Q) && abilityCooldowns[MOONSHOT_ABILITY_INDEX] <= 0f)
             {
-                if (moonshotCharge >= 3f)
+                if (moonshotCharge >= moonshotChargeRequirement)
                 {
-                    playerAbilityList[MOONSHOT_ABILITY_INDEX].Cast(this);
+                    currentAbilityIndex = MOONSHOT_ABILITY_INDEX;
                     moonshotCharge = 0f;
-                    abilityCooldown = 2f;
                 }
             }
             if (currentAbilityIndex != NO_ABILITY_INDEX)
             {
-                playerAbilityList[currentAbilityIndex].Cast(this);
-                abilityCooldown = 1f;// playerAbilityList[currentAbilityIndex].Cooldown;
+                abilities[currentAbilityIndex].Cast(this);
+                abilityCooldowns[currentAbilityIndex] = abilities[currentAbilityIndex].Cooldown;
+                attackAnimationDuration = abilities[currentAbilityIndex].AttackDuration;
             }
         }
     }
@@ -155,10 +147,33 @@ public class Player : MonoBehaviour
 
     private void UpdateColliders()
     {
-        float handCol = anim.GetFloat("Base Attack Trigger");
-        rightHandCollider.enabled = handCol > 0.0f;
+        float handCol = anim.GetFloat("HeadTrigger");
+        headCollider.enabled = handCol > 0.5f;
 
-        float areaCol = anim.GetFloat("Area Attack Trigger");
-        areaAttackCollider.enabled = areaCol > 0.0f;
+        float areaCol = anim.GetFloat("TailTrigger");
+        tailCollider.enabled = areaCol > 0.5f;
+    }
+
+    private void OnAnimatorMove()
+    {
+        Vector3 targetPos = anim.rootPosition;
+        if (!ValueInRange(targetPos.x, 0))   //Player has reached an horizontal edge
+        {
+            targetPos.x = transform.position.x;
+            Camera.main.transform.GetComponentInParent<CameraManager>().SetApplyOffset(true, targetPos.x);
+        }
+        else
+        {
+            Camera.main.transform.GetComponentInParent<CameraManager>().SetApplyOffset(false, targetPos.x);
+        }
+
+        targetPos.z = ValueInRange(targetPos.z, 1) ? targetPos.z : transform.position.z;
+        transform.position = targetPos;
+    }
+
+    public void EarnElementalAbility(PlayerAbility ability)
+    {
+        abilities[ELEMENTAL_ABILITY_INDEX] = ability;
+        tailCollider.radius = ability.Range;
     }
 }

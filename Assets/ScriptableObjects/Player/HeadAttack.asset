@@ -13,10 +13,12 @@ MonoBehaviour:
   m_Name: HeadAttack
   m_EditorClassIdentifier: 
   range: 5
-  cooldown: 0.5
-  rest: 0.5
-  animatorOverrideCtrl: {fileID: 22100000, guid: f55eaf46b7684284abdf20770c3ce88e, type: 2}
+  cooldown: 0
+  rest: 0.1
+  animatorOverrideCtrl: {fileID: 22100000, guid: f55eaf46b7684284abdf20770c3ce88e,
+    type: 2}
   damage: 2
-  abilityVisualEffect: {fileID: 8926484042661614526, guid: 119f5fce77f33144180da87f42b02d6c, type: 3}
+  abilityVisualEffect: {fileID: 8926484042661614526, guid: 119f5fce77f33144180da87f42b02d6c,
+    type: 3}
   duration: 0.2
   initialDelay: 0.05

@@ -41,13 +41,13 @@ public class PlayerMoonshotAbility : PlayerAbility
         vfx.Play();
         caster.StartCoroutine(StopMoonshotAfter(duration, vfx));
         Apply(caster, null);
-        
+
+        RaiseMoonshot();
     }
 
     public override bool Apply(Player caster, Collider target)
     {
-        RaiseMoonshot();
-        return true;
+        return false;
     }
 
     private void RaiseMoonshot()

@@ -19,7 +19,7 @@ public class ElementalPowerUp : PowerUp
         if (collector.TryGetComponent(out Player player))
         {
             //Assign secondary ability
-            player.playerAbilityList[1] = playerAbility;
+            player.EarnElementalAbility(playerAbility);
             Debug.Log("Here's a new ability! And some fancy effects...");
             //TODO handle particles
             return true;
