@@ -34,11 +34,13 @@ public class Enemy : MonoBehaviour
     private void OnEnable()
     {
         GameManager.Instance.moonshotEvent.AddListener(OnMoonshot);
+        GameManager.Instance.gameOverEvent.AddListener(OnGameOver);
     }
 
     private void OnDisable()
     {
         GameManager.Instance.moonshotEvent.RemoveListener(OnMoonshot);
+        GameManager.Instance.gameOverEvent.RemoveListener(OnGameOver);
     }
 
     private void OnTriggerStay(Collider other)
@@ -54,7 +56,6 @@ public class Enemy : MonoBehaviour
                 {
                     enemyMesh.enabled = false;
                 }
-                Debug.Log("Trigger Damage");
                 StartCoroutine(SmokeAssimilation());
             }
         }
@@ -75,9 +76,10 @@ public class Enemy : MonoBehaviour
     IEnumerator SmokeAssimilation()
     {
         float time = 1.0f;
+        agent.isStopped = true;
         while (time > 0.0f)
         {
-            transform.position = Vector3.Lerp(transform.position, player.transform.position, Time.deltaTime * 3.0f);
+            transform.position = Vector3.Lerp(transform.position, player.transform.position, Time.deltaTime * 10.0f);
             time -= Time.deltaTime;
             yield return null;
         }
@@ -85,7 +87,18 @@ public class Enemy : MonoBehaviour
         {
             vs.Stop();
         }
-        yield return new WaitForSeconds(1.0f);
         Destroy(gameObject);
+    }
+
+    private void OnGameOver(bool hasWon)
+    {
+        if (hasWon)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            agent.isStopped = true;
+        }
     }
 }

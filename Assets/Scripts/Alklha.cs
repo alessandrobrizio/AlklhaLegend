@@ -352,4 +352,16 @@ public class Alklha : MonoBehaviour
     {
         canStartMoonjumpMovement = true;
     }
+
+    public void OnGameOver(bool hasWon)
+    {
+        if (!hasWon && alklhaState != AlklhaState.OnMoon && alklhaState != AlklhaState.EndPhase)
+        {
+            alklhaState = AlklhaState.EndPhase;
+        }
+        if(hasWon)
+        {
+            Destroy(gameObject);
+        }
+    }
 }

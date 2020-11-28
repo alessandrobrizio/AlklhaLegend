@@ -38,7 +38,7 @@ public class PlayerEnergy : MonoBehaviour
 
     public void Heal(float amount)
     {
-        currentEnergyLevel = Mathf.Max(initialEnergy, currentEnergyLevel + amount);
+        currentEnergyLevel = Mathf.Min(initialEnergy, currentEnergyLevel + amount);
     }
 
     private void RaiseGameOver()

@@ -190,4 +190,12 @@ public class Player : MonoBehaviour
     {
         canMove = false;
     }
+
+    public void OnGameOver(bool hasWon)
+    {
+        if (!hasWon)
+        {
+            gameObject.SetActive(false);
+        }
+    }
 }
