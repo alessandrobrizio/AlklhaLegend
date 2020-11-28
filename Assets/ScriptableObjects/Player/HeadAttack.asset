@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17e780ba3e25e41a19743beb41501e17, type: 3}
   m_Name: HeadAttack
   m_EditorClassIdentifier: 
-  range: 5
+  range: 0.5
   cooldown: 0
   rest: 0.1
   animatorOverrideCtrl: {fileID: 22100000, guid: f55eaf46b7684284abdf20770c3ce88e, type: 2}
@@ -21,3 +21,6 @@ MonoBehaviour:
   duration: 0.2
   initialDelay: 0
   spawnpositionName: BaseAttack_spawnposition
+  visualEffectOnHit: 1
+  spawnLogic: 0
+  vfxPrefab: {fileID: 0}
