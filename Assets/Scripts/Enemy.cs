@@ -7,8 +7,9 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent))]
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] float damage = 0.5f;
-    [SerializeField] VisualEffect[] smokeEffect = null;
+    [SerializeField] private float damage = 0.5f;
+    [SerializeField] private VisualEffect[] smokeEffect = null;
+    [SerializeField] private Renderer enemyMesh = null;
  
     private Player player = null;
     private NavMeshAgent agent = null;
@@ -44,7 +45,10 @@ public class Enemy : MonoBehaviour
         {
             other.GetComponent<PlayerEnergy>().GetDamage(damage, false);
             GetComponent<Collider>().enabled = false;
-            GetComponent<Renderer>().enabled = false;
+            if(enemyMesh != null)
+            {
+                enemyMesh.enabled = false;
+            }
             Debug.Log("Trigger Damage");
             StartCoroutine(SmokeAssimilation());
         }

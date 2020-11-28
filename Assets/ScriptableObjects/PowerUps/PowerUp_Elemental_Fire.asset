@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   playerAbility: {fileID: 11400000, guid: f9b4e1ef69b672349bbcc24dd7e9dac7, type: 2}
-  duration: 0
-  particles: []
+  duration: 0.2
+  abilityVisualEffect: {fileID: 8926484042661614526, guid: 042d0e768eccbb64786b642a1eea00ae, type: 3}
+  initialDelay: 0.2
