@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
     {
         pauseMenu.enabled = false;
         aSource = GetComponent<AudioSource>();
+        Time.timeScale = 1;
     }
 
     public void LoadMainMenu()
