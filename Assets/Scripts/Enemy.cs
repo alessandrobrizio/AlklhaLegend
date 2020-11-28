@@ -8,11 +8,13 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float damage = 0.5f;
+    [SerializeField] private float radius = 0.5f;
     [SerializeField] private VisualEffect[] smokeEffect = null;
     [SerializeField] private Renderer enemyMesh = null;
  
     private Player player = null;
     private NavMeshAgent agent = null;
+    private bool assimilated = false;
 
     private void Awake()
     {
@@ -39,18 +41,22 @@ public class Enemy : MonoBehaviour
         GameManager.Instance.moonshotEvent.RemoveListener(OnMoonshot);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<PlayerEnergy>().GetDamage(damage, false);
-            GetComponent<Collider>().enabled = false;
-            if(enemyMesh != null)
+            if(Vector3.Distance(other.transform.position, transform.position) <= radius && !assimilated)
             {
-                enemyMesh.enabled = false;
+                assimilated = true;
+                other.GetComponent<PlayerEnergy>().GetDamage(damage, false);
+                GetComponent<Collider>().enabled = false;
+                if (enemyMesh != null)
+                {
+                    enemyMesh.enabled = false;
+                }
+                Debug.Log("Trigger Damage");
+                StartCoroutine(SmokeAssimilation());
             }
-            Debug.Log("Trigger Damage");
-            StartCoroutine(SmokeAssimilation());
         }
     }
 

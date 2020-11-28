@@ -452,7 +452,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4013153572d24488dbde04fd6a816c5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 0.5
+  damage: 5
+  radius: 1.5
   smokeEffect:
   - {fileID: 7098704189210891941}
   enemyMesh: {fileID: 3001464363434012429}

@@ -15,7 +15,8 @@ MonoBehaviour:
   range: 0
   cooldown: 0
   rest: 0.5
-  animatorOverrideCtrl: {fileID: 22100000, guid: 657f23f08860848adae073aa4e9a4c10,
-    type: 2}
-  moonshotVisualEffect: {fileID: 8926484042661614526, guid: f784de1e69794ca46938d43615614975,
-    type: 3}
+  animatorOverrideCtrl: {fileID: 22100000, guid: 657f23f08860848adae073aa4e9a4c10, type: 2}
+  moonshotVisualEffect: {fileID: 8926484042661614526, guid: f784de1e69794ca46938d43615614975, type: 3}
+  duration: 0.8
+  moonRadius: 5
+  initialDelay: 1
