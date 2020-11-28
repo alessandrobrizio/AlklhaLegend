@@ -667,7 +667,7 @@ MonoBehaviour:
   zWriteMode: 0
   zTestMode: 0
   colorMapping: 0
-  uvMode: 1
+  uvMode: 2
   useSoftParticle: 0
   sortPriority: 0
   sort: 0
