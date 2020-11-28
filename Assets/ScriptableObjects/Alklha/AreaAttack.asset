@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 2
   cooldown: 3
+  rest: 0.5
   animatorOverrideCtrl: {fileID: 22100000, guid: b1269c3db2736cd439593371a992f4c0, type: 2}
+  damage: 5

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 
 [CreateAssetMenu(fileName = "ElementalPowerUp", menuName = "PowerUp/Elemental")]
 public class ElementalPowerUp : PowerUp
@@ -9,7 +10,8 @@ public class ElementalPowerUp : PowerUp
     [SerializeField] ElementalType type = ElementalType.Fire;
     [SerializeField] PlayerAbility playerAbility = null;
     [SerializeField] float duration = 0f;
-    [SerializeField] ParticleSystem[] particles = null;
+    [SerializeField] private VisualEffectAsset abilityVisualEffect = null;
+    [SerializeField] private float initialDelay = 0.2f;
 
 
     public override bool Collect(GameObject collector)
@@ -23,6 +25,8 @@ public class ElementalPowerUp : PowerUp
             return true;
         }
         return false;
+
+       
     }
 
     //TODO enable duration

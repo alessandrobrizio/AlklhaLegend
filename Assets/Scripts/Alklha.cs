@@ -145,6 +145,7 @@ public class Alklha : MonoBehaviour
                 {
                     animationTimer += Time.deltaTime;
                     MoonEarthTransition(AlklhaState.Idle, moonPosition.position, earthPosition.position, animationTimer, false);
+                    moon.StopVFX();
                 }
                 break;
             case AlklhaState.EndPhase:
@@ -153,6 +154,7 @@ public class Alklha : MonoBehaviour
                 {
                     animationTimer -= Time.deltaTime;
                     MoonEarthTransition(AlklhaState.OnMoon, startJumpPosition, moonPosition.position, animationTimer, true);
+                    moon.ResumeVFX();
                 }
                 break;
         }
@@ -349,5 +351,17 @@ public class Alklha : MonoBehaviour
     public void CanStartMoonJumpMovement()
     {
         canStartMoonjumpMovement = true;
+    }
+
+    public void OnGameOver(bool hasWon)
+    {
+        if (!hasWon && alklhaState != AlklhaState.OnMoon && alklhaState != AlklhaState.EndPhase)
+        {
+            alklhaState = AlklhaState.EndPhase;
+        }
+        if(hasWon)
+        {
+            Destroy(gameObject);
+        }
     }
 }

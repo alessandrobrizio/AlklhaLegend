@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+
 public class GameManager : MonoBehaviour
 {
+    [System.Serializable]
+    class TransformList
+    {
+        public Transform[] trans;
+    }
     public static GameManager Instance { get; private set; }
-
+    
     #region Inspector variables
     [Header("Main characters")]
     [SerializeField] private Moon moon = null;
@@ -15,10 +21,12 @@ public class GameManager : MonoBehaviour
     [Space]
     [Header("Enemy spawning")]
     [SerializeField] private GameObject enemyPrefab = null;
-    [SerializeField] private Transform enemySpawnPoint = null;
+    //[SerializeField] private Transform enemySpawnPoint = null;
+    [SerializeField] private TransformList[] enemySpawnPointsPerWave = null;
     [SerializeField] [ShowOnly] private int wave = 0;
     [SerializeField] private float waveDelay = 5f;
-    [SerializeField] private int enemiesInWave = 3;
+    //[SerializeField] private int enemiesInWave = 3;
+    [SerializeField] private int[] enemiesInWave = null;
     [SerializeField] private float enemySpawnDelay = 2f;
     [Space]
     [Header("Power Ups")]
@@ -35,6 +43,7 @@ public class GameManager : MonoBehaviour
     private int enemiesInWaveCount = 0;
     private float enemyWaveTimer = 0f;
     private float enemySpawnTimer = 0f;
+    private int bossPhase = 0;
     #endregion
 
     #region Properties
@@ -90,11 +99,17 @@ public class GameManager : MonoBehaviour
                 enemySpawnTimer += Time.deltaTime;
                 if (enemySpawnTimer >= enemySpawnDelay)
                 {
-                    Instantiate(enemyPrefab, enemySpawnPoint.position, enemySpawnPoint.rotation);
-                    enemiesInWaveCount++;
-                    enemySpawnTimer = 0f;
+                    for(int i = 0; i < enemySpawnPointsPerWave[bossPhase].trans.Length; i++)
+                    {
+                        Instantiate(enemyPrefab, enemySpawnPointsPerWave[bossPhase].trans[i].position, 
+                            enemySpawnPointsPerWave[bossPhase].trans[i].rotation);
+                        enemiesInWaveCount++;
+                        enemySpawnTimer = 0f;
+                    }
+                    
+
                 }
-                if (enemiesInWaveCount >= enemiesInWave)
+                if (enemiesInWaveCount >= enemiesInWave[bossPhase])
                 {
                     EndWave();
                 }
@@ -115,6 +130,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Let's get into next wave!");
         isSpawning = true;
+        bossPhase++;
         NextWave();
     }
 
@@ -122,6 +138,7 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log($"OnGameover {hasWon}");
         StopAllCoroutines();
+        isSpawning = false;
         if (hasWon)
         {
             Debug.Log("You win!");
