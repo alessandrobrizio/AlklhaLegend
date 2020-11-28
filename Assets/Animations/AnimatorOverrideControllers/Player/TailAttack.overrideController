@@ -7,13 +7,7 @@ AnimatorOverrideController:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: TailAttack
-  m_Controller: {fileID: 9100000, guid: 04c5df41afd2e2f4c98f4cc247d6cf47, type: 2}
+  m_Controller: {fileID: 9100000, guid: 33c503937bb184ebc99234f0ddb2ed28, type: 2}
   m_Clips:
-  - m_OriginalClip: {fileID: 7400000, guid: 8edc2b0e7664cf44bbdf91f612b72896, type: 2}
-    m_OverrideClip: {fileID: 7400000, guid: 39a5a3ea53fcd684aad13aeaa7c69f03, type: 3}
-  - m_OriginalClip: {fileID: 7400000, guid: 932a735220cd1a442a6abb7172b1438e, type: 3}
-    m_OverrideClip: {fileID: 7400000, guid: 932a735220cd1a442a6abb7172b1438e, type: 3}
-  - m_OriginalClip: {fileID: 7400000, guid: 1af59ec312da1b94a9c84b4e0cb8e8e4, type: 3}
-    m_OverrideClip: {fileID: -203655887218126122, guid: fb2b455a96cd24d439374ac4b4dfac1e, type: 3}
-  - m_OriginalClip: {fileID: 7400000, guid: 59138c1d9394c3e4c91a740baf30a34a, type: 3}
-    m_OverrideClip: {fileID: 7400000, guid: 59138c1d9394c3e4c91a740baf30a34a, type: 3}
+  - m_OriginalClip: {fileID: 7400000, guid: a31d51c64f4da4761a46b6624a686b5b, type: 2}
+    m_OverrideClip: {fileID: 1827226128182048838, guid: 754304249480e42a3b46314c82e74879, type: 3}

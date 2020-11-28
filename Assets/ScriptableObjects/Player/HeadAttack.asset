@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HeadAttack
   m_EditorClassIdentifier: 
   range: 5
-  cooldown: 0.5
-  rest: 0.5
+  cooldown: 0
+  rest: 0.1
   animatorOverrideCtrl: {fileID: 22100000, guid: f55eaf46b7684284abdf20770c3ce88e, type: 2}
   damage: 2

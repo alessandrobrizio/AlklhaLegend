@@ -5,7 +5,7 @@ using UnityEditor;
 
 public class Alklha : MonoBehaviour
 {
-    private enum AlklhaState { Idle, Chase, Attack, OnMoon, MoonShot, EndPhase}
+    private enum AlklhaState { Idle, Chase, Attack, OnMoon, MoonShot, EndPhase }
     [Header("Abilities")]
     [SerializeField] private AlklhaAbility[] abilities = null;
     [SerializeField] private float initialCooldown = 1.0f;
@@ -28,18 +28,18 @@ public class Alklha : MonoBehaviour
     [SerializeField] private float jumpHeight = 5.0f;
     [Header("Debug")]
     //TODO: move to Alklha ability
-    
+
 
     [SerializeField] [ShowOnly] private int bossPhase = 0;
     private float attackAnimationDuration = 0.0f;
     private Animator animator = null;
     [SerializeField] [ShowOnly] private AlklhaState alklhaState = AlklhaState.OnMoon;
-    private AlklhaState alklhaStateOld = AlklhaState.OnMoon;
+    private AlklhaState alklhaStateOld = AlklhaState.Idle;
     private Player player = null;
     private float distanceFromPlayer = 0.0f;
     private float playerThreshold = 2.0f;
     private bool playerHit = false;
-    private Moon moon = null;    
+    private Moon moon = null;
 
     private AnimationCurve animationMoonToEarth = null;
     private Vector3 startJumpPosition = Vector3.zero;
@@ -53,7 +53,7 @@ public class Alklha : MonoBehaviour
     private float animationTimer = 0.0f;
     #endregion
 
-    private int nextAttack = 0;    
+    private int nextAttack = 0;
 
     private void Start()
     {
@@ -69,7 +69,7 @@ public class Alklha : MonoBehaviour
         for (int i = 0; i < abilityCooldowns.Length; i++)
         {
             abilityCooldowns[i] = initialCooldown;
-            if(abilities[i].Range < closestAbilityRange)
+            if (abilities[i].Range < closestAbilityRange)
             {
                 closestAbilityRange = abilities[i].Range;
             }
@@ -141,14 +141,14 @@ public class Alklha : MonoBehaviour
                 break;
             case AlklhaState.MoonShot:
                 moonshotTimer += Time.deltaTime;
-                if(moonshotTimer >= moonshotDuration && canStartMoonjumpMovement)
+                if (moonshotTimer >= moonshotDuration && canStartMoonjumpMovement)
                 {
                     animationTimer += Time.deltaTime;
                     MoonEarthTransition(AlklhaState.Idle, moonPosition.position, earthPosition.position, animationTimer, false);
                 }
                 break;
             case AlklhaState.EndPhase:
-                
+
                 if (/*moonshotTimer >= 0.0f && */canStartMoonjumpMovement)
                 {
                     animationTimer -= Time.deltaTime;
@@ -161,7 +161,7 @@ public class Alklha : MonoBehaviour
     private void UpdateBossPhaseTimer()
     {
         bossPhaseTimer -= Time.deltaTime;
-        if(bossPhaseTimer <= 0)
+        if (bossPhaseTimer <= 0)
         {
             alklhaState = AlklhaState.EndPhase;
             RaiseBossPhaseEnd();
@@ -169,7 +169,7 @@ public class Alklha : MonoBehaviour
     }
 
     private void MoonEarthTransition(AlklhaState stateAtTheEnd, Vector3 startPos, Vector3 endPos, float timePassed, bool reverse)
-    {        
+    {
         float animationKey = timePassed / animationDuration;
         if ((!reverse && animationKey >= 1.0f) || (reverse && animationKey <= 0.0f))
         {
@@ -204,7 +204,7 @@ public class Alklha : MonoBehaviour
             }
         }
 
-        if(possibleAttacks.Count > 0)
+        if (possibleAttacks.Count > 0)
         {
             alklhaState = AlklhaState.Attack;
             nextAttack = possibleAttacks[Random.Range(0, possibleAttacks.Count)];
@@ -239,13 +239,13 @@ public class Alklha : MonoBehaviour
         }
         else
         {
-            alklhaState = AlklhaState.MoonShot;          
+            alklhaState = AlklhaState.MoonShot;
         }
     }
     #endregion
 
     private void RaiseBossPhaseEnd()
-    {        
+    {
         GameManager.Instance.bossPhaseEndEvent.Invoke();
     }
 
@@ -269,6 +269,7 @@ public class Alklha : MonoBehaviour
                 feetCollider.enabled = false;
                 break;
             case AlklhaState.OnMoon:
+                animator.SetBool("Eating", false);
                 break;
             case AlklhaState.MoonShot:
                 bossPhaseTimer = bossPhaseDuration;
@@ -294,6 +295,7 @@ public class Alklha : MonoBehaviour
                 attackAnimationDuration = abilities[nextAttack].AttackDuration;
                 break;
             case AlklhaState.OnMoon:
+                animator.SetBool("Eating", true);
                 break;
             case AlklhaState.MoonShot:
                 animationTimer = 0.0f;

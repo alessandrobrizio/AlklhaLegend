@@ -6,8 +6,8 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HeadAttack
+  m_Name: Moonshot
   m_Controller: {fileID: 9100000, guid: 33c503937bb184ebc99234f0ddb2ed28, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: a31d51c64f4da4761a46b6624a686b5b, type: 2}
-    m_OverrideClip: {fileID: 1827226128182048838, guid: 096a83290537b45f78c2255406ca147a, type: 3}
+    m_OverrideClip: {fileID: 1827226128182048838, guid: dc6fd9a87d06840a6a60d0aad85bbc68, type: 3}
