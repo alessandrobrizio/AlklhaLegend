@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
 {
     //[Header("Player Settings")]
     [SerializeField]
-    float speed = 4f, turnSpeed = 0.2f, deltaX = 10f, deltaZ = 10f;
+    float speed = 4f, turnSpeed = 0.2f, deltaX = 10f, deltaZ = 10f, XThreshold = 7.0f;
 
     [Header("UI In Game Event")]
     public UnityEvent OnMoonshotReady;
@@ -198,11 +198,15 @@ public class Player : MonoBehaviour
         if (!ValueInRange(targetPos.x, 0))   //Player has reached an horizontal edge
         {
             targetPos.x = transform.position.x;
-            Camera.main.transform.GetComponentInParent<CameraManager>().SetApplyOffset(true, targetPos.x);
+            Camera.main.transform.GetComponentInParent<CameraManager>().SetApplyOffset(true, -targetPos.x);
+        }
+        else if (targetPos.x > startPosition.x - (deltaX + XThreshold) && targetPos.x < startPosition.x + (deltaX + XThreshold))
+        {
+            Camera.main.transform.GetComponentInParent<CameraManager>().SetApplyOffset(true, -targetPos.x);
         }
         else
         {
-            Camera.main.transform.GetComponentInParent<CameraManager>().SetApplyOffset(false, targetPos.x);
+            Camera.main.transform.GetComponentInParent<CameraManager>().SetApplyOffset(false, -targetPos.x);
         }
 
         targetPos.z = ValueInRange(targetPos.z, 1) ? targetPos.z : transform.position.z;
