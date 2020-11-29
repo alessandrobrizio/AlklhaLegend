@@ -81,8 +81,8 @@ public class Alklha : MonoBehaviour
         animationMoonToEarth.AddKey(new Keyframe(0.0f, moonPosition.position.y));
         animationMoonToEarth.AddKey(new Keyframe(jumpApex, moonPosition.position.y + jumpHeight));
         animationMoonToEarth.AddKey(new Keyframe(1.0f, earthPosition.position.y));
-        AnimationUtility.SetKeyRightTangentMode(animationMoonToEarth, 0, AnimationUtility.TangentMode.Linear);
-        AnimationUtility.SetKeyLeftTangentMode(animationMoonToEarth, 2, AnimationUtility.TangentMode.Linear);
+        //AnimationUtility.SetKeyRightTangentMode(animationMoonToEarth, 0, AnimationUtility.TangentMode.Linear);
+        //AnimationUtility.SetKeyLeftTangentMode(animationMoonToEarth, 2, AnimationUtility.TangentMode.Linear);
 
     }
 
