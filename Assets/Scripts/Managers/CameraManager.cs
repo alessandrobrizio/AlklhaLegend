@@ -39,15 +39,15 @@ public class CameraManager : MonoBehaviour
         {
             if (sign < 0)
             {
-                transform.rotation = Quaternion.Lerp(transform.rotation, posRot, lerpVal);
+                transform.rotation = Quaternion.Lerp(transform.rotation, posRot, lerpVal * Time.deltaTime);
 
-                transform.position = Vector3.Lerp(transform.position, negOffsetPosition, lerpVal);
+                transform.position = Vector3.Lerp(transform.position, negOffsetPosition, lerpVal * Time.deltaTime);
             }
             else
             {
-                transform.rotation = Quaternion.Lerp(transform.rotation, negRot, lerpVal);
+                transform.rotation = Quaternion.Lerp(transform.rotation, negRot, lerpVal * Time.deltaTime);
 
-                transform.position = Vector3.Lerp(transform.position, posOffsetPosition, lerpVal);
+                transform.position = Vector3.Lerp(transform.position, posOffsetPosition, lerpVal * Time.deltaTime);
             }
         }
         else
