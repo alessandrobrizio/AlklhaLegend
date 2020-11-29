@@ -82,7 +82,7 @@
             "typeInfo": {
                 "fullName": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty"
             },
-            "JSONnodeData": "{\n    \"m_Guid\": {\n        \"m_GuidSerialized\": \"052724a8-11fd-4bbf-abdf-0a35d7de93d1\"\n    },\n    \"m_Name\": \"DissolveAmount\",\n    \"m_DefaultReferenceName\": \"Vector1_4C8DBA3F\",\n    \"m_OverrideReferenceName\": \"DissolveAmount\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_Precision\": 0,\n    \"m_GPUInstanced\": false,\n    \"m_Hidden\": false,\n    \"m_Value\": 0.5,\n    \"m_FloatType\": 1,\n    \"m_RangeValues\": {\n        \"x\": 0.0,\n        \"y\": 1.0\n    }\n}"
+            "JSONnodeData": "{\n    \"m_Guid\": {\n        \"m_GuidSerialized\": \"052724a8-11fd-4bbf-abdf-0a35d7de93d1\"\n    },\n    \"m_Name\": \"DissolveAmount\",\n    \"m_DefaultReferenceName\": \"Vector1_4C8DBA3F\",\n    \"m_OverrideReferenceName\": \"DissolveAmount\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_Precision\": 0,\n    \"m_GPUInstanced\": false,\n    \"m_Hidden\": false,\n    \"m_Value\": 0.0,\n    \"m_FloatType\": 1,\n    \"m_RangeValues\": {\n        \"x\": 0.0,\n        \"y\": 1.0\n    }\n}"
         },
         {
             "typeInfo": {
@@ -94,7 +94,7 @@
             "typeInfo": {
                 "fullName": "UnityEditor.ShaderGraph.Internal.BooleanShaderProperty"
             },
-            "JSONnodeData": "{\n    \"m_Guid\": {\n        \"m_GuidSerialized\": \"0dc658ef-29ec-438f-954b-7ec99617ebb4\"\n    },\n    \"m_Name\": \"AutomaticAnimation\",\n    \"m_DefaultReferenceName\": \"Boolean_59FD8E24\",\n    \"m_OverrideReferenceName\": \"AutomaticAnimation\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_Precision\": 0,\n    \"m_GPUInstanced\": false,\n    \"m_Hidden\": false,\n    \"m_Value\": true\n}"
+            "JSONnodeData": "{\n    \"m_Guid\": {\n        \"m_GuidSerialized\": \"0dc658ef-29ec-438f-954b-7ec99617ebb4\"\n    },\n    \"m_Name\": \"AutomaticAnimation\",\n    \"m_DefaultReferenceName\": \"Boolean_59FD8E24\",\n    \"m_OverrideReferenceName\": \"AutomaticAnimation\",\n    \"m_GeneratePropertyBlock\": true,\n    \"m_Precision\": 0,\n    \"m_GPUInstanced\": false,\n    \"m_Hidden\": false,\n    \"m_Value\": false\n}"
         }
     ],
     "m_SerializedKeywords": [],
@@ -437,7 +437,7 @@
             "typeInfo": {
                 "fullName": "UnityEditor.Graphing.Edge"
             },
-            "JSONnodeData": "{\n    \"m_OutputSlot\": {\n        \"m_SlotId\": 1,\n        \"m_NodeGUIDSerialized\": \"aeef92f4-4030-45a3-9720-1c340ebd977a\"\n    },\n    \"m_InputSlot\": {\n        \"m_SlotId\": 0,\n        \"m_NodeGUIDSerialized\": \"86d2276f-075a-40d1-87c1-72b8285f74f8\"\n    }\n}"
+            "JSONnodeData": "{\n    \"m_OutputSlot\": {\n        \"m_SlotId\": 2,\n        \"m_NodeGUIDSerialized\": \"aeef92f4-4030-45a3-9720-1c340ebd977a\"\n    },\n    \"m_InputSlot\": {\n        \"m_SlotId\": 0,\n        \"m_NodeGUIDSerialized\": \"86d2276f-075a-40d1-87c1-72b8285f74f8\"\n    }\n}"
         },
         {
             "typeInfo": {

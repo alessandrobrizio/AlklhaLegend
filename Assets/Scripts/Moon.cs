@@ -11,6 +11,7 @@ public class Moon : MonoBehaviour
     [SerializeField] VisualEffect[] smokeEffect = null;
 
     private Renderer renderer = null;
+    private bool gameEnded = false;
 
     private void Awake()
     {
@@ -68,5 +69,28 @@ public class Moon : MonoBehaviour
         {
             vs.Play();
         }
+    }
+
+    public void OnGameOver(bool hasWon)
+    {
+        if (hasWon && !gameEnded)
+        {
+            StartCoroutine(rebuildMoon());
+        }
+        gameEnded = true;
+    }
+
+    private IEnumerator rebuildMoon()
+    {
+        yield return new WaitForSeconds(2.0f);
+
+        while (integrity < 1.0f)
+        {
+            integrity += Time.deltaTime/2;
+
+            renderer.material.SetFloat("Moon_Phase", integrity);
+            yield return null;
+        }
+        gameObject.SetActive(false);
     }
 }

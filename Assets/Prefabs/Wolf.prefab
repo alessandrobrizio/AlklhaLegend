@@ -1466,9 +1466,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  turnSpeed: 4
+  turnSpeed: 7
   deltaX: 9
   deltaZ: 5
+  XThreshold: 7
   abilities:
   - {fileID: 11400000, guid: bb94bc593a896ef439274177d5dfc4cc, type: 2}
   - {fileID: 0}
@@ -1494,6 +1495,7 @@ MonoBehaviour:
   minimumEnergyLevel: 20
   currentEnergyLevel: 0
   meshRenderer: {fileID: 4153893298249758083}
+  deathMaterial: {fileID: 2100000, guid: 51989b732eceaed47a0c8f2bc8120227, type: 2}
 --- !u!1 &4766628756396357229
 GameObject:
   m_ObjectHideFlags: 0

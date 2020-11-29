@@ -10,8 +10,10 @@ public class PlayerEnergy : MonoBehaviour
 
     [SerializeField] [ShowOnly] private float currentEnergyLevel = 0.0f;
     [SerializeField] private Renderer meshRenderer = null;
+    [SerializeField] private Material deathMaterial = null;
 
     public float Energy { get { return currentEnergyLevel; } }
+    private bool gameEnded = false;
 
     private void Start()
     {
@@ -44,5 +46,28 @@ public class PlayerEnergy : MonoBehaviour
     private void RaiseGameOver()
     {
         GameManager.Instance.gameOverEvent.Invoke(false);
+    }
+
+    public void OnGameOver(bool hasWon)
+    {
+        if (!hasWon && !gameEnded)
+        {
+            meshRenderer.material = deathMaterial;
+            StartCoroutine(Dissolve());
+        }
+        gameEnded = true;
+    }
+
+    private IEnumerator Dissolve()
+    {
+        float initialTime = 3.0f;
+        float time = 0.0f;
+        while(time < initialTime)
+        {
+            time += Time.deltaTime;
+            meshRenderer.material.SetFloat("DissolveAmount", time/initialTime);
+            yield return null;
+        }
+        gameObject.SetActive(false);
     }
 }

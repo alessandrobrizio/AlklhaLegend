@@ -48,13 +48,25 @@ public class Player : MonoBehaviour
         moonshotCharge = 0f;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
-        if (currentAbilityIndex != NO_ABILITY_INDEX)
-        {
-            if (abilities[currentAbilityIndex].Apply(this, other))
-                enemyHit = true;
+        
+        if (other.CompareTag("Boss") ){
+            if (currentAbilityIndex != NO_ABILITY_INDEX && !enemyHit)
+            {
+                if (abilities[currentAbilityIndex].Apply(this, other) )
+                    enemyHit = true;
+            }
         }
+        else if(other.CompareTag("Minion"))
+        {
+            if (currentAbilityIndex != NO_ABILITY_INDEX)
+            {
+                if (abilities[currentAbilityIndex].Apply(this, other))
+                    enemyHit = true;
+            }
+        }
+        
     }
 
     void Update()
@@ -199,7 +211,7 @@ public class Player : MonoBehaviour
     {
         if (!hasWon)
         {
-            gameObject.SetActive(false);
+            canMove = false;
         }
     }
 }

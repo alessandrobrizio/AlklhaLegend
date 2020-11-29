@@ -27,8 +27,7 @@ public class Alklha : MonoBehaviour
     [SerializeField] [Tooltip("Time required to Alklha to accomplish the jump")] private float animationDuration = 2.0f;
     [SerializeField] private float jumpHeight = 5.0f;
     [Header("Debug")]
-    //TODO: move to Alklha ability
-
+    [SerializeField] private Material deathMaterial = null;
 
     [SerializeField] [ShowOnly] private int bossPhase = 0;
     private float attackAnimationDuration = 0.0f;
@@ -40,6 +39,8 @@ public class Alklha : MonoBehaviour
     private float playerThreshold = 2.0f;
     private bool playerHit = false;
     private Moon moon = null;
+    private Renderer[] renderers = null;
+    private bool gameEnded = false;
 
     private AnimationCurve animationMoonToEarth = null;
     private Vector3 startJumpPosition = Vector3.zero;
@@ -62,6 +63,7 @@ public class Alklha : MonoBehaviour
 
         //attackAnimationDuration = initialCooldown;
         animator = GetComponent<Animator>();
+        renderers = GetComponentsInChildren<Renderer>();
 
         //Initialize cooldowns
         abilityCooldowns = new float[abilities.Length];
@@ -355,13 +357,39 @@ public class Alklha : MonoBehaviour
 
     public void OnGameOver(bool hasWon)
     {
+        if (gameEnded)
+            return;
+
         if (!hasWon && alklhaState != AlklhaState.OnMoon && alklhaState != AlklhaState.EndPhase)
         {
             alklhaState = AlklhaState.EndPhase;
         }
         if(hasWon)
         {
-            Destroy(gameObject);
+            //Die
+            foreach(Renderer ren in renderers)
+            {
+                ren.material = deathMaterial;
+            }
+            StartCoroutine(Dissolve());
         }
+        gameEnded = true;
+    }
+
+    private IEnumerator Dissolve()
+    {
+        yield return new WaitForSeconds(2.0f);
+        float initialTime = 3.0f;
+        float time = 0.0f;
+        while (time < initialTime)
+        {
+            time += Time.deltaTime;
+            foreach (Renderer ren in renderers)
+            {
+                ren.material.SetFloat("DissolveAmount", time / initialTime);
+            }
+            yield return null;
+        }
+        gameObject.SetActive(false);
     }
 }

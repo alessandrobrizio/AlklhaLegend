@@ -68,6 +68,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - AutomaticAnimation: 0
+    - DissolveAmount: 0
     - EmissionIntensity: 1
     - Vector1_2DF0189A: 0.44
     - Vector1_48580978: 0
@@ -103,6 +105,7 @@ Material:
     - Color_7883CFF7: {r: 0, g: 1.1137255, b: 1.4980392, a: 0}
     - Color_E6379893: {r: 0, g: 0.6306901, b: 1.216786, a: 0}
     - Color_FCFC3D9: {r: 0, g: 1.694118, b: 3.137255, a: 0}
+    - DissolveColor: {r: 0, g: 1.694118, b: 3.137255, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
