@@ -31,13 +31,14 @@ public class IntroManager : MonoBehaviour
     {
         aSource = GetComponent<AudioSource>();
 
-        //Lo metto qui, perchè Unity mi fa bestemmiare tanto
-        intros = new string[5];
+        intros = new string[7];
         intros[0] = "Based on a siberian legend...";
-        intros[1] = "Why is the moon scarred?";
-        intros[2] = "They’re fang marks left by Alklha, a demon whose aim is to bring an eternal night over the earth";
-        intros[3] = "Alklha is a personification of the darkness of the sky. It feeds on the moon every month, slowly nibbling at it until it disappears.";
-        intros[4] = "But the nature's protector does not agree with the monster, who fight it, making the monster spit the moon pieces bit by bit, eventually re-creating the full moon.";
+        intros[1] = "Why is the Moon scarred?";
+        intros[2] = "They’re fang marks left by Alklha, a demon whose aim is to bring an eternal night over the Earth";
+        intros[3] = "Alklha is the personification of Darkness. It feeds on the Moon every month, slowly nibbling at it until it disappears.";
+        intros[4] = "But the nature's protector does not agree with the monster.";
+        intros[5] = "He fights the monster, making him spit the Moon piece by piece...eventually re-creating the full Moon.";
+        intros[6] = "Will he save the Earth from Darkness?";
 
         counter = 0;
 

@@ -22,6 +22,7 @@ public class ElementalPowerUp : PowerUp
             player.EarnElementalAbility(playerAbility);
             Debug.Log("Here's a new ability! And some fancy effects...");
             //TODO handle particles
+            UIManager.Instance.AddToOutputQueue(TutorialAction.ElementalAttackCollected);
             return true;
         }
         return false;

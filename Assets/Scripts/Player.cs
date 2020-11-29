@@ -1,12 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
     //[Header("Player Settings")]
     [SerializeField]
     float speed = 4f, turnSpeed = 0.2f, deltaX = 10f, deltaZ = 10f, XThreshold = 7.0f;
+
+    [Header("UI In Game Event")]
+    public UnityEvent OnMoonshotReady;
+    public UnityEvent OnMoonshotShooted;
+    public UnityEvent OnTailAttackReady;
+    public UnityEvent OnTailAttackShooted;
 
     [Header("Abilities")]
     [SerializeField] PlayerAbility[] abilities;
@@ -31,13 +38,17 @@ public class Player : MonoBehaviour
     Animator anim;
 
     Vector3 startPosition;
-
+    bool moonshotState;
+    bool tailAttackState;
 
     void Start()
     {
         //moonTransform = GameObject.FindGameObjectWithTag("Moon");
         anim = GetComponent<Animator>();
         startPosition = Vector3.zero;
+
+        moonshotState = false;
+        tailAttackState = false;
 
         headCollider.enabled = false;
         tailCollider.enabled = false;
@@ -65,6 +76,24 @@ public class Player : MonoBehaviour
         {
             abilityCooldowns[i] -= Time.deltaTime;
         }
+
+        #region Ability UI Check
+        //Ability UI In Game Check
+        if (moonshotCharge >= moonshotChargeRequirement && !moonshotState)
+        {
+            moonshotState = true;
+            OnMoonshotReady.Invoke();
+        }
+
+        if(abilities[ELEMENTAL_ABILITY_INDEX] != null)
+        {
+            if(abilityCooldowns[1] <= 0f && !tailAttackState)
+            {
+                OnTailAttackReady.Invoke();
+                tailAttackState = true;
+            }
+        }
+        #endregion
 
         CheckInput();
 
@@ -107,6 +136,8 @@ public class Player : MonoBehaviour
                 if (abilities[ELEMENTAL_ABILITY_INDEX] != null)
                 {
                     currentAbilityIndex = ELEMENTAL_ABILITY_INDEX;
+                    OnTailAttackShooted.Invoke();
+                    tailAttackState = false;
                 }
             }
             else if (Input.GetKeyDown(KeyCode.Q) && abilityCooldowns[MOONSHOT_ABILITY_INDEX] <= 0f)
@@ -115,6 +146,9 @@ public class Player : MonoBehaviour
                 {
                     currentAbilityIndex = MOONSHOT_ABILITY_INDEX;
                     moonshotCharge = 0f;
+
+                    OnMoonshotShooted.Invoke();
+                    moonshotState = false;
                 }
             }
             if (currentAbilityIndex != NO_ABILITY_INDEX)
