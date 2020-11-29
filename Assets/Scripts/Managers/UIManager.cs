@@ -5,10 +5,23 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System;
+
+public enum TutorialAction
+{
+    Goal,
+    MoveInstructions,
+    BasicAttackInstructions,
+    EnergyPowerUpCollected,
+    ElementalAttackCollected,
+    MoonshotReadyInstructions,
+    RestoreMoon,
+    EnergyInstructions
+}
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager instance;
+    public static UIManager Instance { get; private set; }
 
     public Canvas pauseMenu;
     public AudioClip buttonHovered;
@@ -38,15 +51,17 @@ public class UIManager : MonoBehaviour
     [SerializeField] string loseText;
     */
 
-    AudioSource aSource;
-    string[] tutorial;
-    bool[] printed;
+    private AudioSource aSource;
+    private Dictionary<TutorialAction, string> tutorial;
+    private bool[] printed;
+    private Queue<TutorialAction> outputInstructionsQueue = new Queue<TutorialAction>();
+    private Coroutine instructionsCoroutine = null;
 
     private void Awake()
     {
-        if (!instance)
+        if (!Instance)
         {
-            instance = this;
+            Instance = this;
         }
         else
         {
@@ -56,6 +71,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("UI Manager start");
         pauseMenu.enabled = false;
         aSource = GetComponent<AudioSource>();
         Time.timeScale = 1;
@@ -71,24 +87,33 @@ public class UIManager : MonoBehaviour
         //gameOverPanel.SetActive(false);
 
         #region tutorial text
-        tutorial = new string[6];
-        tutorial[0] = "Move with WASD";
-        tutorial[1] = "Attack using Mouse SX. Eliminate enemies as fast as possible, Alklha is eating the moon! If the moon disappear, you will lose";
-        tutorial[2] = "You have just picked up a healer crystal. This will provides you some usefull energy";
-        tutorial[3] = "You have just picked up a fire crystal. Now you can use your tale as a weapon! Press 'E' key!";
-        tutorial[4] = "The Moonshot is ready! Unleashed it pressing the 'Q' key!";
-        tutorial[5] = "Alklha is chasing you! Damage it as much as possible to restore part of the moon";
+        tutorial = new Dictionary<TutorialAction, string> {
+            { TutorialAction.Goal, "Kill enemies as fast as possible: Alklha is eating the Moon! If the Moon disappears, you lose!" },
+            { TutorialAction.MoveInstructions, "Move with WASD!" },
+            { TutorialAction.BasicAttackInstructions, "Attack using MOUSE LEFT!" },
+            { TutorialAction.EnergyPowerUpCollected, "You picked up a healing crystal. It will provide you some useful energy!" },
+            { TutorialAction.ElementalAttackCollected, "You picked up a fire crystal. Now you can use your tale as a weapon! Press E!" },
+            { TutorialAction.MoonshotReadyInstructions, "Moonshot ready! Press Q to unleash!" },
+            { TutorialAction.RestoreMoon, "Alklha is chasing you! Damage him as much as possible to restore part of the Moon!" },
+            { TutorialAction.EnergyInstructions, "Don't get hit or you will lose your light! Collect Moon crystals to recover!" }
+        };
         #endregion
 
-        printed = new bool[tutorial.Length];
-        for(int i=0; i < printed.Length; i++)
+        printed = new bool[tutorial.Count];
+        for (int i = 0; i < printed.Length; i++)
         {
             printed[i] = false;
         }
 
-        StartCoroutine(PrintOnScreen(tutorial, 2));
-        printed[0] = true;
-        printed[1] = true;
+        AddToOutputQueue(TutorialAction.Goal);
+        AddToOutputQueue(TutorialAction.Goal);
+        AddToOutputQueue(TutorialAction.MoveInstructions);
+        AddToOutputQueue(TutorialAction.BasicAttackInstructions);
+
+        /*Goal,
+    MoveInstructions,
+    BasicAttackInstructions,*/
+
     }
 
     private void Update()
@@ -104,6 +129,30 @@ public class UIManager : MonoBehaviour
             else
                 Time.timeScale = 1;
         }
+    }
+
+    public void AddToOutputQueue(TutorialAction action)
+    {
+        if (printed[(int)action])
+            return;
+
+        printed[(int)action] = true;
+        outputInstructionsQueue.Enqueue(action);
+        if (instructionsCoroutine == null)
+        {
+            instructionsCoroutine = StartCoroutine(PrintTextInQueue());
+        }
+    }
+
+    /** <summary> we are cool man !</summary>*/
+    private IEnumerator PrintTextInQueue()
+    {
+        while (outputInstructionsQueue.Count > 0)
+        {
+            TutorialAction action = outputInstructionsQueue.Dequeue();
+            yield return StartCoroutine(PrintOnScreen(tutorial[action]));
+        }
+        instructionsCoroutine = null;
     }
 
     public void EnableMoonshotUI()
@@ -130,17 +179,18 @@ public class UIManager : MonoBehaviour
         tailAttackImg.color = disabledColor;
     }
 
-    public void PrintText(int index)
+    /*public void PrintText(int index)
     {
         if (!printed[index])
         {
             printed[index] = true;
             StartCoroutine(PrintOnScreen(tutorial[index]));
         }
-    }
+    }*/
 
     IEnumerator PrintOnScreen(string s)
     {
+        Debug.Log("Print on screen: " + s);
         Color originalColor = enabledColor;
 
         bgTutorial.enabled = true;
@@ -165,14 +215,14 @@ public class UIManager : MonoBehaviour
         bgTutorial.enabled = false;
     }
 
-    IEnumerator PrintOnScreen(string []s, int range)
+    /*IEnumerator PrintOnScreen(string[] s, int range)
     {
         Color originalColor = enabledColor;
         int counter = 0;
 
         bgTutorial.enabled = true;
 
-        while(counter < s.Length && counter < range)
+        while (counter < s.Length && counter < range)
         {
             for (float t = 0.01f; t < fadeTime; t += Time.deltaTime)
             {
@@ -194,8 +244,8 @@ public class UIManager : MonoBehaviour
         tutorialText.text = "";
 
         bgTutorial.enabled = false;
-    }
-    
+    }*/
+
     /*
     public void OnGameOver(bool res)
     {
