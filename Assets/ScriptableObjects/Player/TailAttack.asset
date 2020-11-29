@@ -12,8 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17e780ba3e25e41a19743beb41501e17, type: 3}
   m_Name: TailAttack
   m_EditorClassIdentifier: 
-  range: 5
-  cooldown: 2
-  rest: 0.7
+  range: 1
+  cooldown: 1
+  rest: 0.2
   animatorOverrideCtrl: {fileID: 22100000, guid: 809a0c17f4e74e64ab57a0e5a0610cf5, type: 2}
   damage: 2
+  abilityVisualEffect: {fileID: 8926484042661614526, guid: 042d0e768eccbb64786b642a1eea00ae, type: 3}
+  duration: 0.2
+  initialDelay: 0.5
+  spawnpositionName: Powerup_spawnposition
+  visualEffectOnHit: 0
+  spawnLogic: 1
+  vfxPrefab: {fileID: 3291468098822438659, guid: 5f3a222d72841c34caa9fce43a61bbfb, type: 3}

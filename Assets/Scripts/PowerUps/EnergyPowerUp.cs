@@ -11,7 +11,7 @@ public class EnergyPowerUp : PowerUp
     {
         if (collector.TryGetComponent(out PlayerEnergy playerEnergy))
         {
-            //TODO add energy
+            playerEnergy.Heal(energy);
             Debug.Log("Energy shot!");
             return true;
         }

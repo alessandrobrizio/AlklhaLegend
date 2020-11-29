@@ -1,15 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.VFX;
 using UnityEngine.AI;
 
 [RequireComponent(typeof(NavMeshAgent))]
 public class Enemy : MonoBehaviour
 {
-    [SerializeField] float damage = 0.5f;
-
+    [SerializeField] private float damage = 0.5f;
+    [SerializeField] private float radius = 0.5f;
+    [SerializeField] private VisualEffect[] smokeEffect = null;
+    [SerializeField] private Renderer enemyMesh = null;
+ 
     private Player player = null;
     private NavMeshAgent agent = null;
+    private bool assimilated = false;
 
     private void Awake()
     {
@@ -29,19 +34,30 @@ public class Enemy : MonoBehaviour
     private void OnEnable()
     {
         GameManager.Instance.moonshotEvent.AddListener(OnMoonshot);
+        GameManager.Instance.gameOverEvent.AddListener(OnGameOver);
     }
 
     private void OnDisable()
     {
         GameManager.Instance.moonshotEvent.RemoveListener(OnMoonshot);
+        GameManager.Instance.gameOverEvent.RemoveListener(OnGameOver);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            other.GetComponent<PlayerEnergy>().GetDamage(damage, false);
-            Destroy(gameObject);
+            if(Vector3.Distance(other.transform.position, transform.position) <= radius && !assimilated)
+            {
+                assimilated = true;
+                other.GetComponent<PlayerEnergy>().GetDamage(damage, false);
+                GetComponent<Collider>().enabled = false;
+                if (enemyMesh != null)
+                {
+                    enemyMesh.enabled = false;
+                }
+                StartCoroutine(SmokeAssimilation());
+            }
         }
     }
 
@@ -55,5 +71,34 @@ public class Enemy : MonoBehaviour
     private void OnMoonshot()
     {
         Destroy(gameObject);
+    }
+
+    IEnumerator SmokeAssimilation()
+    {
+        float time = 1.0f;
+        agent.isStopped = true;
+        while (time > 0.0f)
+        {
+            transform.position = Vector3.Lerp(transform.position, player.transform.position, Time.deltaTime * 10.0f);
+            time -= Time.deltaTime;
+            yield return null;
+        }
+        foreach(VisualEffect vs in smokeEffect)
+        {
+            vs.Stop();
+        }
+        Destroy(gameObject);
+    }
+
+    private void OnGameOver(bool hasWon)
+    {
+        if (hasWon)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            agent.isStopped = true;
+        }
     }
 }

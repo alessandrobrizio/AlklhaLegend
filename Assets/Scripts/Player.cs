@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     [Header("Abilities")]
     [SerializeField] PlayerAbility[] abilities;
     [SerializeField] float moonshotChargeRequirement = 3f;
-    int currentAbilityIndex;
+    [SerializeField] [ShowOnly] int currentAbilityIndex;
     const int NO_ABILITY_INDEX = -1;
     const int BASIC_ABILITY_INDEX = 0;
     const int ELEMENTAL_ABILITY_INDEX = 1;
@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     private float[] abilityCooldowns = null;
     private bool enemyHit = false;
     public float moonshotCharge;
+    private bool canMove = true;
 
     [Header("Colliders")]
     [SerializeField] SphereCollider headCollider = null;
@@ -102,6 +103,9 @@ public class Player : MonoBehaviour
 
     private void CheckInput()
     {
+        if (!canMove)
+            return;
+
         //Move and Rotate
         float h = Input.GetAxis("Horizontal");
         float v = Input.GetAxis("Vertical");
@@ -209,5 +213,23 @@ public class Player : MonoBehaviour
     {
         abilities[ELEMENTAL_ABILITY_INDEX] = ability;
         tailCollider.radius = ability.Range;
+    }
+
+    public void EnableMovement()
+    {
+        canMove = true;
+    }
+
+    public void DisableMovement()
+    {
+        canMove = false;
+    }
+
+    public void OnGameOver(bool hasWon)
+    {
+        if (!hasWon)
+        {
+            gameObject.SetActive(false);
+        }
     }
 }

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edc8525477b3346328448eb69937dfec, type: 3}
   m_Name: PowerUp_Energy_Small
   m_EditorClassIdentifier: 
-  energy: 1
+  energy: 10
