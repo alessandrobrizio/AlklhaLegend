@@ -28,6 +28,7 @@ public class UIManager : MonoBehaviour
     public Image bgTutorial;
     public TextMeshProUGUI tutorialText;
 
+    /*
     [Header("Game Over UI")]
     public GameObject gameOverPanel;
     public TextMeshProUGUI gameOverText;
@@ -35,6 +36,7 @@ public class UIManager : MonoBehaviour
     public Color loseColorPanel;
     [SerializeField] string winText;
     [SerializeField] string loseText;
+    */
 
     AudioSource aSource;
     string[] tutorial;
@@ -64,8 +66,9 @@ public class UIManager : MonoBehaviour
         tailAttackImg.color = disabledColor;
 
         bgTutorial.enabled = false;
+        tutorialText.text = "";
 
-        gameOverPanel.SetActive(false);
+        //gameOverPanel.SetActive(false);
 
         #region tutorial text
         tutorial = new string[6];
@@ -193,6 +196,7 @@ public class UIManager : MonoBehaviour
         bgTutorial.enabled = false;
     }
     
+    /*
     public void OnGameOver(bool res)
     {
         Debug.Log("Gameover UI");
@@ -209,6 +213,7 @@ public class UIManager : MonoBehaviour
             gameOverText.text = loseText;
         }
     }
+    */
 
     public void LoadMainMenu()
     {
