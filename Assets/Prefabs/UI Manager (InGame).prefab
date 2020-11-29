@@ -47,6 +47,16 @@ MonoBehaviour:
   pauseMenu: {fileID: 0}
   buttonHovered: {fileID: 8300000, guid: ad1a1cdf560e2564aa7cc6b9f1902073, type: 3}
   buttonPressed: {fileID: 8300000, guid: 1552f3fd36e2a89408ee1f3e25c02306, type: 3}
+  moonshotImg: {fileID: 0}
+  tailAttackImg: {fileID: 0}
+  moonshotText: {fileID: 0}
+  tailAttackText: {fileID: 0}
+  disabledColor: {r: 0.31132078, g: 0.31132078, b: 0.31132078, a: 0.7647059}
+  enabledColor: {r: 0.4764151, g: 1, b: 1, a: 0.98039216}
+  fadeTime: 2
+  textTTL: 5
+  bgTutorial: {fileID: 0}
+  tutorialText: {fileID: 0}
 --- !u!82 &7232394503743245588
 AudioSource:
   m_ObjectHideFlags: 0

@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
 public class Alklha : MonoBehaviour
 {
@@ -79,13 +78,19 @@ public class Alklha : MonoBehaviour
 
         playerThreshold = closestAbilityRange;
 
-        animationMoonToEarth = new AnimationCurve();
-        animationMoonToEarth.AddKey(new Keyframe(0.0f, moonPosition.position.y));
-        animationMoonToEarth.AddKey(new Keyframe(jumpApex, moonPosition.position.y + jumpHeight));
-        animationMoonToEarth.AddKey(new Keyframe(1.0f, earthPosition.position.y));
-        //AnimationUtility.SetKeyRightTangentMode(animationMoonToEarth, 0, AnimationUtility.TangentMode.Linear);
-        //AnimationUtility.SetKeyLeftTangentMode(animationMoonToEarth, 2, AnimationUtility.TangentMode.Linear);
-
+        Keyframe[] keyframes = new Keyframe[3];
+        keyframes[0] = new Keyframe(0.0f, moonPosition.position.y)
+        {
+            weightedMode = WeightedMode.Out,
+            outWeight = 0f
+        };
+        keyframes[1] = new Keyframe(jumpApex, moonPosition.position.y + jumpHeight);
+        keyframes[2] = new Keyframe(1.0f, earthPosition.position.y)
+        {
+            weightedMode = WeightedMode.In,
+            inWeight = 0f
+        };
+        animationMoonToEarth = new AnimationCurve(keyframes);
     }
 
     private void Update()
