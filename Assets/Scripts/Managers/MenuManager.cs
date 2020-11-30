@@ -2,10 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro;
 
 public class MenuManager : MonoBehaviour
 {
+    [SerializeField] private GameObject player;
+    [SerializeField] private GameObject alklha;
+
+    private void Start()
+    {
+        int lastPlayResult = PlayerPrefs.GetInt("LastPlayResult");
+        player.SetActive(lastPlayResult == 0);
+        alklha.SetActive(lastPlayResult == 1);
+    }
+
     public void LoadIntro()
     {
         SceneManager.LoadScene("IntroScene");
@@ -18,6 +27,9 @@ public class MenuManager : MonoBehaviour
 
     public void QuitApplication()
     {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#endif
         Application.Quit();
     }
 }
