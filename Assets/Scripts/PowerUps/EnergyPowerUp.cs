@@ -12,6 +12,7 @@ public class EnergyPowerUp : PowerUp
         if (collector.TryGetComponent(out PlayerEnergy playerEnergy))
         {
             playerEnergy.Heal(energy);
+            UIManager.Instance.AddToOutputQueue(TutorialAction.EnergyPowerUpCollected);
             Debug.Log("Energy shot!");
             return true;
         }

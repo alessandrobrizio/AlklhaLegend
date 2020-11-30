@@ -13,6 +13,8 @@ public class Moon : MonoBehaviour
     private Renderer renderer = null;
     private bool gameEnded = false;
 
+    public float Integrity => integrity;
+
     private void Awake()
     {
         renderer = GetComponent<Renderer>();
@@ -23,12 +25,6 @@ public class Moon : MonoBehaviour
         integrity = maxIntegrity;
     }
 
-    //TODO temporary (use Damage method instead?)
-    public float Integrity
-    {
-        get => integrity;
-    }
-
     private void RaiseGameOver()
     {
         GameManager.Instance.gameOverEvent.Invoke(false);
@@ -36,6 +32,8 @@ public class Moon : MonoBehaviour
 
     public void GetDamage(float damage)
     {
+        if (gameEnded)
+            return;
         integrity -= damage;
         UpdateMoonShader();
         if (integrity <= 0f)
@@ -75,20 +73,21 @@ public class Moon : MonoBehaviour
     {
         if (hasWon && !gameEnded)
         {
-            StartCoroutine(rebuildMoon());
+            StartCoroutine(RebuildMoon());
         }
         gameEnded = true;
     }
 
-    private IEnumerator rebuildMoon()
+    private IEnumerator RebuildMoon()
     {
+        Debug.Log("Rebuild Moon");
+        float endIntegrity = integrity;
         yield return new WaitForSeconds(2.0f);
-
-        while (integrity < 1.0f)
+        while (endIntegrity < 100.0f)
         {
-            integrity += Time.deltaTime/2;
-
-            renderer.material.SetFloat("Moon_Phase", integrity);
+            endIntegrity += Time.deltaTime * 5.0f;
+            endIntegrity = Mathf.Clamp(endIntegrity, 0.0f, 99.0f);
+            renderer.material.SetFloat("Moon_Phase", (maxIntegrity - endIntegrity) / maxIntegrity);
             yield return null;
         }
         gameObject.SetActive(false);

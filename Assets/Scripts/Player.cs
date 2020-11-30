@@ -243,9 +243,6 @@ public class Player : MonoBehaviour
 
     public void OnGameOver(bool hasWon)
     {
-        if (!hasWon)
-        {
-            canMove = false;
-        }
+        DisableMovement();
     }
 }

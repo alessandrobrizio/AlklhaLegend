@@ -23,23 +23,25 @@ public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
-    public Canvas pauseMenu;
-    public AudioClip buttonHovered;
-    public AudioClip buttonPressed; //Not used
+    public Canvas pauseMenu = null;
+    public AudioClip buttonHovered = null;
+    public AudioClip buttonPressed = null; //Not used
+    public Button resumeGameButton = null;
+    public TextMeshProUGUI endGameText = null;
 
     [Header("Ability UI")]
-    public Image moonshotImg;
-    public Image tailAttackImg;
-    public TextMeshProUGUI moonshotText;
-    public TextMeshProUGUI tailAttackText;
+    public Image moonshotImg = null;
+    public Image tailAttackImg = null;
+    public TextMeshProUGUI moonshotText = null;
+    public TextMeshProUGUI tailAttackText = null;
     public Color disabledColor;
     public Color enabledColor;
 
     [Header("Tutorial On Screen")]
     public float fadeTime;
     public float textTTL;
-    public Image bgTutorial;
-    public TextMeshProUGUI tutorialText;
+    public Image bgTutorial = null;
+    public TextMeshProUGUI tutorialText = null;
 
     /*
     [Header("Game Over UI")]
@@ -51,11 +53,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] string loseText;
     */
 
-    private AudioSource aSource;
-    private Dictionary<TutorialAction, string> tutorial;
+    private AudioSource aSource = null;
+    private Dictionary<TutorialAction, string> tutorial = null;
     private bool[] printed;
     private Queue<TutorialAction> outputInstructionsQueue = new Queue<TutorialAction>();
     private Coroutine instructionsCoroutine = null;
+
+    private bool gameEnded = false;
 
     private void Awake()
     {
@@ -159,6 +163,7 @@ public class UIManager : MonoBehaviour
     {
         moonshotText.enabled = true;
         moonshotImg.color = enabledColor;
+        AddToOutputQueue(TutorialAction.MoonshotReadyInstructions);
     }
 
     public void DisableMoonshotUI()
@@ -290,5 +295,34 @@ public class UIManager : MonoBehaviour
         pauseMenu.enabled = false;
         Time.timeScale = 1;
     }
+
+    public void OnGameOver(bool hasWon)
+    {
+        if (!gameEnded)
+        {
+            gameEnded = true;
+            StartCoroutine(FadeGameOver(hasWon));
+        }
+    }
+
+    private IEnumerator FadeGameOver(bool hasWon)
+    {
+        yield return new WaitForSeconds(5.0f);
+        pauseMenu.enabled = !pauseMenu.enabled;
+        resumeGameButton.enabled = false;
+        if (hasWon)
+        {
+            endGameText.text = "You saved the Moon and banished Darkness from our World!\n" +
+                + Mathf.Round(GameManager.Instance.Moon.Integrity) + " %" +
+                "\nWill you be a better saviour next time?";
+        }
+        else
+        {
+            endGameText.text = "The moon is lost and the World has fallen into Darkness...\n" +
+                "You will need to do better next time...";
+        }
+    }
+
+    
 
 }

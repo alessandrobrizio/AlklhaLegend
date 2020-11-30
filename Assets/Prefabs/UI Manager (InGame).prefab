@@ -54,7 +54,7 @@ MonoBehaviour:
   disabledColor: {r: 0.31132078, g: 0.31132078, b: 0.31132078, a: 0.7647059}
   enabledColor: {r: 0.4764151, g: 1, b: 1, a: 0.98039216}
   fadeTime: 2
-  textTTL: 5
+  textTTL: 3
   bgTutorial: {fileID: 0}
   tutorialText: {fileID: 0}
 --- !u!82 &7232394503743245588
