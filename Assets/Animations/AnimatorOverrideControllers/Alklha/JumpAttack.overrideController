@@ -7,7 +7,7 @@ AnimatorOverrideController:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: JumpAttack
-  m_Controller: {fileID: 9100000, guid: 81d13d1d2c3a8994c88a2870b76f4877, type: 2}
+  m_Controller: {fileID: 9100000, guid: 324615f6da46049e9a4113d847265294, type: 2}
   m_Clips:
   - m_OriginalClip: {fileID: 7400000, guid: f6c9388644a209940b36c624a3d00f65, type: 2}
-    m_OverrideClip: {fileID: -4127476331577149289, guid: d47e1ea0f0db91249ba9fb8377c909f6, type: 3}
+    m_OverrideClip: {fileID: 1827226128182048838, guid: f457621b4f53545239c76f027badef3f, type: 3}

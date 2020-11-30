@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: MoonCartoon_MAT
+  m_Shader: {fileID: -6465566751694194690, guid: 6dbcb6de53049b54c88970d30408fc78, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - Texture2D_46550B20:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_70225F12:
+        m_Texture: {fileID: 2800000, guid: 147eb1c96b744ec4ca191e7bfc4c682b, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_BB9E6FCB:
+        m_Texture: {fileID: 2800000, guid: dd2cc74a097277f46bb78c1d84714c2a, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Cartoon_D073EBAE_Texture2D7DD9A88D_3466329359:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - Moon_Phase: 0
+    - Vector1_1BD8129C: 0
+    - Vector1_2DF0189A: 0.07
+    - Vector1_8504B6B3: 0.77
+    - Vector1_89ACE6B2: 1.24
+    - Vector1_AAD990F0: 0.12
+    m_Colors:
+    - Color_1DE86D63: {r: 0.7490196, g: 0.7490196, b: 0.7490196, a: 0}
+    - Color_450AF353: {r: 0.33962262, g: 0.33962262, b: 0.33962262, a: 0}
+    - Color_E6379893: {r: 0.8207547, g: 0.011614433, b: 0.044946898, a: 0}
+  m_BuildTextureStacks: []

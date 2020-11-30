@@ -1523,7 +1523,7 @@ GameObject:
   - component: {fileID: 5458387877248135532}
   m_Layer: 0
   m_Name: Alklha_Prototype
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1613,9 +1613,16 @@ MonoBehaviour:
   handDxCollider: {fileID: 1754884788}
   handSxCollider: {fileID: 839302553}
   feetCollider: {fileID: 2065276263}
-  damage: 5
+  eatingVelocity: 0.5
+  bossPhaseDuration: 15
+  moonPosition: {fileID: 0}
+  earthPosition: {fileID: 0}
+  jumpApex: 0.35
+  moonshotDuration: 2
+  animationDuration: 2
+  jumpHeight: 5
   bossPhase: 0
-  alklhaState: 0
+  alklhaState: 3
 --- !u!114 &5458387877248135532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1633,7 +1640,19 @@ MonoBehaviour:
   isInvincible: 1
   damageEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 919132147603619970}
+        m_TargetAssemblyTypeName: Alklha, Assembly-CSharp
+        m_MethodName: GetDamage
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   dieEvent:
     m_PersistentCalls:
       m_Calls: []

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f9e36486ca354820ab8aa317c1df461, type: 3}
+  m_Name: Moonshot
+  m_EditorClassIdentifier: 
+  range: 0
+  cooldown: 0
+  rest: 0.5
+  animatorOverrideCtrl: {fileID: 22100000, guid: 657f23f08860848adae073aa4e9a4c10, type: 2}
+  audioClip: {fileID: 8300000, guid: 699739b92f33646e1ada6da28eaea08c, type: 3}
+  moonshotVisualEffect: {fileID: 8926484042661614526, guid: f784de1e69794ca46938d43615614975, type: 3}
+  duration: 0.8
+  moonRadius: 5
+  initialDelay: 1

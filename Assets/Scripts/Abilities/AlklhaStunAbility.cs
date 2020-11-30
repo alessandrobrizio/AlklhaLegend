@@ -5,11 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "AlklhaStunAbility", menuName = "Ability/Alklha/Stun")]
 public class AlklhaStunAbility : AlklhaAbility
 {
-    public override void Cast(Alklha alklha)
+    public override bool Apply(Alklha caster, Collider target)
     {
-        base.Cast(alklha);
-
-        //TODO: stun player
-        //Area or front
+        throw new System.NotImplementedException();
     }
 }
