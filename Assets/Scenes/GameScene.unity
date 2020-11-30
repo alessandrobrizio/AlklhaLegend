@@ -3387,6 +3387,10 @@ PrefabInstance:
       propertyPath: endGameText
       value: 
       objectReference: {fileID: 1861921613}
+    - target: {fileID: 7232394503743245610, guid: 74a98625c09a2c24790789ab743baab4, type: 3}
+      propertyPath: pauseTitle
+      value: 
+      objectReference: {fileID: 445796476}
     - target: {fileID: 7232394503743245611, guid: 74a98625c09a2c24790789ab743baab4, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.28241608

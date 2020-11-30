@@ -11,10 +11,12 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float radius = 0.5f;
     [SerializeField] private VisualEffect[] smokeEffect = null;
     [SerializeField] private Renderer enemyMesh = null;
+    [SerializeField] private AudioClip playerDamageAudioClip = null;
  
     private Player player = null;
     private NavMeshAgent agent = null;
     private bool assimilated = false;
+    private static AudioSource lastAudioSource = null; //TEMPORARY FIX
 
     private void Awake()
     {
@@ -75,7 +77,17 @@ public class Enemy : MonoBehaviour
 
     IEnumerator SmokeAssimilation()
     {
-        float time = 1.0f;
+        float destroyDelay = 0f;
+        if (playerDamageAudioClip != null && TryGetComponent(out AudioSource audioSource))
+        {
+            if (lastAudioSource == null || !lastAudioSource.isPlaying)
+            {
+                audioSource.PlayOneShot(playerDamageAudioClip);
+                destroyDelay = playerDamageAudioClip.length;
+                lastAudioSource = audioSource;
+            }
+        }
+        float time = destroyDelay - 1.5f;
         agent.isStopped = true;
         while (time > 0.0f)
         {

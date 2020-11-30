@@ -14,4 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 2
   cooldown: 0.5
+  rest: 0.5
   animatorOverrideCtrl: {fileID: 22100000, guid: bbca9f62cd9539945b5d1d749bc31af9, type: 2}
+  audioClip: {fileID: 8300000, guid: 6b690297efd3e48fe88d5f065f65742c, type: 3}
+  damage: 5
