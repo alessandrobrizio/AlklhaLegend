@@ -2260,14 +2260,14 @@ MonoBehaviour:
 
 
 
-    Sound Designer
+    Sound Effects
 
 
     Level
     Design and VFX
 
 
-    Animator
+    Animations and UI
 
 
     Rigger
@@ -3574,10 +3574,10 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Cristopher Deli
+  m_text: 'Cristian Deli
 
 
-    Cristopher Deli
+    Cristian Deli
 
     Martina Massucco
 
@@ -5223,7 +5223,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0

@@ -87,7 +87,7 @@ public class Enemy : MonoBehaviour
                 lastAudioSource = audioSource;
             }
         }
-        float time = 1.0f;
+        float time = destroyDelay - 1.5f;
         agent.isStopped = true;
         while (time > 0.0f)
         {
@@ -99,7 +99,7 @@ public class Enemy : MonoBehaviour
         {
             vs.Stop();
         }
-        Destroy(gameObject, destroyDelay);
+        Destroy(gameObject);
     }
 
     private void OnGameOver(bool hasWon)

@@ -16,7 +16,7 @@ MonoBehaviour:
   cooldown: 0
   rest: 0.5
   animatorOverrideCtrl: {fileID: 22100000, guid: 657f23f08860848adae073aa4e9a4c10, type: 2}
-  audioClip: {fileID: 8300000, guid: 708982aaa881640f98f964039f1f7f63, type: 3}
+  audioClip: {fileID: 8300000, guid: 699739b92f33646e1ada6da28eaea08c, type: 3}
   moonshotVisualEffect: {fileID: 8926484042661614526, guid: f784de1e69794ca46938d43615614975, type: 3}
   duration: 0.8
   moonRadius: 5

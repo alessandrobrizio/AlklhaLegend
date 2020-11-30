@@ -26,6 +26,7 @@ public class UIManager : MonoBehaviour
     public Canvas pauseMenu = null;
     public AudioClip buttonHovered = null;
     public AudioClip buttonPressed = null; //Not used
+    public GameObject pauseTitle = null;
     public Button resumeGameButton = null;
     public TextMeshProUGUI endGameText = null;
 
@@ -309,7 +310,8 @@ public class UIManager : MonoBehaviour
     {
         yield return new WaitForSeconds(5.0f);
         pauseMenu.enabled = !pauseMenu.enabled;
-        resumeGameButton.enabled = false;
+        pauseTitle.SetActive(false);
+        resumeGameButton.gameObject.SetActive(false);
         if (hasWon)
         {
             endGameText.text = "You saved the Moon and banished Darkness from our World!\n" +
