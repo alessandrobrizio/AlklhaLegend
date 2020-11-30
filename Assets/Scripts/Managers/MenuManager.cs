@@ -11,8 +11,8 @@ public class MenuManager : MonoBehaviour
     private void Start()
     {
         int lastPlayResult = PlayerPrefs.GetInt("LastPlayResult");
-        player.SetActive(lastPlayResult == 0);
-        alklha.SetActive(lastPlayResult == 1);
+        player.SetActive(lastPlayResult == 1);
+        alklha.SetActive(lastPlayResult == 0);
     }
 
     public void LoadIntro()

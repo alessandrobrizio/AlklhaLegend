@@ -10,6 +10,7 @@ public abstract class Ability<Caster> : ScriptableObject
     [Tooltip("Rest time between the end of an attack and the next cast")]
     [SerializeField] protected float rest = 0.5f;
     [SerializeField] protected AnimatorOverrideController animatorOverrideCtrl = null;
+    [SerializeField] protected AudioClip audioClip = null;
 
     public float Range => range;
     public float Cooldown => cooldown + animatorOverrideCtrl["Attack"].length;
@@ -17,6 +18,11 @@ public abstract class Ability<Caster> : ScriptableObject
 
     public virtual void Cast(Caster caster)
     {
+        if (audioClip != null && caster.TryGetComponent(out AudioSource casterAudioSource))
+        {
+            casterAudioSource.PlayOneShot(audioClip);
+        }
+
         Animator casterAnimator = caster.GetComponent<Animator>();
         if (casterAnimator == null)
             return;

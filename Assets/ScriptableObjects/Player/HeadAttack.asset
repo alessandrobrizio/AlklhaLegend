@@ -16,6 +16,7 @@ MonoBehaviour:
   cooldown: 0
   rest: 0.1
   animatorOverrideCtrl: {fileID: 22100000, guid: f55eaf46b7684284abdf20770c3ce88e, type: 2}
+  audioClip: {fileID: 8300000, guid: facd1e1ad455a4413a303859d01a05b9, type: 3}
   damage: 2
   abilityVisualEffect: {fileID: 8926484042661614526, guid: 119f5fce77f33144180da87f42b02d6c, type: 3}
   duration: 0.2
