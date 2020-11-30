@@ -139,13 +139,14 @@ public class GameManager : MonoBehaviour
         Debug.Log($"OnGameover {hasWon}");
         StopAllCoroutines();
         isSpawning = false;
+        
         if (hasWon)
         {
-            Debug.Log("You win!");
+            PlayerPrefs.SetInt("LastPlayResult", 1);
         }
         else
         {
-            Debug.Log("You lose!");
+            PlayerPrefs.SetInt("LastPlayResult", 0);
         }
     }
     #endregion

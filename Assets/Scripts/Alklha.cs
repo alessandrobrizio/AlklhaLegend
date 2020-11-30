@@ -192,6 +192,7 @@ public class Alklha : MonoBehaviour
 
     private void ChasePlayer()
     {
+        //UIManager.Instance.AddToOutputQueue(TutorialAction.RestoreMoon);
         Vector3 direction = player.transform.position - transform.position;
         direction = Vector3.ProjectOnPlane(direction, Vector3.up);
         direction.Normalize();
@@ -331,7 +332,8 @@ public class Alklha : MonoBehaviour
     // Movement via root motion 
     private void OnAnimatorMove()
     {
-        if (alklhaState == AlklhaState.MoonShot || alklhaState == AlklhaState.EndPhase)
+        if (alklhaState == AlklhaState.MoonShot || alklhaState == AlklhaState.EndPhase
+            || alklhaState == AlklhaState.OnMoon)
             return;
 
         //Always orient to player

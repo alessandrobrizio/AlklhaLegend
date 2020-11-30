@@ -23,7 +23,7 @@ public class PlayerEnergy : MonoBehaviour
 
     public void GetDamage(float damage, bool isBossDamage)
     {
-        
+        UIManager.Instance.AddToOutputQueue(TutorialAction.EnergyInstructions);
         meshRenderer.material.SetFloat("EmissionIntensity", currentEnergyLevel / initialEnergy);
         //Clamp to minimum value if not against Alklha
         if (!isBossDamage && currentEnergyLevel >= minimumEnergyLevel || isBossDamage)
