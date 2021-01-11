@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: 95d7a1112af19407e8d6c749a38532f0, type: 2}
+  m_LightingDataAsset: {fileID: 0}
   m_LightingSettings: {fileID: 4890085278179872738, guid: abcc1183ce4b24b63bc05bbebdafc730, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -1079,6 +1079,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!1 &458713173
@@ -1571,6 +1572,7 @@ MonoBehaviour:
   m_StopNaN: 0
   m_Dithering: 0
   m_ClearDepth: 1
+  m_AllowXRRendering: 1
   m_RequiresDepthTexture: 0
   m_RequiresColorTexture: 0
   m_Version: 2
@@ -1902,6 +1904,10 @@ PrefabInstance:
       value: Moon_Proto
       objectReference: {fileID: 0}
     - target: {fileID: 6253512268983105886, guid: b497114e367b64841bbbf81d90b63c71, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6253512268983105886, guid: b497114e367b64841bbbf81d90b63c71, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.19970858
       objectReference: {fileID: 0}
@@ -1914,6 +1920,10 @@ PrefabInstance:
       value: 32.87
       objectReference: {fileID: 0}
     - target: {fileID: 6253512268983105886, guid: b497114e367b64841bbbf81d90b63c71, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.92387956
+      objectReference: {fileID: 0}
+    - target: {fileID: 6253512268983105886, guid: b497114e367b64841bbbf81d90b63c71, type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
@@ -1924,14 +1934,6 @@ PrefabInstance:
     - target: {fileID: 6253512268983105886, guid: b497114e367b64841bbbf81d90b63c71, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0.38268343
-      objectReference: {fileID: 0}
-    - target: {fileID: 6253512268983105886, guid: b497114e367b64841bbbf81d90b63c71, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.92387956
-      objectReference: {fileID: 0}
-    - target: {fileID: 6253512268983105886, guid: b497114e367b64841bbbf81d90b63c71, type: 3}
-      propertyPath: m_RootOrder
-      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6253512268983105886, guid: b497114e367b64841bbbf81d90b63c71, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1954,12 +1956,12 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6253512268994291859, guid: b497114e367b64841bbbf81d90b63c71, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6253512268994291859, guid: b497114e367b64841bbbf81d90b63c71, type: 3}
       propertyPath: m_Enabled
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6253512268994291859, guid: b497114e367b64841bbbf81d90b63c71, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b497114e367b64841bbbf81d90b63c71, type: 3}
@@ -3542,6 +3544,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!1 &1584885816
@@ -3817,6 +3820,7 @@ Light:
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
+  m_UseViewFrustumForShadowCasterCull: 1
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!1 &1887578275
@@ -4260,6 +4264,7 @@ VisualEffect:
   m_InitialEventNameOverriden: 0
   m_StartSeed: 0
   m_ResetSeedOnPlay: 1
+  m_ResourceVersion: 1
   m_PropertySheet:
     m_Float:
       m_Array: []
@@ -5400,6 +5405,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Navigation:
     m_Mode: 3
+    m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
@@ -6675,6 +6681,7 @@ VisualEffect:
   m_InitialEventNameOverriden: 0
   m_StartSeed: 0
   m_ResetSeedOnPlay: 1
+  m_ResourceVersion: 1
   m_PropertySheet:
     m_Float:
       m_Array: []
@@ -7627,6 +7634,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 0
 --- !u!1 &6054036663108147565
 GameObject:
   m_ObjectHideFlags: 0
