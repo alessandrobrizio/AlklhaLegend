@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 835978054}
-  m_IndirectSpecularColor: {r: 0.029481962, g: 0.03894616, b: 0.047593135, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3112,6 +3112,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 57639782, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 57639784, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
       propertyPath: OnMoonshotReady.m_PersistentCalls.m_Calls.Array.size
       value: 1
