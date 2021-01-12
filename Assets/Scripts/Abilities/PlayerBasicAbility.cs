@@ -7,8 +7,8 @@ using UnityEngine.VFX;
 public class PlayerBasicAbility : PlayerAbility
 {
     [SerializeField] private float damage = 2.0f;
-    [SerializeField] private float duration = 0.2f;
-    [SerializeField] private float initialDelay = 0.2f;
+    //[SerializeField] private float duration = 0.2f;
+    //[SerializeField] private float initialDelay = 0.2f;
     [SerializeField] private string spawnpositionName = "BaseAttack_spawnposition";
     [SerializeField] private bool visualEffectOnHit = true;
 
