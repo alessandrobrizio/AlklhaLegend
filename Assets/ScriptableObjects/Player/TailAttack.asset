@@ -18,10 +18,9 @@ MonoBehaviour:
   animatorOverrideCtrl: {fileID: 22100000, guid: 809a0c17f4e74e64ab57a0e5a0610cf5, type: 2}
   audioClip: {fileID: 8300000, guid: 068c053d7714240bcbd5b11d14166bf9, type: 3}
   damage: 2
-  abilityVisualEffect: {fileID: 8926484042661614526, guid: 042d0e768eccbb64786b642a1eea00ae, type: 3}
   duration: 0.2
   initialDelay: 0.5
   spawnpositionName: Powerup_spawnposition
   visualEffectOnHit: 0
-  spawnLogic: 1
   vfxPrefab: {fileID: 3291468098822438659, guid: 5f3a222d72841c34caa9fce43a61bbfb, type: 3}
+  setCasterRotation: 1
