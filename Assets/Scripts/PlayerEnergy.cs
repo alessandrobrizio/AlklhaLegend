@@ -53,6 +53,7 @@ public class PlayerEnergy : MonoBehaviour
     public void Heal(float amount)
     {
         currentEnergyLevel = Mathf.Min(initialEnergy, currentEnergyLevel + amount);
+        meshRenderer.material.SetFloat("EmissionIntensity", currentEnergyLevel / initialEnergy);
     }
 
     private void RaiseGameOver()

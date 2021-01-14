@@ -24,10 +24,10 @@ public class PlayerBasicAbility : PlayerAbility
         {
             targetDamageable.GetDamage(damage);
             returnValue = true;
-        }
-        if (visualEffectOnHit)
-        {
-            SpawnVisualEffect(caster);
+            if (visualEffectOnHit)
+            {
+                SpawnVisualEffect(caster);
+            }
         }
         return returnValue;
     }
