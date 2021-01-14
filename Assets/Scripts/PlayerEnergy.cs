@@ -23,19 +23,31 @@ public class PlayerEnergy : MonoBehaviour
 
     public void GetDamage(float damage, bool isBossDamage)
     {
+        if (gameEnded)
+            return;
+
         UIManager.Instance.AddToOutputQueue(TutorialAction.EnergyInstructions);
-        meshRenderer.material.SetFloat("EmissionIntensity", currentEnergyLevel / initialEnergy);
+        //meshRenderer.material.SetFloat("EmissionIntensity", currentEnergyLevel / initialEnergy);
         //Clamp to minimum value if not against Alklha
         if (!isBossDamage && currentEnergyLevel >= minimumEnergyLevel || isBossDamage)
         {
             currentEnergyLevel -= damage;
-        } 
-
+        }
+        StartCoroutine(DamageAnimation());
 
         if (currentEnergyLevel <= 0.0f)
         {
             RaiseGameOver();
         }
+    }
+
+    private IEnumerator DamageAnimation()
+    {
+        meshRenderer.material.SetFloat("EmissionIntensity", 0.0f);
+        meshRenderer.material.SetFloat("MinLightIntensity", 0.0f);
+        yield return new WaitForSeconds(1.0f);
+        meshRenderer.material.SetFloat("MinLightIntensity", 0.2f);
+        meshRenderer.material.SetFloat("EmissionIntensity", currentEnergyLevel / initialEnergy);
     }
 
     public void Heal(float amount)
