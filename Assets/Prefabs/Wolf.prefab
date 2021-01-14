@@ -45,6 +45,7 @@ VisualEffect:
   m_InitialEventNameOverriden: 0
   m_StartSeed: 0
   m_ResetSeedOnPlay: 1
+  m_ResourceVersion: 1
   m_PropertySheet:
     m_Float:
       m_Array:
@@ -164,6 +165,7 @@ VisualEffect:
   m_InitialEventNameOverriden: 0
   m_StartSeed: 0
   m_ResetSeedOnPlay: 1
+  m_ResourceVersion: 1
   m_PropertySheet:
     m_Float:
       m_Array: []
@@ -271,6 +273,7 @@ VisualEffect:
   m_InitialEventNameOverriden: 0
   m_StartSeed: 0
   m_ResetSeedOnPlay: 1
+  m_ResourceVersion: 1
   m_PropertySheet:
     m_Float:
       m_Array: []
@@ -1471,27 +1474,91 @@ MonoBehaviour:
   deltaX: 9
   deltaZ: 5
   XThreshold: 7
-  OnMoonshotReady:
-    m_PersistentCalls:
-      m_Calls: []
-  OnMoonshotShooted:
-    m_PersistentCalls:
-      m_Calls: []
-  OnTailAttackReady:
-    m_PersistentCalls:
-      m_Calls: []
-  OnTailAttackShooted:
-    m_PersistentCalls:
-      m_Calls: []
-  abilities:
-  - {fileID: 11400000, guid: bb94bc593a896ef439274177d5dfc4cc, type: 2}
-  - {fileID: 0}
-  - {fileID: 11400000, guid: 374d093721dfe4d29b5111eb3bda25f6, type: 2}
   moonshotChargeRequirement: 10
-  currentAbilityIndex: 0
   moonshotCharge: 0
-  headCollider: {fileID: 8232202974864663987}
-  tailCollider: {fileID: 2002534010869435892}
+  abilityCaster:
+    abilitiesInfo:
+    - ability: {fileID: 11400000, guid: bb94bc593a896ef439274177d5dfc4cc, type: 2}
+      cooldown: 0
+      isReady: 0
+      OnReady:
+        m_PersistentCalls:
+          m_Calls: []
+      OnCast:
+        m_PersistentCalls:
+          m_Calls: []
+    - ability: {fileID: 0}
+      cooldown: 0
+      isReady: 0
+      OnReady:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 0}
+            m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+            m_MethodName: EnableTailAttackUI
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      OnCast:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 0}
+            m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+            m_MethodName: DisableTailAttackUI
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+    - ability: {fileID: 11400000, guid: 374d093721dfe4d29b5111eb3bda25f6, type: 2}
+      cooldown: 0
+      isReady: 0
+      OnReady:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 0}
+            m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+            m_MethodName: EnableMoonshotUI
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+      OnCast:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 0}
+            m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+            m_MethodName: DisableMoonshotUI
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+    anchors:
+    - parameterName: HeadTrigger
+      transform: {fileID: 7904605392204288406}
+    - parameterName: TailTrigger
+      transform: {fileID: 5100105063835875305}
+    currentAbility: {fileID: 0}
 --- !u!114 &8802008935600145249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1741,7 +1808,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7904605392204288406}
-  - component: {fileID: 8232202974864663987}
   m_Layer: 0
   m_Name: HeadAnchor
   m_TagString: Untagged
@@ -1763,19 +1829,6 @@ Transform:
   m_Father: {fileID: 5824894363181304554}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &8232202974864663987
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5696734782554148077}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.2
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5759085959903294284
 GameObject:
   m_ObjectHideFlags: 0
@@ -1785,7 +1838,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5100105063835875305}
-  - component: {fileID: 2002534010869435892}
   m_Layer: 0
   m_Name: TailAnchor
   m_TagString: Untagged
@@ -1807,19 +1859,6 @@ Transform:
   m_Father: {fileID: 428220536249587487}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &2002534010869435892
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5759085959903294284}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.2
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5768758982817535841
 GameObject:
   m_ObjectHideFlags: 0

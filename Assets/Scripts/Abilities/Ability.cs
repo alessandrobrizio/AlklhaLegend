@@ -11,6 +11,8 @@ public abstract class Ability<Caster> : ScriptableObject
     [SerializeField] protected float rest = 0.5f;
     [SerializeField] protected AnimatorOverrideController animatorOverrideCtrl = null;
     [SerializeField] protected AudioClip audioClip = null;
+    //TODO bool lockMovement
+    //TODO bool useCooldown
 
     public float Range => range;
     public float Cooldown => cooldown + animatorOverrideCtrl["Attack"].length;

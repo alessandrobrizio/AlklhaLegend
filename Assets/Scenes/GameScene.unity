@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 835978054}
-  m_IndirectSpecularColor: {r: 0.029481962, g: 0.03894616, b: 0.047593135, a: 1}
+  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -3113,117 +3113,21 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnMoonshotReady.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnMoonshotShooted.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnTailAttackReady.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnTailAttackShooted.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnMoonshotReady.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnMoonshotReady.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      propertyPath: abilityCaster.abilitiesInfo.Array.data[1].OnCast.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 248522398}
     - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnMoonshotShooted.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnTailAttackReady.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnMoonshotShooted.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      propertyPath: abilityCaster.abilitiesInfo.Array.data[2].OnCast.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 248522398}
     - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnTailAttackReady.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      propertyPath: abilityCaster.abilitiesInfo.Array.data[1].OnReady.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 248522398}
     - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnTailAttackShooted.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnMoonshotReady.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnMoonshotReady.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: EnableMoonshotUI
-      objectReference: {fileID: 0}
-    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnTailAttackShooted.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      propertyPath: abilityCaster.abilitiesInfo.Array.data[2].OnReady.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 248522398}
-    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnMoonshotShooted.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnTailAttackReady.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnMoonshotShooted.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: DisableMoonshotUI
-      objectReference: {fileID: 0}
-    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnTailAttackReady.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: EnableTailAttackUI
-      objectReference: {fileID: 0}
-    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnTailAttackShooted.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnTailAttackShooted.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: DisableTailAttackUI
-      objectReference: {fileID: 0}
-    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnMoonshotReady.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UIManager, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnMoonshotShooted.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UIManager, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnTailAttackReady.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UIManager, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnTailAttackShooted.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: UIManager, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnMoonshotReady.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnMoonshotShooted.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnTailAttackReady.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
-      propertyPath: OnTailAttackShooted.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 4718286039604108025, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
       propertyPath: m_Name
       value: Wolf

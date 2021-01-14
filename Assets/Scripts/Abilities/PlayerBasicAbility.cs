@@ -25,10 +25,10 @@ public class PlayerBasicAbility : PlayerAbility
         {
             targetDamageable.GetDamage(damage);
             returnValue = true;
-        }
-        if (visualEffectOnHit)
-        {
-            SpawnVisualEffect(caster);
+            if (visualEffectOnHit)
+            {
+                SpawnVisualEffect(caster);
+            }
         }
         return returnValue;
     }
@@ -81,6 +81,6 @@ public class PlayerBasicAbility : PlayerAbility
             Destroy(vfx, 3.0f);
             vfxPrefab.GetComponent<VisualEffect>().Play();
         }
-        
+
     }
 }

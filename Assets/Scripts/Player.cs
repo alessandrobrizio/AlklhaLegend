@@ -5,113 +5,49 @@ using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
-    //[Header("Player Settings")]
-    [SerializeField]
-    float speed = 4f, turnSpeed = 0.2f, deltaX = 10f, deltaZ = 10f, XThreshold = 7.0f;
-
-    [Header("UI In Game Event")]
-    public UnityEvent OnMoonshotReady;
-    public UnityEvent OnMoonshotShooted;
-    public UnityEvent OnTailAttackReady;
-    public UnityEvent OnTailAttackShooted;
+    [SerializeField] private float speed = 4f;
+    [SerializeField] private float turnSpeed = 0.2f;
+    [SerializeField] private float deltaX = 10f;
+    [SerializeField] private float deltaZ = 10f;
+    [SerializeField] private float XThreshold = 7.0f;
+    public enum AbilityIndex
+    {
+        Basic = 0,
+        Elemental = 1,
+        Moonshot = 2
+    }
 
     [Header("Abilities")]
-    [SerializeField] PlayerAbility[] abilities;
-    [SerializeField] float moonshotChargeRequirement = 3f;
-    [SerializeField] [ShowOnly] int currentAbilityIndex;
-    const int NO_ABILITY_INDEX = -1;
-    const int BASIC_ABILITY_INDEX = 0;
-    const int ELEMENTAL_ABILITY_INDEX = 1;
-    const int MOONSHOT_ABILITY_INDEX = 2;
-    private float attackAnimationDuration = 0f;
-    //Cooldown for each ability in list
-    private float[] abilityCooldowns = null;
-    private bool enemyHit = false;
+    [SerializeField] private float moonshotChargeRequirement = 3f;
     public float moonshotCharge;
     private bool canMove = true;
 
-    [Header("Colliders")]
-    [SerializeField] SphereCollider headCollider = null;
-    [SerializeField] SphereCollider tailCollider = null;
+    public AbilityCaster<Player> abilityCaster = new AbilityCaster<Player>();
 
-    //GameObject moonTransform;
     Animator anim;
 
     Vector3 startPosition;
-    bool moonshotState;
-    bool tailAttackState;
 
     void Start()
     {
-        //moonTransform = GameObject.FindGameObjectWithTag("Moon");
         anim = GetComponent<Animator>();
+        abilityCaster.Awake(this, anim);
         startPosition = Vector3.zero;
 
-        moonshotState = false;
-        tailAttackState = false;
-
-        headCollider.enabled = false;
-        tailCollider.enabled = false;
-
-        currentAbilityIndex = NO_ABILITY_INDEX;
-        headCollider.radius = abilities[BASIC_ABILITY_INDEX].Range;
-        abilityCooldowns = new float[abilities.Length];
         moonshotCharge = 0f;
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        
-        if (other.CompareTag("Boss") ){
-            if (currentAbilityIndex != NO_ABILITY_INDEX && !enemyHit)
-            {
-                if (abilities[currentAbilityIndex].Apply(this, other) )
-                    enemyHit = true;
-            }
-        }
-        else if(other.CompareTag("Minion"))
-        {
-            if (currentAbilityIndex != NO_ABILITY_INDEX)
-            {
-                if (abilities[currentAbilityIndex].Apply(this, other))
-                    enemyHit = true;
-            }
-        }
-        
+        abilityCaster.abilitiesInfo[(int)AbilityIndex.Moonshot].customIsReady = () => moonshotCharge >= moonshotChargeRequirement;
     }
 
     void Update()
     {
-        //Update cooldowns
-        attackAnimationDuration -= Time.deltaTime;
-        for (int i = 0; i < abilityCooldowns.Length; i++)
-        {
-            abilityCooldowns[i] -= Time.deltaTime;
-        }
-
-        #region Ability UI Check
-        //Ability UI In Game Check
-        if (moonshotCharge >= moonshotChargeRequirement && !moonshotState)
-        {
-            moonshotState = true;
-            OnMoonshotReady.Invoke();
-        }
-
-        if(abilities[ELEMENTAL_ABILITY_INDEX] != null)
-        {
-            if(abilityCooldowns[1] <= 0f && !tailAttackState)
-            {
-                OnTailAttackReady.Invoke();
-                tailAttackState = true;
-            }
-        }
-        #endregion
-
         CheckInput();
-
-        UpdateColliders();
+        abilityCaster.Update();
     }
 
+    private void FixedUpdate()
+    {
+        abilityCaster.FixedUpdate();
+    }
 
     private void CheckInput()
     {
@@ -126,48 +62,31 @@ public class Player : MonoBehaviour
 
         if (h != 0 || v != 0)
         {
-            Quaternion targetRot = Quaternion.LookRotation(dir, Vector3.up);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, turnSpeed * Time.deltaTime);
+            if (abilityCaster.CurrentAbility == null)
+            {
+                Quaternion targetRot = Quaternion.LookRotation(dir, Vector3.up);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, turnSpeed * Time.deltaTime);
+            }
             anim.SetFloat("Speed", speed);
             anim.SetBool("Move", true);
         }
         else
             anim.SetBool("Move", false);
 
-        if (attackAnimationDuration <= 0f)
+        if (Input.GetMouseButtonDown(0))
         {
-            currentAbilityIndex = NO_ABILITY_INDEX;
-            enemyHit = false;
-            if (Input.GetMouseButtonDown(0) && abilityCooldowns[BASIC_ABILITY_INDEX] <= 0f)
-            {
-                currentAbilityIndex = BASIC_ABILITY_INDEX;
-            }
-            else if (Input.GetKeyDown(KeyCode.E) && abilityCooldowns[ELEMENTAL_ABILITY_INDEX] <= 0f)
-            {
-                // Se preso un ipotetico powerup
-                if (abilities[ELEMENTAL_ABILITY_INDEX] != null)
-                {
-                    currentAbilityIndex = ELEMENTAL_ABILITY_INDEX;
-                    OnTailAttackShooted.Invoke();
-                    tailAttackState = false;
-                }
-            }
-            else if (Input.GetKeyDown(KeyCode.Q) && abilityCooldowns[MOONSHOT_ABILITY_INDEX] <= 0f)
-            {
-                if (moonshotCharge >= moonshotChargeRequirement)
-                {
-                    currentAbilityIndex = MOONSHOT_ABILITY_INDEX;
-                    moonshotCharge = 0f;
+            abilityCaster.TryCast((int)AbilityIndex.Basic);
+        }
+        else if (Input.GetKeyDown(KeyCode.E))
+        {
+            abilityCaster.TryCast((int)AbilityIndex.Elemental);
 
-                    OnMoonshotShooted.Invoke();
-                    moonshotState = false;
-                }
-            }
-            if (currentAbilityIndex != NO_ABILITY_INDEX)
+        }
+        else if (Input.GetKeyDown(KeyCode.Q))
+        {
+            if (abilityCaster.TryCast((int)AbilityIndex.Moonshot))
             {
-                abilities[currentAbilityIndex].Cast(this);
-                abilityCooldowns[currentAbilityIndex] = abilities[currentAbilityIndex].Cooldown;
-                attackAnimationDuration = abilities[currentAbilityIndex].AttackDuration;
+                moonshotCharge = 0f;
             }
         }
     }
@@ -195,15 +114,6 @@ public class Player : MonoBehaviour
         return true;
     }
 
-    private void UpdateColliders()
-    {
-        float handCol = anim.GetFloat("HeadTrigger");
-        headCollider.enabled = handCol > 0.5f;
-
-        float areaCol = anim.GetFloat("TailTrigger");
-        tailCollider.enabled = areaCol > 0.5f;
-    }
-
     private void OnAnimatorMove()
     {
         Vector3 targetPos = anim.rootPosition;
@@ -223,12 +133,12 @@ public class Player : MonoBehaviour
 
         targetPos.z = ValueInRange(targetPos.z, 1) ? targetPos.z : transform.position.z;
         transform.position = targetPos;
+        transform.rotation = anim.rootRotation;
     }
 
     public void EarnElementalAbility(PlayerAbility ability)
     {
-        abilities[ELEMENTAL_ABILITY_INDEX] = ability;
-        tailCollider.radius = ability.Range;
+        abilityCaster.abilitiesInfo[(int)AbilityIndex.Elemental].ability = ability;
     }
 
     public void EnableMovement()
@@ -244,5 +154,19 @@ public class Player : MonoBehaviour
     public void OnGameOver(bool hasWon)
     {
         DisableMovement();
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (anim == null) return;
+
+        foreach (var anchor in abilityCaster.anchors)
+        {
+            if (anchor.IsActive(anim))
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawSphere(anchor.transform.position, abilityCaster.CurrentAbility.Range);
+            }
+        }
     }
 }
