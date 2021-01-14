@@ -7,6 +7,7 @@ using UnityEngine.VFX;
 public class PlayerMoonshotAbility : PlayerAbility
 {
     [SerializeField] private VisualEffectAsset moonshotVisualEffect = null;
+    [SerializeField] private GameObject impactVFX = null;
     [SerializeField] private float duration = 1.0f;
     [SerializeField] private float moonRadius = 5.0f;
     [SerializeField] private float initialDelay = 2.0f;
@@ -68,6 +69,9 @@ public class PlayerMoonshotAbility : PlayerAbility
         moonshot_spawnposition.transform.rotation = Quaternion.LookRotation(offestMoonshot);
 
         vfx.Play();
+        Vector3 impactPosition = caster.transform.position;
+        impactPosition.y = 0.05f;
+        Destroy(Instantiate(impactVFX, impactPosition, Quaternion.identity), duration);
         caster.DisableMovement();
         caster.StartCoroutine(StopMoonshotAfter(duration, vfx, caster));
     }
