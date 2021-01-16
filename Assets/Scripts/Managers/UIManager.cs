@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using TMPro;
-using System;
 
 public enum TutorialAction
 {
@@ -19,6 +17,7 @@ public enum TutorialAction
     EnergyInstructions
 }
 
+[RequireComponent(typeof(AudioSource))]
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
@@ -43,16 +42,6 @@ public class UIManager : MonoBehaviour
     public float textTTL;
     public Image bgTutorial = null;
     public TextMeshProUGUI tutorialText = null;
-
-    /*
-    [Header("Game Over UI")]
-    public GameObject gameOverPanel;
-    public TextMeshProUGUI gameOverText;
-    public Color winColorPanel;
-    public Color loseColorPanel;
-    [SerializeField] string winText;
-    [SerializeField] string loseText;
-    */
 
     private AudioSource aSource = null;
     private Dictionary<TutorialAction, string> tutorial = null;
@@ -111,14 +100,8 @@ public class UIManager : MonoBehaviour
         }
 
         AddToOutputQueue(TutorialAction.Goal);
-        AddToOutputQueue(TutorialAction.Goal);
         AddToOutputQueue(TutorialAction.MoveInstructions);
         AddToOutputQueue(TutorialAction.BasicAttackInstructions);
-
-        /*Goal,
-    MoveInstructions,
-    BasicAttackInstructions,*/
-
     }
 
     private void Update()
@@ -185,15 +168,6 @@ public class UIManager : MonoBehaviour
         tailAttackImg.color = disabledColor;
     }
 
-    /*public void PrintText(int index)
-    {
-        if (!printed[index])
-        {
-            printed[index] = true;
-            StartCoroutine(PrintOnScreen(tutorial[index]));
-        }
-    }*/
-
     IEnumerator PrintOnScreen(string s)
     {
         Debug.Log("Print on screen: " + s);
@@ -220,56 +194,6 @@ public class UIManager : MonoBehaviour
 
         bgTutorial.enabled = false;
     }
-
-    /*IEnumerator PrintOnScreen(string[] s, int range)
-    {
-        Color originalColor = enabledColor;
-        int counter = 0;
-
-        bgTutorial.enabled = true;
-
-        while (counter < s.Length && counter < range)
-        {
-            for (float t = 0.01f; t < fadeTime; t += Time.deltaTime)
-            {
-                tutorialText.text = s[counter];
-                tutorialText.color = Color.Lerp(Color.clear, originalColor, Mathf.Min(1, t / fadeTime));
-                yield return null;
-            }
-
-            yield return new WaitForSeconds(textTTL);
-
-            for (float t = 0.01f; t < fadeTime; t += Time.deltaTime)
-            {
-                tutorialText.color = Color.Lerp(originalColor, Color.clear, Mathf.Min(1, t / fadeTime));
-                yield return null;
-            }
-
-            counter++;
-        }
-        tutorialText.text = "";
-
-        bgTutorial.enabled = false;
-    }*/
-
-    /*
-    public void OnGameOver(bool res)
-    {
-        Debug.Log("Gameover UI");
-        gameOverPanel.SetActive(true);
-
-        if (res)    //player has won
-        {
-            gameOverPanel.GetComponent<Image>().color = winColorPanel;
-            gameOverText.text = winText;
-        }
-        else        //player has lost
-        {
-            gameOverPanel.GetComponent<Image>().color = loseColorPanel;
-            gameOverText.text = loseText;
-        }
-    }
-    */
 
     public void LoadMainMenu()
     {
@@ -324,7 +248,4 @@ public class UIManager : MonoBehaviour
                 "You will need to do better next time...";
         }
     }
-
-    
-
 }
