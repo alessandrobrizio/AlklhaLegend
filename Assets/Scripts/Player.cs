@@ -62,7 +62,7 @@ public class Player : MonoBehaviour
 
         if (h != 0 || v != 0)
         {
-            if (abilityCaster.CurrentAbility == null)
+            if (!abilityCaster.IsCasting)
             {
                 Quaternion targetRot = Quaternion.LookRotation(dir, Vector3.up);
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, turnSpeed * Time.deltaTime);
@@ -158,15 +158,6 @@ public class Player : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (anim == null) return;
-
-        foreach (var anchor in abilityCaster.anchors)
-        {
-            if (anchor.IsActive(anim) && abilityCaster.CurrentAbility)
-            {
-                Gizmos.color = Color.red;
-                Gizmos.DrawSphere(anchor.transform.position, abilityCaster.CurrentAbility.Range);
-            }
-        }
+        abilityCaster.OnDrawGizmos(Color.blue);
     }
 }

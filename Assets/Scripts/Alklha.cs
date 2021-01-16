@@ -6,14 +6,7 @@ public class Alklha : MonoBehaviour
 {
     private enum AlklhaState { Idle, Chase, Attack, OnMoon, MoonShot, EndPhase }
     [Header("Abilities")]
-    [SerializeField] private AlklhaAbility[] abilities = null;
-    [SerializeField] private float initialCooldown = 1.0f;
-    [Space]
-    [Header("Colliders")]
-    [SerializeField] private Collider handDxCollider = null;
-    [SerializeField] private Collider handSxCollider = null;
-    [SerializeField] private Collider feetCollider = null;
-    [Space]
+    [SerializeField] private AbilityCaster<Alklha> abilityCaster = new AbilityCaster<Alklha>();
     [Header("Characteristics")]
     [SerializeField] private float eatingVelocity = 0.2f;
     [SerializeField] private float bossPhaseDuration = 15.0f;
@@ -29,14 +22,12 @@ public class Alklha : MonoBehaviour
     [SerializeField] private Material deathMaterial = null;
 
     [SerializeField] [ShowOnly] private int bossPhase = 0;
-    private float attackAnimationDuration = 0.0f;
     private Animator animator = null;
     [SerializeField] [ShowOnly] private AlklhaState alklhaState = AlklhaState.OnMoon;
     private AlklhaState alklhaStateOld = AlklhaState.Idle;
     private Player player = null;
     private float distanceFromPlayer = 0.0f;
     private float playerThreshold = 2.0f;
-    private bool playerHit = false;
     private Moon moon = null;
     private Renderer[] renderers = null;
     private bool gameEnded = false;
@@ -47,8 +38,6 @@ public class Alklha : MonoBehaviour
 
     #region Timers
     private float moonshotTimer = 0.0f;
-    //Cooldown for each ability in list
-    private float[] abilityCooldowns = null;
     private float bossPhaseTimer = 0.0f;
     private float animationTimer = 0.0f;
     #endregion
@@ -65,14 +54,13 @@ public class Alklha : MonoBehaviour
         renderers = GetComponentsInChildren<Renderer>();
 
         //Initialize cooldowns
-        abilityCooldowns = new float[abilities.Length];
+        abilityCaster.Awake(this, animator);
         float closestAbilityRange = float.MaxValue;
-        for (int i = 0; i < abilityCooldowns.Length; i++)
+        foreach (var abilityInfo in abilityCaster.abilitiesInfo)
         {
-            abilityCooldowns[i] = initialCooldown;
-            if (abilities[i].Range < closestAbilityRange)
+            if (abilityInfo.ability.Range < closestAbilityRange)
             {
-                closestAbilityRange = abilities[i].Range;
+                closestAbilityRange = abilityInfo.ability.Range;
             }
         }
 
@@ -96,11 +84,7 @@ public class Alklha : MonoBehaviour
     private void Update()
     {
         //Update cooldowns
-        attackAnimationDuration -= Time.deltaTime;
-        for (int i = 0; i < abilityCooldowns.Length; i++)
-        {
-            abilityCooldowns[i] -= Time.deltaTime;
-        }
+        abilityCaster.Update();
 
         //Calculate distance from player
         distanceFromPlayer = Vector3.Distance(transform.position, player.transform.position);
@@ -129,19 +113,10 @@ public class Alklha : MonoBehaviour
             case AlklhaState.Attack:
                 UpdateBossPhaseTimer();
                 //Attack Animation Ended
-                if (attackAnimationDuration < 0.0f)
+                if (!abilityCaster.IsCasting)
                 {
-                    playerHit = false;
                     alklhaState = AlklhaState.Idle;
                 }
-                //Activate/deactivate attack colliders
-                float attackTriggerHandDx = animator.GetFloat("AttackTriggerHandDx");
-                float attackTriggerHandSx = animator.GetFloat("AttackTriggerHandSx");
-                float attackFeetTrigger = animator.GetFloat("AttackTriggerFeet");
-
-                handDxCollider.enabled = attackTriggerHandDx > 0.5f;
-                handSxCollider.enabled = attackTriggerHandSx > 0.5f;
-                feetCollider.enabled = attackFeetTrigger > 0.5f;
                 break;
             case AlklhaState.OnMoon:
                 moon.GetDamage(eatingVelocity * Time.deltaTime);
@@ -205,10 +180,11 @@ public class Alklha : MonoBehaviour
         List<int> possibleAttacks = new List<int>();
 
         //Check which abilities can be used
-        for (int i = 0; i < abilityCooldowns.Length; i++)
+        for (int i = 0; i < abilityCaster.abilitiesInfo.Length; i++)
         {
-            if (distanceFromPlayer <= abilities[i].Range && abilityCooldowns[i] <= 0
-                && attackAnimationDuration <= 0)
+            if (distanceFromPlayer <= abilityCaster.abilitiesInfo[i].ability.Range 
+                && abilityCaster.abilitiesInfo[i].IsReady
+                && !abilityCaster.IsCasting)
             {
                 possibleAttacks.Add(i);
             }
@@ -232,8 +208,8 @@ public class Alklha : MonoBehaviour
 
     private void TriggerIdleState()
     {
-        //Player is close but alhkla can't attack, so he'll wait in Idle
-        if (distanceFromPlayer <= playerThreshold && attackAnimationDuration > 0)
+        //Player is close but Alklha can't attack, so he'll wait in Idle
+        if (distanceFromPlayer <= playerThreshold && abilityCaster.IsCasting)
         {
             alklhaState = AlklhaState.Idle;
         }
@@ -274,9 +250,6 @@ public class Alklha : MonoBehaviour
                 animator.SetBool("Walking", false);
                 break;
             case AlklhaState.Attack:
-                handDxCollider.enabled = false;
-                handSxCollider.enabled = false;
-                feetCollider.enabled = false;
                 break;
             case AlklhaState.OnMoon:
                 animator.SetBool("Eating", false);
@@ -300,9 +273,7 @@ public class Alklha : MonoBehaviour
                 break;
             case AlklhaState.Attack:
                 //Cast ability
-                abilities[nextAttack].Cast(this);
-                abilityCooldowns[nextAttack] = abilities[nextAttack].Cooldown;
-                attackAnimationDuration = abilities[nextAttack].AttackDuration;
+                abilityCaster.TryCast(nextAttack);
                 break;
             case AlklhaState.OnMoon:
                 animator.SetBool("Eating", true);
@@ -340,15 +311,6 @@ public class Alklha : MonoBehaviour
         ChasePlayer();
         //Apply root motion
         transform.position = animator.rootPosition;
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (!playerHit)
-        {
-            //Hit player just once
-            playerHit = abilities[nextAttack].Apply(this, other);
-        }
     }
 
     public void GetDamage(float damage)
@@ -398,5 +360,10 @@ public class Alklha : MonoBehaviour
             yield return null;
         }
         gameObject.SetActive(false);
+    }
+
+    private void OnDrawGizmos()
+    {
+        abilityCaster.OnDrawGizmos(Color.red);
     }
 }

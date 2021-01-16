@@ -68,6 +68,7 @@ public class AbilityCaster<Caster>
     private readonly List<GameObject> hitThisCast = new List<GameObject>();
 
     public Ability<Caster> CurrentAbility => currentAbility;
+    public bool IsCasting => currentAbility != null;
 
     public void Awake(Caster caster, Animator animator)
     {
@@ -129,5 +130,19 @@ public class AbilityCaster<Caster>
         abilitiesInfo[index].IsReady = false;
         attackAnimationDuration = currentAbility.AttackDuration;
         return true;
+    }
+
+    public void OnDrawGizmos(Color color)
+    {
+        if (animator == null || currentAbility == null) return;
+
+        Gizmos.color = color;
+        foreach (var anchor in anchors)
+        {
+            if (anchor.IsActive(animator))
+            {
+                Gizmos.DrawSphere(anchor.transform.position, currentAbility.Range);
+            }
+        }
     }
 }
