@@ -162,7 +162,7 @@ public class Player : MonoBehaviour
 
         foreach (var anchor in abilityCaster.anchors)
         {
-            if (anchor.IsActive(anim))
+            if (anchor.IsActive(anim) && abilityCaster.CurrentAbility)
             {
                 Gizmos.color = Color.red;
                 Gizmos.DrawSphere(anchor.transform.position, abilityCaster.CurrentAbility.Range);

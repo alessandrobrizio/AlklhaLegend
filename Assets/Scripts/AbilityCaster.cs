@@ -19,16 +19,7 @@ public class AbilityCaster<Caster>
         {
             get
             {
-                if (isReady) return true;
-                if (customIsReady == null)
-                {
-                    isReady = cooldown <= 0f;
-                }
-                else
-                {
-                    isReady = customIsReady();
-                }
-                if (isReady) OnReady.Invoke();
+                CheckIsReady();
                 return isReady;
             }
             set
@@ -43,6 +34,20 @@ public class AbilityCaster<Caster>
         }
         public UnityEvent OnReady;
         public UnityEvent OnCast;
+
+        public void CheckIsReady()
+        {
+            if (isReady) return;
+            if (customIsReady == null)
+            {
+                isReady = cooldown <= 0f;
+            }
+            else
+            {
+                isReady = customIsReady();
+            }
+            if (isReady) OnReady.Invoke();
+        }
     }
 
     [System.Serializable]
@@ -60,6 +65,7 @@ public class AbilityCaster<Caster>
     private Animator animator = null;
     [SerializeField] [ShowOnly] private Ability<Caster> currentAbility = null;
     private float attackAnimationDuration = 0f;
+    private readonly List<GameObject> hitThisCast = new List<GameObject>();
 
     public Ability<Caster> CurrentAbility => currentAbility;
 
@@ -77,8 +83,7 @@ public class AbilityCaster<Caster>
             if (abilityInfo.ability != null)
             {
                 abilityInfo.cooldown -= Time.deltaTime;
-                _ = abilityInfo.IsReady;
-                //abilityInfo.CheckIsReady();
+                abilityInfo.CheckIsReady();
             }
         }
         if (attackAnimationDuration <= 0f)
@@ -98,7 +103,11 @@ public class AbilityCaster<Caster>
                 Collider[] colliders = Physics.OverlapSphere(anchor.transform.position, currentAbility.Range);
                 foreach (Collider collider in colliders)
                 {
-                    currentAbility.Apply(caster, collider);
+                    if (!hitThisCast.Contains(collider.gameObject))
+                    {
+                        currentAbility.Apply(caster, collider);
+                        hitThisCast.Add(collider.gameObject);
+                    }
                 }
             }
         }
@@ -113,6 +122,7 @@ public class AbilityCaster<Caster>
             return false;
         }
 
+        hitThisCast.Clear();
         currentAbility = abilitiesInfo[index].ability;
         currentAbility.Cast(caster);
         abilitiesInfo[index].cooldown = currentAbility.Cooldown;
