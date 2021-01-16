@@ -1471,7 +1471,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 3
-  turnSpeed: 7
+  turnSpeed: 10
   deltaX: 9
   deltaZ: 5
   XThreshold: 7

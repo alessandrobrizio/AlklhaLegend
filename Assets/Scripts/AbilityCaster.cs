@@ -24,7 +24,7 @@ public class AbilityCaster<Caster>
             }
             set
             {
-                if (isReady == value) return;
+                if (isReady == value || ability == null) return;
                 isReady = value;
                 if (isReady)
                     OnReady.Invoke();
@@ -37,7 +37,7 @@ public class AbilityCaster<Caster>
 
         public void CheckIsReady()
         {
-            if (isReady) return;
+            if (isReady || ability == null) return;
             if (customIsReady == null)
             {
                 isReady = cooldown <= 0f;

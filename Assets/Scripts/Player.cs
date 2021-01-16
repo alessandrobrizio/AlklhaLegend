@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class Player : MonoBehaviour
 {
@@ -68,10 +67,10 @@ public class Player : MonoBehaviour
                 transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, turnSpeed * Time.deltaTime);
             }
             anim.SetFloat("Speed", speed);
-            anim.SetBool("Move", true);
+            anim.SetFloat("Move", Mathf.Abs(h) == 1f || Mathf.Abs(v) == 1f ? 1f : new Vector3(h, 0f, v).magnitude / new Vector3(h < 0f ? -1f : Mathf.Ceil(h), 0f, v < 0f ? -1f : Mathf.Ceil(v)).magnitude);
         }
         else
-            anim.SetBool("Move", false);
+            anim.SetFloat("Move", 0);
 
         if (Input.GetMouseButtonDown(0))
         {
@@ -102,11 +101,11 @@ public class Player : MonoBehaviour
         //check X Axes
         if (selector == 0)
         {
-            return (val > startPosition.x - deltaX && val < startPosition.x + deltaX) ? true : false;
+            return (val > startPosition.x - deltaX && val < startPosition.x + deltaX);
         }
         else if (selector == 1)
         {
-            return (val > startPosition.z - deltaZ && val < startPosition.z + deltaZ) ? true : false;
+            return (val > startPosition.z - deltaZ && val < startPosition.z + deltaZ);
         }
 
         //fallback Value

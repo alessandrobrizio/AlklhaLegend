@@ -14,14 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   range: 0.5
   cooldown: 0
-  rest: 0.1
+  rest: 0
   animatorOverrideCtrl: {fileID: 22100000, guid: f55eaf46b7684284abdf20770c3ce88e, type: 2}
   audioClip: {fileID: 8300000, guid: 84cdac2e710f748c5981fffbaf0fa4e1, type: 3}
   damage: 2
-  abilityVisualEffect: {fileID: 0}
-  duration: 0.2
-  initialDelay: 0.1
   spawnpositionName: BaseAttack_spawnposition
   visualEffectOnHit: 1
-  spawnLogic: 1
   vfxPrefab: {fileID: 826006715070234670, guid: f4d55d65c674b2b43aa6cec11a771898, type: 3}
+  setCasterRotation: 0
