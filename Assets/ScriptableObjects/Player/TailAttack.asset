@@ -17,7 +17,7 @@ MonoBehaviour:
   rest: 0.2
   animatorOverrideCtrl: {fileID: 22100000, guid: 809a0c17f4e74e64ab57a0e5a0610cf5, type: 2}
   audioClip: {fileID: 8300000, guid: 068c053d7714240bcbd5b11d14166bf9, type: 3}
-  damage: 4
+  damage: 5
   spawnpositionName: Powerup_spawnposition
   visualEffectOnHit: 0
   vfxPrefab: {fileID: 3291468098822438659, guid: 5f3a222d72841c34caa9fce43a61bbfb, type: 3}
