@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
 
         moonshotCharge = 0f;
         abilityCaster.abilitiesInfo[(int)AbilityIndex.Moonshot].customIsReady = () => moonshotCharge >= moonshotChargeRequirement;
+        abilityCaster.abilitiesInfo[(int)AbilityIndex.Moonshot].customProgress = () => moonshotCharge / moonshotChargeRequirement;
     }
 
     void Update()

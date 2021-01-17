@@ -32,12 +32,31 @@ public class AbilityCaster<Caster>
                     OnCast.Invoke();
             }
         }
+        public bool needProgress;
+        public delegate float CustomProgress();
+        public CustomProgress customProgress;
+        private float lastProgress;
+
+        public UnityEvent<float> OnProgress;
         public UnityEvent OnReady;
         public UnityEvent OnCast;
 
         public void CheckIsReady()
         {
             if (isReady || ability == null) return;
+            if (needProgress)
+            {
+                float progress;
+                if (customProgress == null)
+                {
+                    progress = 1 - cooldown / ability.Cooldown;
+                }
+                else
+                {
+                    progress = customProgress();
+                }
+                if (progress != lastProgress) OnProgress.Invoke(progress);
+            }
             if (customIsReady == null)
             {
                 isReady = cooldown <= 0f;

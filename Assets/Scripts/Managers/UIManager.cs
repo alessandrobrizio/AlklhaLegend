@@ -31,7 +31,9 @@ public class UIManager : MonoBehaviour
 
     [Header("Ability UI")]
     public Image moonshotImg = null;
+    public Image moonshotImgFill = null;
     public Image tailAttackImg = null;
+    public Image tailAttackImgFill = null;
     public TextMeshProUGUI moonshotText = null;
     public TextMeshProUGUI tailAttackText = null;
     public Color disabledColor;
@@ -72,8 +74,12 @@ public class UIManager : MonoBehaviour
 
         moonshotText.enabled = false;
         moonshotImg.color = disabledColor;
+        moonshotImgFill.color = enabledColor;
+        moonshotImgFill.fillAmount = 0f;
         tailAttackText.enabled = false;
         tailAttackImg.color = disabledColor;
+        tailAttackImgFill.color = enabledColor;
+        tailAttackImgFill.fillAmount = 0f;
 
         bgTutorial.enabled = false;
         tutorialText.text = "";
@@ -143,29 +149,39 @@ public class UIManager : MonoBehaviour
         instructionsCoroutine = null;
     }
 
+    public void ProgressMoonshotUI(float ratio)
+    {
+        moonshotImgFill.fillAmount = ratio;
+    }
+
     public void EnableMoonshotUI()
     {
         moonshotText.enabled = true;
-        moonshotImg.color = enabledColor;
+        moonshotImgFill.fillAmount = 1f;
         AddToOutputQueue(TutorialAction.MoonshotReadyInstructions);
     }
 
     public void DisableMoonshotUI()
     {
         moonshotText.enabled = false;
-        moonshotImg.color = disabledColor;
+        moonshotImgFill.fillAmount = 0f;
+    }
+
+    public void ProgressTailAttackUI(float ratio)
+    {
+        tailAttackImgFill.fillAmount = ratio;
     }
 
     public void EnableTailAttackUI()
     {
         tailAttackText.enabled = true;
-        tailAttackImg.color = enabledColor;
+        tailAttackImgFill.fillAmount = 1f;
     }
 
     public void DisableTailAttackUI()
     {
         tailAttackText.enabled = false;
-        tailAttackImg.color = disabledColor;
+        tailAttackImgFill.fillAmount = 0f;
     }
 
     IEnumerator PrintOnScreen(string s)

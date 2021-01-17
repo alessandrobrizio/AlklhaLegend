@@ -1464,6 +1464,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &767344347 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8024348987922408085, guid: bda6485fc40765142b6d06878a27997c, type: 3}
+  m_PrefabInstance: {fileID: 1484758462}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &835978053
 GameObject:
   m_ObjectHideFlags: 0
@@ -1557,6 +1568,17 @@ Transform:
   m_Father: {fileID: 1602159973}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 206.493, y: -236.974, z: -64.70999}
+--- !u!114 &936525810 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7045764285346896983, guid: bda6485fc40765142b6d06878a27997c, type: 3}
+  m_PrefabInstance: {fileID: 1484758462}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1030911520
 GameObject:
   m_ObjectHideFlags: 0
@@ -2929,6 +2951,22 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
+      propertyPath: abilityCaster.abilitiesInfo.Array.data[1].needProgress
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
+      propertyPath: abilityCaster.abilitiesInfo.Array.data[2].needProgress
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
+      propertyPath: abilityCaster.abilitiesInfo.Array.data[1].OnProgress.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
+      propertyPath: abilityCaster.abilitiesInfo.Array.data[2].OnProgress.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
       propertyPath: abilityCaster.abilitiesInfo.Array.data[1].OnCast.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 248522398}
@@ -2944,6 +2982,54 @@ PrefabInstance:
       propertyPath: abilityCaster.abilitiesInfo.Array.data[2].OnReady.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 248522398}
+    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
+      propertyPath: abilityCaster.abilitiesInfo.Array.data[1].OnProgress.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
+      propertyPath: abilityCaster.abilitiesInfo.Array.data[2].OnProgress.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
+      propertyPath: abilityCaster.abilitiesInfo.Array.data[1].OnProgress.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 248522398}
+    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
+      propertyPath: abilityCaster.abilitiesInfo.Array.data[2].OnProgress.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 248522398}
+    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
+      propertyPath: abilityCaster.abilitiesInfo.Array.data[1].OnProgress.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
+      propertyPath: abilityCaster.abilitiesInfo.Array.data[2].OnProgress.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
+      propertyPath: abilityCaster.abilitiesInfo.Array.data[1].OnProgress.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ProgressTailAttackUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
+      propertyPath: abilityCaster.abilitiesInfo.Array.data[2].OnProgress.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ProgressMoonshotUI
+      objectReference: {fileID: 0}
+    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
+      propertyPath: abilityCaster.abilitiesInfo.Array.data[1].OnProgress.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
+      propertyPath: abilityCaster.abilitiesInfo.Array.data[2].OnProgress.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UIManager, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
+      propertyPath: abilityCaster.abilitiesInfo.Array.data[1].OnProgress.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 315805238890836754, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
+      propertyPath: abilityCaster.abilitiesInfo.Array.data[2].OnProgress.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 4718286039604108025, guid: 38dec08fc0a704e4db25c7ae85ba8dc4, type: 3}
       propertyPath: m_Name
       value: Wolf
@@ -3115,9 +3201,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1484758465}
     - target: {fileID: 7232394503743245610, guid: 74a98625c09a2c24790789ab743baab4, type: 3}
+      propertyPath: moonshotImgFill
+      value: 
+      objectReference: {fileID: 936525810}
+    - target: {fileID: 7232394503743245610, guid: 74a98625c09a2c24790789ab743baab4, type: 3}
       propertyPath: resumeGameButton
       value: 
       objectReference: {fileID: 19364884}
+    - target: {fileID: 7232394503743245610, guid: 74a98625c09a2c24790789ab743baab4, type: 3}
+      propertyPath: tailAttackImgFill
+      value: 
+      objectReference: {fileID: 767344347}
     - target: {fileID: 7232394503743245611, guid: 74a98625c09a2c24790789ab743baab4, type: 3}
       propertyPath: m_RootOrder
       value: 2
