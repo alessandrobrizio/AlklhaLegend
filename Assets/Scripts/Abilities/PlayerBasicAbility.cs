@@ -56,6 +56,11 @@ public class PlayerBasicAbility : PlayerAbility
             Debug.LogError("Player must have a child named " + spawnpositionName + " with a visual effect component");
         }
         GameObject vfx = Instantiate(vfxPrefab, ability_spawnposition.transform.position, rot);
+
+        if (!setCasterRotation)
+        {
+            vfx.transform.parent = ability_spawnposition.transform;
+        }
         Destroy(vfx, 3.0f);
         vfxPrefab.GetComponent<VisualEffect>().Play();
     }

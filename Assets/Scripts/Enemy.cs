@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] private float damage = 0.5f;
     [SerializeField] private float radius = 0.5f;
-    [SerializeField] private VisualEffect[] smokeEffect = null;
+    //[SerializeField] private List<VisualEffect> smokeEffect = null;
     [SerializeField] private Renderer enemyMesh = null;
     [SerializeField] private AudioClip playerDamageAudioClip = null;
  
@@ -17,10 +17,14 @@ public class Enemy : MonoBehaviour
     private NavMeshAgent agent = null;
     private bool assimilated = false;
     private static AudioSource lastAudioSource = null; //TEMPORARY FIX
+    private Renderer renderer = null;
+    private Collider col = null;
 
     private void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
+        renderer = transform.GetChild(0).GetComponent<Renderer>();
+        col = GetComponent<Collider>();
     }
 
     private void Start()
@@ -72,6 +76,38 @@ public class Enemy : MonoBehaviour
     //Moonshot ability terminates enemy wave
     private void OnMoonshot()
     {
+        //Destroy(gameObject);
+        col.enabled = false;
+        agent.isStopped = true;
+        StartCoroutine(FreezeAnimation(renderer.material));
+        for(int i = 1; i < transform.childCount; i++)
+        {            
+            Destroy(transform.GetChild(i).gameObject);
+        }
+    }
+
+    IEnumerator FreezeAnimation(Material mat)
+    {
+        float freezeLevel = 0.0f;
+        float duration = 1.0f;
+        float time = 0.0f;
+        while(freezeLevel <= 1.0f)
+        {
+            freezeLevel = time / duration;
+            mat.SetFloat("FreezeAmount", freezeLevel);
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        float dissolveLevel = 0.0f;
+        time = 0.0f;
+        while (dissolveLevel <= 1.0f)
+        {
+            dissolveLevel = time / duration;
+            mat.SetFloat("DissolveAmount", dissolveLevel);
+            time += Time.deltaTime;
+            yield return null;
+        }
         Destroy(gameObject);
     }
 
@@ -91,14 +127,14 @@ public class Enemy : MonoBehaviour
         agent.isStopped = true;
         while (time > 0.0f)
         {
-            transform.position = Vector3.Lerp(transform.position, player.transform.position, Time.deltaTime * 10.0f);
+            transform.position = Vector3.Lerp(transform.position, player.transform.position, Time.deltaTime * 20.0f);
             time -= Time.deltaTime;
             yield return null;
         }
-        foreach(VisualEffect vs in smokeEffect)
+        /*foreach(VisualEffect vs in smokeEffect)
         {
             vs.Stop();
-        }
+        }*/
         Destroy(gameObject);
     }
 
@@ -106,7 +142,7 @@ public class Enemy : MonoBehaviour
     {
         if (hasWon)
         {
-            Destroy(gameObject);
+            
         }
         else
         {
